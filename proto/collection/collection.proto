@@ -1,0 +1,91 @@
+syntax="proto3";
+
+package collection;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/collection";
+
+message Collection {
+    int32 CollectionID = 1;
+    string AccountType = 2;
+    string AccountNumber = 3;
+    string Sender = 4;
+    string Date = 5;
+    int32 Amount = 6;
+    string Currency = 7;
+    google.protobuf.Timestamp CreatedAt = 8;
+    string CreatedBy = 9;
+    google.protobuf.Timestamp UpdatedAt = 10;
+    string UpdatedBy = 11;
+    google.protobuf.Timestamp DeletedAt = 12;
+    string DeletedBy = 13;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+    int32 TotalAmount = 2;
+}
+
+message CreateCollectionRequest {
+    Collection coll = 1;
+}
+
+message CreateCollectionResponse {
+    int32 CollectionID = 1;
+}
+
+message GetCollectionRequest {
+    Collection coll = 1;
+}
+
+message GetCollectionResponse {
+    Collection coll = 1;
+}
+
+message UpdateCollectionRequest {
+    Collection coll = 1;
+}
+
+message UpdateCollectionResponse {
+    Collection coll = 1;
+}
+
+message DeleteCollectionRequest {
+    Collection coll = 1;
+}
+
+message DeleteCollectionResponse {}
+
+message ListCollectionRequest {
+    Filter filter = 1;
+}
+
+message ListCollectionResponse {
+   repeated Collection coll = 1;
+}
+
+message CollectionStatsRequest {
+    Filter filter = 1;
+}
+
+message CollectionStatsResponse {
+    Stats stats = 1;
+}
+
+service CollectionService {
+    rpc CreateCollection(CreateCollectionRequest) returns(CreateCollectionResponse) {}
+    rpc GetCollection(GetCollectionRequest) returns(GetCollectionResponse) {}
+    rpc UpdateCollection(UpdateCollectionRequest) returns(UpdateCollectionResponse) {}
+    rpc DeleteCollection(DeleteCollectionRequest) returns(DeleteCollectionResponse) {}
+    rpc ListCollection(ListCollectionRequest) returns(ListCollectionResponse) {}
+    rpc CollectionStats(CollectionStatsRequest) returns(CollectionStatsResponse) {}
+}

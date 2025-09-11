@@ -1,0 +1,54 @@
+syntax="proto3";
+
+package comments;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/comments";
+
+message Comment {
+    int32 CommentID = 1;
+    string Name = 2;
+    string Email = 3;
+    string Comment = 4;
+    google.protobuf.Timestamp CreatedAt = 5;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message CreateCommentRequest {
+    Comment comm = 1;
+}
+
+message CreateCommentResponse {
+    int32 CommentID = 1;
+}
+
+message GetCommentRequest {
+    Comment comm = 1;
+}
+
+message GetCommentResponse {
+    Comment comm = 1;
+}
+
+
+message ListCommentRequest {
+    Filter filter = 1;
+}
+
+message ListCommentResponse {
+   repeated Comment comm = 1;
+}
+
+service CommentService {
+    rpc CreateComment(CreateCommentRequest) returns(CreateCommentResponse) {}
+    rpc GetComment(GetCommentRequest) returns(GetCommentResponse) {}
+    rpc ListComment(ListCommentRequest) returns(ListCommentResponse) {}
+}

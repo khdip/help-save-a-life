@@ -1,0 +1,88 @@
+syntax="proto3";
+
+package dailyreport;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/dailyReport";
+
+message DailyReport {
+    int32 ReportID = 1;
+    string Date = 2;
+    int32 Amount = 3;
+    string Currency = 4;
+    google.protobuf.Timestamp CreatedAt = 5;
+    string CreatedBy = 6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    string UpdatedBy = 8;
+    google.protobuf.Timestamp DeletedAt = 9;
+    string DeletedBy = 10;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+    int32 TotalAmount = 2;
+}
+
+message CreateDailyReportRequest {
+    DailyReport Dre = 1;
+}
+
+message CreateDailyReportResponse {
+    int32 ReportID = 1;
+}
+
+message GetDailyReportRequest {
+    DailyReport Dre = 1;
+}
+
+message GetDailyReportResponse {
+    DailyReport Dre = 1;
+}
+
+message UpdateDailyReportRequest {
+    DailyReport Dre = 1;
+}
+
+message UpdateDailyReportResponse {
+    DailyReport Dre = 1;
+}
+
+message DeleteDailyReportRequest {
+    DailyReport Dre = 1;
+}
+
+message DeleteDailyReportResponse {}
+
+message ListDailyReportRequest {
+    Filter filter = 1;
+}
+
+message ListDailyReportResponse {
+   repeated DailyReport Dre = 1;
+}
+
+message DailyReportStatsRequest {
+    Filter filter = 1;
+}
+
+message DailyReportStatsResponse {
+    Stats stats = 1;
+}
+
+service DailyReportService {
+    rpc CreateDailyReport(CreateDailyReportRequest) returns(CreateDailyReportResponse) {}
+    rpc GetDailyReport(GetDailyReportRequest) returns(GetDailyReportResponse) {}
+    rpc UpdateDailyReport(UpdateDailyReportRequest) returns(UpdateDailyReportResponse) {}
+    rpc DeleteDailyReport(DeleteDailyReportRequest) returns(DeleteDailyReportResponse) {}
+    rpc ListDailyReport(ListDailyReportRequest) returns(ListDailyReportResponse) {}
+    rpc DailyReportStats(DailyReportStatsRequest) returns(DailyReportStatsResponse) {}
+}

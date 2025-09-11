@@ -1,0 +1,22 @@
+runtime: 
+  environment: development
+
+server:
+  host: 127.0.0.1
+  port: 3000
+
+database:
+  host: 127.0.0.1
+  port: 5432
+  user: postgres
+  password: Anubis0912
+  dbname: save_life
+  migrationDir: migrations/sql
+  sslmode: disable
+  connectionTimeout: 30000
+  statementTimeout: 30000
+  idleTransactionSessionTimeout: 30000
+
+csrf:
+  secure: false
+  secret: test
