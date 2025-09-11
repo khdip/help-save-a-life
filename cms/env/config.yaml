@@ -1,0 +1,17 @@
+runtime: 
+  environment: development
+
+client:
+  host: 127.0.0.1
+  port: 8080
+
+session:
+  secret: "tsecbyzdkajupwowoxflwbillvvtefgb"
+
+server:
+  host: 127.0.0.1
+  port: 3000
+
+csrf:
+  secure: false
+  secret: test

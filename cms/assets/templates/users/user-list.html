@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Users</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light fw-bold" href="{{.URLs.home}}">Save Tamal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.dashboard}}">Dashboard</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.collList}}">Collection</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link active" href="{{.URLs.userList}}">Users</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.commList}}">Comments</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.dreList}}">Daily Report</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}">Homepage</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">User List</h2>
+        <div class="row p-2 justify-content-between">
+            <!-- <div class="col-md-3">
+                <form action="/users/sort" method="GET">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="SortBy">
+                            <option selected>Sort By</option>
+                            <option value="name">Name</option>
+                            <option value="batch">Batch</option>
+                            <option value="email">Email</option>
+                            <option value="created_at">Created At</option>
+                            <option value="created_by">Craeted By</option>
+                            <option value="updated_at">Updated At</option>
+                            <option value="updated_by">Updated By</option>
+                        </select>
+                        <select class="form-select" name="Order">
+                            <option selected>Order</option>
+                            <option value="ASC">A to Z</option>
+                            <option value="DESC">Z to A</option>
+                        </select>
+                        <button type="submit" class="btn btn-success">Filter</button>
+                    </div>
+                </form>
+            </div> -->
+            <!-- <div class="col-md-4">
+                <form action="/users/search" method="GET">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search ..." name="SearchTerm">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div> -->
+            <div class="col-md-2">
+                <a class="btn btn-success" href="{{.URLs.userCreate}}">+ Add New User</a>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Batch</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range .List}}
+                            <tr>
+                                <td>{{.Name}}</td>
+                                <td>{{.Batch}}</td>
+                                <td>{{.Email}}</td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="/users/view/{{.UserID}}">View</a>
+                                    <a class="btn btn-warning btn-sm" href="/users/edit/{{.UserID}}">Edit</a>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#userModal{{.UserID}}">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- Modal -->
+                            <div class="modal fade" id="userModal{{.UserID}}" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="userModalLabel">Delete user?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure to delete {{.Name}}?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a href="/users/delete/{{.UserID}}" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center">Showing {{len .List}} out of {{.Paginator.Total}} data</p>
+                
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{if ne .Paginator.Total 0}}
+                        <li class="page-item {{if eq .Paginator.CurrentPage 1}} disabled {{end}}">
+                            <a class="page-link text-success" {{if .Paginator.Prev}} href="{{.Paginator.Prev.URL}}" {{end}} aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {{end}}
+                        {{range .Paginator.Pages}}
+                        {{if .Order}}
+                        <li class="page-item"><a class="page-link {{if .Current}}bg-success text-light {{else}} text-success{{end}}" href="{{.URL}}">{{.Order}}</a></li>
+                        {{else}}
+                        <li><a class="page-link text-success">...</a></li>
+                        {{end}}
+                        {{end}}
+                        {{if ne .Paginator.Total 0}}
+                        <li class="page-item  {{if eq .Paginator.CurrentPage .Paginator.CountPaginate}} disabled {{end}}">
+                            <a class="page-link text-success" {{if .Paginator.Next}} href="{{.Paginator.Next.URL}}" {{end}} aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {{end}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

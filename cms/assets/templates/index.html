@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Save Tamal</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand text-success fw-bold" href="{{.URLs.home}}">Save Tamal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link active" aria-current="page" href="{{.URLs.home}}">Home</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}#about">About Tamal</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}#documents">Medical Documents</a>
+                    </li>
+                    <!-- <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}#collection">Collection Details</a>
+                    </li> -->
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}#contact">Contact Us</a>
+                    </li>
+                    <li class="nav-item ml-lg-2">
+                        <a class="btn btn-success" href="{{.URLs.home}}#donate">Donate</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    <div class="container-fluid banner-image">
+        <div class="row p-5">
+            <div class="col-md-7">
+                <h1><span class="bg-success text-light p-2 rounded-3">তমাল</span> বাঁচতে চায়</h1>
+                <p class="fs-5">খুলনা বিশ্ববিদ্যালয়ের ইলেক্ট্রনিক্স অ্যান্ড কমিউনিকেশন ইঞ্জিনিয়ারিং ডিসিপ্লিনের ‘১১ ব্যাচের ছাত্র মো. নাজমুল ইসলাম তমাল- দুরারোগ্য ব্লাড ক্যান্সারে আক্রান্ত! তমালের চিকিৎসার জন্য <span class="bg-success text-light p-1 rounded-3">প্রায় ৭৫ লাখ</span> টাকা প্রয়োজন যা এই মুহুর্তে তার পরিবারের পক্ষে বহন করা অসম্ভব। তাই তমালকে বাঁচাতে আপনাদের আর্থিক সহায়তা অত্যন্ত জরুরী।</p>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="card bg-dark">
+                            <div class="card-body text-center">
+                                <h3 class="card-title text-white">তহবিল সংগ্রহের অগ্রগতি</h3>
+                                <h6 class="card-subtitle my-3 text-white-50">লক্ষ্য: &#2547;{{.TargetAmount}}</h6>
+                                <div class="border-secondary bg-secondary rounded-3">
+                                    <div class="bg-success rounded-3" style="height: 12px; width: {{.Percentage}}%;"></div>
+                                </div>
+                                <h6 class="card-subtitle my-3 text-white-50">সংগৃহীত: &#2547;{{.CollectedAmount}} ({{.Percentage}}%) | বাকি: &#2547;{{.RemainingAmount}}</h6>
+                                <a href="{{.URLs.home}}#donate" class="btn btn-success btn-lg w-100">Donate</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <a href="{{.URLs.home}}#donate" class="btn btn-outline-success btn-lg px-5 fs-4">Donate</a> -->
+                <!-- <div class="row mt-4">
+                    <div class="col-6">
+                        <div class="card text-light bg-dark border-light rounded-3">
+                            <h5 class="card-header">Fund Required:</h5>
+                            <div class="card-body">
+                                <h3 class="fw-bold">&#2547; 7,500,000</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card text-light bg-dark border-light rounded-3">
+                            <h5 class="card-header">Fund Raised:</h5>
+                            <div class="card-body">
+                                <h3 class="fw-bold">&#2547; 716,225</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid p-5" id="about">
+        <div class="row">
+            <h2 class="text-center text-success mb-4">ABOUT TAMAL</h2>
+            <p>তমাল বাঁচতে চায়।</p>
+            <p>মোঃ নাজমুল ইসলাম তমাল, ৩৩ বছরের একজন যুবক, সদ্য বিবাহিত, স্কুল-কলেজ এবং বিশ্ববিদ্যালয়ের পড়াশোনা শেষ করেছেন যতাক্রমে মাগুরা সরকারি উচ্চবিদ্যালয় এবং খুলনা বিশ্ববিদ্যালয় থেকে। অতঃপর যোগদান ব্র্যাক ব্যাংকের আইটি তে এবং সেখান থেকে পরবর্তিতে টেলিকম প্রতিষ্ঠান রবিতে। ২০২১ সালে বিবাহ করেছেন তার একই স্কুল এবং কালক্রমে একই বিশ্ববিদ্যালয়ের জুনিয়র শিক্ষার্থীকে। জীবন তো তখন কেবল শুরু তমালের। অন্তত তমাল আর তার স্ত্রী এবং পরিবার তাইতো ভেবেছিল। কিন্তু সৃষ্টিকর্তার প্রকৃতিবিধান কি অন্যকিছু রেখেছিল তাদের জন্য? </p>
+            <p>ক্রনিক কোনো ব্যাধি কিমবা অন্য কোন জন্মগত / জেনেটিক রোগ যার ছিলনা, সেই সুস্থসবল তমাল গতবছর (২০২৪) কক্সবাজার বেড়াতে যেয়ে হঠাৎ ঘাড়ে ব্যথা এবং হাঁটারচলার অসুবিধা অনুভব করে। বেশ কিছু পরীক্ষা-নিরীক্ষা করে ধরা পড়ে তমালের স্পাইন এ দুটি টিউমার, লিভারে টিউমার। এরপর অসুস্থতা বাড়তে থাকে এবং অতিরিক্ত রক্তক্ষরণে শরীর দুর্বল হতে থাকে, দেখা দেয় ফুসফুসের জটিলতা, একাধিক টেস্টের পর শেষে জানা গেল তমাল Multiple Myeloma (DSS-IIIB) তে আক্রান্ত, সহজে আমরা যেটাকে ব্লাড ক্যান্সার নামে চিনি। ডক্টর জানালেন তমালের ক্যান্সার শেষ স্টেজ এ আছে। High Risk Variant (Del 17p, Del 13q, Monosomy 1) </p>
+            <p>সদ্য বিবাহিত দম্পতির স্বাভাবিক জীবনযাত্রায় আগমণ ঘটে ব্লাড ক্যান্সার নামক বিভীষিকার। প্রিয়জন হারানোর ভয় নেমে আসে পুরো পরিবারে, নেমে আসে সদ্য বিবাহিত মেয়েটির জীবনেও। প্রিয়জনের সাথে জীবনের সুখদুখঃ ভাগাভাগি করে নেবার পরিবর্তে তাদের সময় কাটছে তমালের কাছে, আইসিইউর বাইরে কোন অলিক সুসংবাদের প্রতীক্ষায়। অসহায়ত্ব গ্রাস করেছে তাদের সকলের জীবনের যাটুকু সুখের। </p>
+            <p>২০২৪ থেকেই, শারীরিক ভাবে তমালের আর সাথে সাথে মানসিক ভাবে পুরো পরিবার এর যুদ্ধটাও শুরু হয়ে যায়। ক্যান্সার ধরা পড়বার শুরু থেকেই তাঁর পরিবার এই ব্যয়বহুল চিকিৎসা চালিয়ে আসছে। RVD প্রোটোকলে এন্টিমায়োলোমা কেমোথেরাপি এবং তার পরবর্তীতে ২০২৪ এর সেপ্টেম্বরে ঢাকার Evercare হাসপাতালে Autologous Bone Marrow Transplant করানো হয় তমালের। তদব্ধি চিকিৎসা ব্যয় প্রায় ৬০ লাখ টাকা। </p>
+            <p>প্রায় ৯ মাস ফলো আপ এবং আল্লাহর রহমতে রোগ মুক্ত থাকার পর তমাল, তার পরিবার এবং শুভানুধ্যায়ী সকলেই ক্যান্সার জয়ের স্বপ্ন দেখতে থাকে। কিন্তু ২০২৫ এর মে মাসে ক্যান্সার আবার ফেরত আসে এবং Spine এ নতুন টিউমার ধরা পড়ে যেটা খুব দ্রুত বড় হয়ে নার্ভের উপর চাপ ফেলে যার ফোলে তমালের দুই পা অবশ হয়ে যায়। ক্যান্সারের এই ফীরে আসা এবং সেই শুরু থেকে সবকিছু শুরু করা একদিকে মানসিক অন্যদিকে শারীরিক ভাবেও আক্রান্ত ব্যক্তি ও তার পরিবারের জন্য অত্যন্ত কষ্টকর। তবুও বাঁচবার অসীম ইচ্ছে থেকে তমালের চিকিৎসা থামেনি। আমরা চাইনা শুধুমাত্র টাকার অভাবে তমালের চিকিৎসা থেমে যাক। তার পরিবার হারাক তাদের আপনজন, আমরা হারাই আমাদের বন্ধু, ছোটোভাই কিংবা বড়ভাইকে। </p>
+            <p>বর্তমানে Monclonal Antibody Daratumumab সহ এন্টিমায়োলোমা ওষুধের পাশাপাশি Spine এ রেডিওথেরাপি দিয়ে টিউমারের আকার ছোট করার চেষ্টা চলছে। গত ২১ আগস্ট,২০২৫ বুকে ব্যাথা নিয়ে রোগীকে HDU তে ভর্তি করানো হয় এবং এখনো হাসপাতালে হেমাটোলজিস্ট প্রফেসর ডা. অখিল রঞ্জন বিশ্বাসের অধীনে রোগী চিকিৎসাধীন। চিকিৎসকরা যে প্লান দিয়েছেন সেটা আশাব্যঞ্জক হলেও এই লড়াই অতি দীর্ঘ এবং অত্যন্ত ব্যয়বহুল যাতে আনুমানিক আরও প্রায় ৭৫ লক্ষ টাকা ব্যয় করতে হবে এবং যা কিনা ক্ষেত্রবিশেষে আরও বেশি ব্যয়বহুল হতে পারে। এত বিশাল অংকের খরচ সামলাতে প্রয়োজন আমাদের সকলের এগিয়ে আসা একটি মানবিক দায়িত্ব। </p>
+            <p>তমালকে যারা ব্যক্তিগতভাবে চিনেন তারা জানেন, এই সদা হাস্যজ্জ্বল এই মানুষটা কতটা হাসিমুখ এবং নির্মল ছিলেন। সবার সাথে মুখে এক গাল হাসি নিয়ে কথা বলতেন। সেই মানুষটার আজকের এই অবস্থা থেকে স্বাভাবিক অবস্থানে ফিরিয়ে আনার দায়িত্ব আমাদেরই। আমরা যদি মাগুরা, খুলনা বিশ্ববিদ্যালয়সহ সারা বাংলাদেশের মানুষ এক হই তাহলে তমালের হাসিমুখ আমরা আবার ফিরিয়ে আনতে পারব। তাঁর বাবা মায়ের কোলে ফিরিয়ে দিতে পারবো তাদের সন্তানকে, স্ত্রীর কাছে ফেরাতে পারবো ভালোবাসার কাছের মানুষকে, ছোটো ভাই ফিরে পাবে তার প্রাণের বড় ভাইকে। আমরা ফিরে পাবো আমাদের বন্ধু তমাল কে। তমালের এই লড়াই এক মানবিক লড়াই। আমদের দাবী একটি মানবিক দাবী। তমালের লড়াইয়ে আমরাও সামিল হই। </p>
+            <p>আসুন তমালের পাশে দাঁড়াই, মানবতার পাশে দাঁড়াই।</p>
+        </div>
+    </div>
+    <div class="container-fluid p-5 bg-gray" id="documents">
+        <div class="row">
+            <h2 class="text-center text-success mb-4">MEDICAL DOCUMENTS</h2>
+            <div class="col-12 col-lg-6">
+                <object data="/assets/files/Case-Summary.pdf" type="application/pdf" width="100%" height="600px">
+                    <p>Your browser does not support PDFs. <a href="/assets/files/Case-Summary.pdf">Download the PDF</a>.</p>
+                </object>
+            </div>
+            <div class="col-12 col-lg-6">
+                <object data="/assets/files/Estimated-Cost.pdf" type="application/pdf" width="100%" height="600px">
+                     <p>Your browser does not support PDFs. <a href="/assets/files/Estimated-Cost.pdf">Download the PDF</a>.</p>
+                </object>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="container-fluid p-5" id="collection">
+        <div class="row">
+            <h2 class="text-center text-success mb-4">COLLECTION DETAILS</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Account Number</th>
+                            <th>Account Type</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{range .List}}
+                        <tr>
+                            <td>{{.Date}}</td>
+                            <td>{{.AccountNumber}}</td>
+                            <td>{{.AccountType}}</td>
+                            <td>{{.Amount}} {{.Currency}}</td>
+                        </tr>
+                        {{end}}
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {{if ne .Paginator.Total 0}}
+                    <li class="page-item {{if eq .Paginator.CurrentPage 1}} disabled {{end}}">
+                        <a class="page-link text-success" {{if .Paginator.Prev}} href="{{.Paginator.Prev.URL}}" {{end}} aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {{end}}
+                    {{range .Paginator.Pages}}
+                    {{if .Order}}
+                    <li class="page-item"><a class="page-link {{if .Current}}bg-success text-light {{else}} text-success{{end}}" href="{{.URL}}">{{.Order}}</a></li>
+                    {{else}}
+                    <li><a class="page-link text-success">...</a></li>
+                    {{end}}
+                    {{end}}
+                    {{if ne .Paginator.Total 0}}
+                    <li class="page-item  {{if eq .Paginator.CurrentPage .Paginator.CountPaginate}} disabled {{end}}">
+                        <a class="page-link text-success" {{if .Paginator.Next}} href="{{.Paginator.Next.URL}}" {{end}} aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {{end}}
+                </ul>
+            </nav>
+        </div>
+    </div> -->
+    <!-- <div class="container-fluid p-5" id="collection">
+        <div class="row">
+            <h2 class="text-center text-success mb-4">COLLECTION DETAILS</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Collected Amount</th>
+                            <th>Remaining Required Amount</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2nd September, 2025</td>
+                            <td>&#2547; 716,225</td>
+                            <td>&#2547; 6,783,775</td>
+                            <td>9.55%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div> -->
+    <div class="container-fluid p-5 bg-success" id="donate">
+        <div class="row">
+            <div class="col d-flex justify-content-center">
+                <h2 class="d-block text-center bg-light text-success rounded px-4 py-2 mb-4">PLEASE DONATE</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-lg-6 p-2 d-flex justify-content-center">
+                <div class="d-block text-light">
+                    <h4 class="text-center border-bottom border-light border-3">Bank Account (Bangladesh)</h4>
+                    <p class="text-center">Account Name: MD NAZMUL ISLAM (Joint Account)</p>
+                    <p class="text-center">Account Number: 0710100001005</p>
+                    <p class="text-center">Bank: Bangladesh Development Bank PLC (BDBL)</p>
+                    <p class="text-center">Branch: Elephant Road Branch</p>
+                    <p class="text-center">Routing number: 047261336</p>
+                    <br>
+                    <h4 class="text-center border-bottom border-light border-3">MFS</h4>
+                    <p class="text-center">Bkash: 01737568902 (তাহমীদ, KU ECE ‘11)</p>
+                    <p class="text-center">Nagad: 01737568902 (তাহমীদ, KU ECE ‘11)</p>
+                    <p class="text-center">Rocket: 017375689029 (তাহমীদ, KU ECE ‘11)</p>
+                    <br>
+                    <h4 class="text-center border-bottom border-light border-3">Bank Account (Europe)</h4>
+                    <p class="text-center">Name: Md Mahmud Hassan</p>
+                    <p class="text-center">Bank: Commerzbank</p>
+                    <p class="text-center">IBAN: DE17641400360894222900</p>
+                    <p class="text-center">BIC: COBADEFFXXX</p>
+                    <p class="text-center">Reference: For Tamal</p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 p-2 d-flex justify-content-center">
+                <div class="d-block text-light">
+                    <h4 class="text-center border-bottom border-light border-3">Bank Account (Australia)</h4>
+                    <p class="text-center">1. Name: Dasoroth Kumar Paul</p>
+                    <p class="text-center">Pay ID: 0415 158 536</p>
+                    <p class="text-center">Reference: For Tamal</p>
+                    <br>
+                    <p class="text-center">2. Name: Himadri Mondal</p>
+                    <p class="text-center">BSB: 082906</p>
+                    <p class="text-center">Account number: 938939465</p>
+                    <p class="text-center">Reference: For Tamal</p>
+                    <br>
+                    <h4 class="text-center border-bottom border-light border-3">Bank Account (USA)</h4>
+                    <p class="text-center">Account Name: Ragib Shakil Rafi</p>
+                    <p class="text-center">Account Number: 518006727293</p>
+                    <p class="text-center">Routing No: 101100045</p>
+                    <p class="text-center">Zelle: 785-551-1578 or ku.08rafi@gmail.com</p>
+                    <br>
+                    <h4 class="text-center border-bottom border-light border-3">GoFundMe</h4>
+                    <p class="text-center"><a class="link-light" href="https://gofund.me/2b133484">https://gofund.me/2b133484</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid px-0" id="contact">
+        <div class="row gx-0">
+            <div class="col-12 col-lg-6">
+                <img class="img-fluid" src="assets/images/Tamal Bhai 2.jpg" alt="">
+            </div>
+            <div class="col-12 col-lg-6 p-5 d-flex align-items-center justify-content-center">
+                <div class="d-block">
+                    <h2 class="mb-4 text-center text-success">CONTACT US</h2>
+                    <p class="text-center mb-4">If you have any questions, feedback, suggestions or complaints, please feel free to reach out to us</p>
+                    <form method="POST" action="{{.URLs.commStore}}">
+                        <div class="mb-3">
+                            <label for="nameInput" class="form-label">Name*</label>
+                            <input type="text" name="Name" class="form-control border-success" placeholder="Please enter your name" id="nameInput" aria-describedby="nameHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="emailInput" class="form-label">Email address*</label>
+                            <input type="email" name="Email" class="form-control border-success" placeholder="Please enter your email address" id="emailInput" aria-describedby="emailHelp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputText" class="form-label">Your comment*</label>
+                            <textarea name="Comment" class="form-control border-success" id="inputText" rows="3" placeholder="Leave a comment..."></textarea>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid p-4 bg-gray">
+        <h2 class="text-success text-center">IN ASSOCIATION WITH</h2>
+        <div class="row justify-content-center align-items-center">
+            <div class="col-4 col-md-2">
+                <img class="img-fluid" src="/assets/images/EKUAA logo.png" alt="">
+            </div>
+            <div class="col-4 col-md-2">
+                <img class="img-fluid" src="/assets/images/KUAA logo.png" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid p-2 bg-success">
+        <div class="row">
+            <footer>
+                <p class="text-center text-light mt-2"><a class="link-light" href="https://www.facebook.com/events/1947319682785792">Facebook Event Link</a></p>
+                <p class="text-center text-light"><a class="link-light" href="https://www.facebook.com/profile.php?id=61580353863519">Facebook Page Link</a></p>
+                <p class="text-center text-light">&copy; 2025 all rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

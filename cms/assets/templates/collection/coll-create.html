@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Create Collection</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light fw-bold" href="{{.URLs.home}}">Save Tamal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.dashboard}}">Dashboard</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link active" href="{{.URLs.collList}}">Collection</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.userList}}">Users</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.commList}}">Comments</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.dreList}}">Daily Report</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}">Homepage</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Create a collection entry</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <form method="post" action="{{.URLs.collStore}}">
+                    <div class="mb-3">
+                        <label class="form-label">Account Type</label>
+                        <select class="form-select" name="AccountType">
+                            <option selected value="Bank">Bank</option>
+                            <option value="Bkash">Bkash</option>
+                            <option value="Nagad">Nagad</option>
+                            <option value="Rocket">Rocket</option>
+                            <option value="Upay">Upay</option>
+                            <option value="Cash">Cash</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Account Number*</label>
+                        <input type="text" class="form-control" name="AccountNumber" placeholder="Enter donor account number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sender</label>
+                        <input type="text" class="form-control" name="Sender" placeholder="Enter sender's name">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Date*</label>
+                        <input type="date" class="form-control" name="Date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Currency</label>
+                        <select class="form-select" name="Currency">
+                            <option selected value="BDT">BDT</option>
+                            <option value="AUD">AUD</option>
+                            <option value="USD">USD</option>
+                            <option value="EURO">EURO</option>
+                            <option value="POUND">POUND</option>
+                        </select>
+                    </div>
+                    <a class="btn btn-primary" href="{{.URLs.collList}}">Back to List</a>
+                    <button type="submit" class="btn btn-success float-end">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

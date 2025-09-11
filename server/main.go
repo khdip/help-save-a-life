@@ -35,7 +35,7 @@ func main() {
 			strings.NewReplacer(".", "_"),
 		),
 	)
-	config.SetConfigFile("tamal/env/config.yaml")
+	config.SetConfigFile("server/env/config.yaml")
 	config.SetConfigType("yaml")
 	config.AutomaticEnv()
 	if err := config.ReadInConfig(); err != nil {

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Edit Daily Report Entry</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light fw-bold" href="{{.URLs.home}}">Save Tamal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.dashboard}}">Dashboard</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.collList}}">Collection</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.userList}}">Users</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.commList}}">Comments</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link active" href="{{.URLs.dreList}}">Daily Report</a>
+                    </li>
+                    <li class="nav-item mx-lg-2">
+                        <a class="nav-link" href="{{.URLs.home}}">Homepage</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav> 
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Edit daily report entry</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <form method="post" action="/daily_report/update/{{.Dre.ReportID}}">
+                    <div class="mb-3">
+                        <label class="form-label">Date*</label>
+                        <input type="date" class="form-control" name="Date" value="{{.Dre.Date}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Amount*</label>
+                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" value="{{.Dre.Amount}}" required>
+                    </div>
+                     <div class="mb-3">
+                        <label class="form-label">Currency</label>
+                        <select class="form-select" name="Currency">
+                            <option {{if eq .Dre.Currency "BDT"}}selected {{end}} value="BDT">BDT</option>
+                            <option {{if eq .Dre.Currency "AUD"}}selected {{end}} value="AUD">AUD</option>
+                            <option {{if eq .Dre.Currency "USD"}}selected {{end}} value="USD">USD</option>
+                            <option {{if eq .Dre.Currency "EURO"}}selected {{end}} value="EURO">EURO</option>
+                            <option {{if eq .Dre.Currency "POUND"}}selected {{end}} value="POUND">POUND</option>
+                        </select>
+                    </div>
+                    <a class="btn btn-primary" href="{{.URLs.dreList}}">Back to List</a>
+                    <button type="submit" class="btn btn-success float-end">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>
