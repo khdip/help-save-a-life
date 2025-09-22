@@ -20,12 +20,13 @@ type Comment struct {
 }
 
 type CommTemplateData struct {
-	Comm       Comment
-	List       []Comment
-	Paginator  paginator.Paginator
-	FilterData Filter
-	URLs       map[string]string
-	Message    map[string]string
+	Comm           Comment
+	List           []Comment
+	Paginator      paginator.Paginator
+	FilterData     Filter
+	URLs           map[string]string
+	Message        map[string]string
+	CurrentPageURL string
 }
 
 func (h *Handler) storeComment(w http.ResponseWriter, r *http.Request) {
@@ -99,10 +100,11 @@ func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {
 		msg = map[string]string{"NotFoundMessage": "Data Not Found"}
 	}
 	data := CommTemplateData{
-		FilterData: *filterData,
-		List:       commList,
-		Message:    msg,
-		URLs:       listOfURLs(),
+		FilterData:     *filterData,
+		List:           commList,
+		Message:        msg,
+		URLs:           listOfURLs(),
+		CurrentPageURL: commentListPath,
 	}
 	if len(commList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, int32(len(commList)), r)
@@ -141,7 +143,8 @@ func (h *Handler) viewComment(w http.ResponseWriter, r *http.Request) {
 			Comment:   res.Comm.Comment,
 			CreatedAt: res.Comm.CreatedAt.AsTime(),
 		},
-		URLs: listOfURLs(),
+		URLs:           listOfURLs(),
+		CurrentPageURL: commentListPath,
 	}
 
 	err = h.templates.ExecuteTemplate(w, "comm-view.html", data)

@@ -94,6 +94,8 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 
 func (h *Handler) GetTemplate() {
 	h.templates = template.Must(template.ParseFiles(
+		"cms/assets/templates/layout/header.html",
+		"cms/assets/templates/layout/admin-header.html",
 		"cms/assets/templates/index.html",
 		"cms/assets/templates/dashboard.html",
 		"cms/assets/templates/users/user-list.html",

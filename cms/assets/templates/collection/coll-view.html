@@ -8,36 +8,7 @@
     <title>Collection Details</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container-fluid">
-            <a class="navbar-brand text-light fw-bold" href="{{.URLs.home}}">Save Tamal</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.dashboard}}">Dashboard</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link active" href="{{.URLs.collList}}">Collection</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.userList}}">Users</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.commList}}">Comments</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.dreList}}">Daily Report</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.home}}">Homepage</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> 
+    {{template "admin-header" . }}
     <div class="container-fluid">
         <h2 class="p-2 text-center">Collection Details</h2>
         <div class="row p-2">

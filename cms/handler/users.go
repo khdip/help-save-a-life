@@ -27,12 +27,13 @@ type User struct {
 }
 
 type UserTemplateData struct {
-	User       User
-	List       []User
-	Paginator  paginator.Paginator
-	FilterData Filter
-	URLs       map[string]string
-	Message    map[string]string
+	User           User
+	List           []User
+	Paginator      paginator.Paginator
+	FilterData     Filter
+	URLs           map[string]string
+	Message        map[string]string
+	CurrentPageURL string
 }
 
 func (h *Handler) createUser(w http.ResponseWriter, r *http.Request) {
@@ -199,10 +200,11 @@ func (h *Handler) listUser(w http.ResponseWriter, r *http.Request) {
 		msg = map[string]string{"NotFoundMessage": "Data Not Found"}
 	}
 	data := UserTemplateData{
-		FilterData: *filterData,
-		List:       userList,
-		Message:    msg,
-		URLs:       listOfURLs(),
+		FilterData:     *filterData,
+		List:           userList,
+		Message:        msg,
+		URLs:           listOfURLs(),
+		CurrentPageURL: userListPath,
 	}
 	if len(userList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, userstat.Stats.Count, r)
@@ -239,7 +241,8 @@ func (h *Handler) viewUser(w http.ResponseWriter, r *http.Request) {
 			UpdatedAt: res.User.UpdatedAt.AsTime(),
 			UpdatedBy: res.User.UpdatedBy,
 		},
-		URLs: listOfURLs(),
+		URLs:           listOfURLs(),
+		CurrentPageURL: userListPath,
 	}
 
 	err = h.templates.ExecuteTemplate(w, "user-view.html", data)
@@ -274,8 +277,9 @@ func (h *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) loadUserCreateForm(w http.ResponseWriter, usr User) {
 	form := UserTemplateData{
-		User: usr,
-		URLs: listOfURLs(),
+		User:           usr,
+		URLs:           listOfURLs(),
+		CurrentPageURL: userListPath,
 	}
 
 	err := h.templates.ExecuteTemplate(w, "user-create.html", form)
@@ -287,8 +291,9 @@ func (h *Handler) loadUserCreateForm(w http.ResponseWriter, usr User) {
 
 func (h *Handler) loadUserEditForm(w http.ResponseWriter, usr User) {
 	form := UserTemplateData{
-		User: usr,
-		URLs: listOfURLs(),
+		User:           usr,
+		URLs:           listOfURLs(),
+		CurrentPageURL: userListPath,
 	}
 
 	err := h.templates.ExecuteTemplate(w, "user-edit.html", form)

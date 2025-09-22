@@ -20,3 +20,9 @@ database:
 csrf:
   secure: false
   secret: test
+
+admin:
+  name: Dip
+  batch: 15
+  email: khdip.ku@gmail.com
+  password: Password@123

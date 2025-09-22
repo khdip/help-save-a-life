@@ -19,22 +19,18 @@ INSERT INTO users (
 	created_by,
 	updated_by
 ) VALUES (
-	'05cf-71sl-cas7-oqtf-fsds',
-	'Dip',
-	15,
-	'khdip.ku@gmail.com',
+	'a67dc254-7410-4394-8b53-eb148eab0477',
 	$1,
-	'05cf-71sl-cas7-oqtf-fsds',
-	'05cf-71sl-cas7-oqtf-fsds'
+	$2,
+	$3,
+	$4,
+	'a67dc254-7410-4394-8b53-eb148eab0477',
+	'a67dc254-7410-4394-8b53-eb148eab0477'
 ) RETURNING
 	user_id;
 `
 
 func CreateFirstUser() {
-	passByte, err := bcrypt.GenerateFromPassword([]byte("arthaBainchod"), bcrypt.DefaultCost)
-	if err != nil {
-		log.Fatal(err)
-	}
 	configPath := flag.String("config", "env/config.yaml", "config file")
 
 	config := viper.NewWithOptions(
@@ -54,7 +50,11 @@ func CreateFirstUser() {
 		log.Fatalf("error opening db connection: %v", err)
 	}
 	defer func() { _ = db.Close() }()
-	_, err = db.Exec(insertFirstUser, passByte)
+	passByte, err := bcrypt.GenerateFromPassword([]byte(config.GetString("admin.password")), bcrypt.DefaultCost)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = db.Exec(insertFirstUser, config.GetString("admin.name"), config.GetString("admin.batch"), config.GetString("admin.email"), passByte)
 	if err != nil {
 		log.Fatalf("failed to insert user: %v", err)
 	}

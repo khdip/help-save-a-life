@@ -8,36 +8,7 @@
     <title>Page Not Found</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand text-success fw-bold" href="{{.URLs.home}}">Save Tamal</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" aria-current="page" href="{{.URLs.home}}">Home</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.home}}#about">About Tamal</a>
-                    </li>
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.home}}#documents">Medical Documents</a>
-                    </li>
-                    <!-- <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.home}}#collection">Collection Details</a>
-                    </li> -->
-                    <li class="nav-item mx-lg-2">
-                        <a class="nav-link" href="{{.URLs.home}}#contact">Contact Us</a>
-                    </li>
-                    <li class="nav-item ml-lg-2">
-                        <a class="btn btn-success" href="{{.URLs.home}}#donate">Donate</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav> 
+    {{ template "header" . }}
     <div class="container">
         <div class="row my-4">
             <div class="card p-5 shadow">

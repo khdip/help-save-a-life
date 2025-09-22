@@ -25,12 +25,13 @@ type DailyReport struct {
 }
 
 type DreTemplateData struct {
-	Dre        DailyReport
-	List       []DailyReport
-	Paginator  paginator.Paginator
-	FilterData Filter
-	URLs       map[string]string
-	Message    map[string]string
+	Dre            DailyReport
+	List           []DailyReport
+	Paginator      paginator.Paginator
+	FilterData     Filter
+	URLs           map[string]string
+	Message        map[string]string
+	CurrentPageURL string
 }
 
 func (h *Handler) createDailyReport(w http.ResponseWriter, r *http.Request) {
@@ -195,10 +196,11 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 		msg = map[string]string{"NotFoundMessage": "Data Not Found"}
 	}
 	data := DreTemplateData{
-		FilterData: *filterData,
-		List:       drList,
-		Message:    msg,
-		URLs:       listOfURLs(),
+		FilterData:     *filterData,
+		List:           drList,
+		Message:        msg,
+		URLs:           listOfURLs(),
+		CurrentPageURL: dailyReportListPath,
 	}
 	if len(drList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, drstat.Stats.Count, r)
@@ -240,7 +242,8 @@ func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 			UpdatedAt: res.Dre.UpdatedAt.AsTime(),
 			UpdatedBy: res.Dre.UpdatedBy,
 		},
-		URLs: listOfURLs(),
+		URLs:           listOfURLs(),
+		CurrentPageURL: dailyReportListPath,
 	}
 
 	err = h.templates.ExecuteTemplate(w, "dre-view.html", data)
@@ -280,8 +283,9 @@ func (h *Handler) deleteDailyReport(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) loadDailyReportCreateForm(w http.ResponseWriter, dre DailyReport) {
 	form := DreTemplateData{
-		Dre:  dre,
-		URLs: listOfURLs(),
+		Dre:            dre,
+		URLs:           listOfURLs(),
+		CurrentPageURL: dailyReportListPath,
 	}
 
 	err := h.templates.ExecuteTemplate(w, "dre-create.html", form)
@@ -293,8 +297,9 @@ func (h *Handler) loadDailyReportCreateForm(w http.ResponseWriter, dre DailyRepo
 
 func (h *Handler) loadDailyReportEditForm(w http.ResponseWriter, dre DailyReport) {
 	form := DreTemplateData{
-		Dre:  dre,
-		URLs: listOfURLs(),
+		Dre:            dre,
+		URLs:           listOfURLs(),
+		CurrentPageURL: dailyReportListPath,
 	}
 
 	err := h.templates.ExecuteTemplate(w, "dre-edit.html", form)

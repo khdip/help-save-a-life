@@ -28,12 +28,13 @@ type Collection struct {
 }
 
 type CollTemplateData struct {
-	Coll       Collection
-	List       []Collection
-	Paginator  paginator.Paginator
-	FilterData Filter
-	URLs       map[string]string
-	Message    map[string]string
+	Coll           Collection
+	List           []Collection
+	Paginator      paginator.Paginator
+	FilterData     Filter
+	URLs           map[string]string
+	Message        map[string]string
+	CurrentPageURL string
 }
 
 func (h *Handler) createCollection(w http.ResponseWriter, r *http.Request) {
@@ -210,10 +211,11 @@ func (h *Handler) listCollection(w http.ResponseWriter, r *http.Request) {
 		msg = map[string]string{"NotFoundMessage": "Data Not Found"}
 	}
 	data := CollTemplateData{
-		FilterData: *filterData,
-		List:       collList,
-		Message:    msg,
-		URLs:       listOfURLs(),
+		FilterData:     *filterData,
+		List:           collList,
+		Message:        msg,
+		URLs:           listOfURLs(),
+		CurrentPageURL: collectionListPath,
 	}
 	if len(collList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, collstat.Stats.Count, r)
@@ -258,7 +260,8 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 			UpdatedAt:     res.Coll.UpdatedAt.AsTime(),
 			UpdatedBy:     res.Coll.UpdatedBy,
 		},
-		URLs: listOfURLs(),
+		URLs:           listOfURLs(),
+		CurrentPageURL: collectionListPath,
 	}
 
 	err = h.templates.ExecuteTemplate(w, "coll-view.html", data)
@@ -298,8 +301,9 @@ func (h *Handler) deleteCollection(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) loadCollectionCreateForm(w http.ResponseWriter, coll Collection) {
 	form := CollTemplateData{
-		Coll: coll,
-		URLs: listOfURLs(),
+		Coll:           coll,
+		URLs:           listOfURLs(),
+		CurrentPageURL: collectionListPath,
 	}
 
 	err := h.templates.ExecuteTemplate(w, "coll-create.html", form)
@@ -311,8 +315,9 @@ func (h *Handler) loadCollectionCreateForm(w http.ResponseWriter, coll Collectio
 
 func (h *Handler) loadCollectionEditForm(w http.ResponseWriter, coll Collection) {
 	form := CollTemplateData{
-		Coll: coll,
-		URLs: listOfURLs(),
+		Coll:           coll,
+		URLs:           listOfURLs(),
+		CurrentPageURL: collectionListPath,
 	}
 
 	err := h.templates.ExecuteTemplate(w, "coll-edit.html", form)
