@@ -1,0 +1,88 @@
+syntax="proto3";
+
+package currency;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/currency";
+
+message Currency {
+    int32 ID = 1;
+    string name = 2;
+    string AccountNumber = 3;
+    int32 ExchangeRate = 4;
+    google.protobuf.Timestamp CreatedAt = 5;
+    string CreatedBy = 6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    string UpdatedBy = 8;
+    google.protobuf.Timestamp DeletedAt = 9;
+    string DeletedBy = 10;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+    int32 TotalAmount = 2;
+}
+
+message CreateCurrencyRequest {
+    Currency curr = 1;
+}
+
+message CreateCurrencyResponse {
+    int32 ID = 1;
+}
+
+message GetCurrencyRequest {
+    Currency curr = 1;
+}
+
+message GetCurrencyResponse {
+    Currency curr = 1;
+}
+
+message UpdateCurrencyRequest {
+    Currency curr = 1;
+}
+
+message UpdateCurrencyResponse {
+    Currency curr = 1;
+}
+
+message DeleteCurrencyRequest {
+    Currency curr = 1;
+}
+
+message DeleteCurrencyResponse {}
+
+message ListCurrencyRequest {
+    Filter filter = 1;
+}
+
+message ListCurrencyResponse {
+   repeated Currency curr = 1;
+}
+
+message CurrencyStatsRequest {
+    Filter filter = 1;
+}
+
+message CurrencyStatsResponse {
+    Stats stats = 1;
+}
+
+service CurrencyService {
+    rpc CreateCurrency(CreateCurrencyRequest) returns(CreateCurrencyResponse) {}
+    rpc GetCurrency(GetCurrencyRequest) returns(GetCurrencyResponse) {}
+    rpc UpdateCurrency(UpdateCurrencyRequest) returns(UpdateCurrencyResponse) {}
+    rpc DeleteCurrency(DeleteCurrencyRequest) returns(DeleteCurrencyResponse) {}
+    rpc ListCurrency(ListCurrencyRequest) returns(ListCurrencyResponse) {}
+    rpc CurrencyStats(CurrencyStatsRequest) returns(CurrencyStatsResponse) {}
+}

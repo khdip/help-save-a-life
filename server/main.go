@@ -21,6 +21,10 @@ import (
 	drecore "help-save-a-life/server/core/dailyReport"
 	dresvc "help-save-a-life/server/services/dailyReport"
 
+	currgrpc "help-save-a-life/proto/currency"
+	currcore "help-save-a-life/server/core/currency"
+	currsvc "help-save-a-life/server/services/currency"
+
 	"help-save-a-life/server/storage/postgres"
 	"strconv"
 	"strings"
@@ -63,6 +67,10 @@ func main() {
 	dreC := drecore.New(store)
 	dreS := dresvc.New(dreC)
 	dregrpc.RegisterDailyReportServiceServer(grpcServer, dreS)
+
+	currC := currcore.New(store)
+	currS := currsvc.New(currC)
+	currgrpc.RegisterCurrencyServiceServer(grpcServer, currS)
 
 	host, port := config.GetString("server.host"), config.GetString("server.port")
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
