@@ -19,6 +19,7 @@ import (
 
 	collgrpc "help-save-a-life/proto/collection"
 	commgrpc "help-save-a-life/proto/comments"
+	currgrpc "help-save-a-life/proto/currency"
 	dregrpc "help-save-a-life/proto/dailyReport"
 	usergrpc "help-save-a-life/proto/users"
 )
@@ -61,7 +62,8 @@ func main() {
 	cc := collgrpc.NewCollectionServiceClient(conn)
 	cmc := commgrpc.NewCommentServiceClient(conn)
 	drc := dregrpc.NewDailyReportServiceClient(conn)
-	r := handler.GetHandler(decoder, store, asst, uc, cc, cmc, drc)
+	cuc := currgrpc.NewCurrencyServiceClient(conn)
+	r := handler.GetHandler(decoder, store, asst, uc, cc, cmc, drc, cuc)
 
 	host, port := config.GetString("client.host"), config.GetString("client.port")
 	log.Println("Server  starting...")

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Currency Details</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Currency Details</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><span class="fw-bold">ID: </span>{{.Curr.ID}}</p>
+                        <p class="card-text"><span class="fw-bold">Name: </span>{{.Curr.Name}}</p>
+                        <p class="card-text"><span class="fw-bold">Exchange Rate: </span>{{.Curr.ExchangeRate}}</p>
+                        <p class="card-text"><span class="fw-bold">Created At: </span>{{.Curr.CreatedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Created By: </span>{{.Curr.CreatedBy}}</p>
+                        <p class="card-text"><span class="fw-bold">Updated At: </span>{{.Curr.UpdatedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Updated By: </span>{{.Curr.UpdatedBy}}</p>
+                        <a href="{{.URLs.currList}}" class="btn btn-primary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

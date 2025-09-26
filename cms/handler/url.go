@@ -31,6 +31,13 @@ const (
 	dailyReportUpdatePath = "/daily_report/update/{report_id}"
 	dailyReportDeletePath = "/daily_report/delete/{report_id}"
 	dailyReportViewPath   = "/daily_report/view/{report_id}"
+	currencyListPath      = "/currencies"
+	currencyCreatePath    = "/currency/create"
+	currencyStorePath     = "/currency/store"
+	currencyEditPath      = "/currency/edit/{id}"
+	currencyUpdatePath    = "/currency/update/{id}"
+	currencyDeletePath    = "/currency/delete/{id}"
+	currencyViewPath      = "/currency/view/{id}"
 )
 
 func listOfURLs() map[string]string {
@@ -61,6 +68,13 @@ func listOfURLs() map[string]string {
 		"dreEdit":    dailyReportEditPath,
 		"dreUpdate":  dailyReportUpdatePath,
 		"dreDelete":  dailyReportDeletePath,
-		"dreView":    dailyReportViewPath,
+		"dreView":    currencyViewPath,
+		"currList":   currencyListPath,
+		"currCreate": currencyCreatePath,
+		"currStore":  currencyStorePath,
+		"currEdit":   currencyEditPath,
+		"currUpdate": currencyUpdatePath,
+		"currDelete": currencyDeletePath,
+		"currView":   currencyViewPath,
 	}
 }

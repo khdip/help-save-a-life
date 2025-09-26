@@ -12,6 +12,7 @@ import (
 
 	collgrpc "help-save-a-life/proto/collection"
 	commgrpc "help-save-a-life/proto/comments"
+	currgrpc "help-save-a-life/proto/currency"
 	dregrpc "help-save-a-life/proto/dailyReport"
 	usergrpc "help-save-a-life/proto/users"
 )
@@ -26,9 +27,10 @@ type Handler struct {
 	cc        collgrpc.CollectionServiceClient
 	cmc       commgrpc.CommentServiceClient
 	drc       dregrpc.DailyReportServiceClient
+	cuc       currgrpc.CurrencyServiceClient
 }
 
-func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient) *mux.Router {
+func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient) *mux.Router {
 	hand := &Handler{
 		decoder: decoder,
 		session: session,
@@ -38,6 +40,7 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 		cc:      cc,
 		cmc:     cmc,
 		drc:     drc,
+		cuc:     cuc,
 	}
 	hand.GetTemplate()
 
@@ -75,6 +78,13 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 	s.HandleFunc(dailyReportListPath, hand.listDailyReport)
 	s.HandleFunc(dailyReportViewPath, hand.viewDailyReport)
 	s.HandleFunc(dailyReportDeletePath, hand.deleteDailyReport)
+	s.HandleFunc(currencyCreatePath, hand.createCurrency)
+	s.HandleFunc(currencyStorePath, hand.storeCurrency)
+	s.HandleFunc(currencyEditPath, hand.editCurrency)
+	s.HandleFunc(currencyUpdatePath, hand.updateCurrency)
+	s.HandleFunc(currencyListPath, hand.listCurrency)
+	s.HandleFunc(currencyViewPath, hand.viewCurrency)
+	s.HandleFunc(currencyDeletePath, hand.deleteCurrency)
 	s.Use(hand.authMiddleware)
 
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.FS(hand.assetFS))))
@@ -96,8 +106,8 @@ func (h *Handler) GetTemplate() {
 	h.templates = template.Must(template.ParseFiles(
 		"cms/assets/templates/layout/header.html",
 		"cms/assets/templates/layout/admin-header.html",
-		"cms/assets/templates/index.html",
-		"cms/assets/templates/dashboard.html",
+		"cms/assets/templates/base/index.html",
+		"cms/assets/templates/base/dashboard.html",
 		"cms/assets/templates/users/user-list.html",
 		"cms/assets/templates/users/user-create.html",
 		"cms/assets/templates/users/user-edit.html",
@@ -112,7 +122,11 @@ func (h *Handler) GetTemplate() {
 		"cms/assets/templates/dailyReport/dre-view.html",
 		"cms/assets/templates/comments/comm-list.html",
 		"cms/assets/templates/comments/comm-view.html",
-		"cms/assets/templates/404.html",
-		"cms/assets/templates/login.html",
+		"cms/assets/templates/currency/curr-list.html",
+		"cms/assets/templates/currency/curr-create.html",
+		"cms/assets/templates/currency/curr-edit.html",
+		"cms/assets/templates/currency/curr-view.html",
+		"cms/assets/templates/base/404.html",
+		"cms/assets/templates/base/login.html",
 	))
 }
