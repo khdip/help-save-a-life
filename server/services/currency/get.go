@@ -21,6 +21,7 @@ func (s *Svc) GetCurrency(ctx context.Context, req *currgrpc.GetCurrencyRequest)
 	return &currgrpc.GetCurrencyResponse{
 		Curr: &currgrpc.Currency{
 			ID:           r.ID,
+			SerialNumber: r.SerialNumber,
 			Name:         r.Name,
 			ExchangeRate: r.ExchangeRate,
 			CreatedAt:    timestamppb.New(r.CreatedAt),

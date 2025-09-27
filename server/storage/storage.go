@@ -6,17 +6,19 @@ import (
 )
 
 type User struct {
-	UserID   string `db:"user_id"`
-	Name     string `db:"name"`
-	Batch    int32  `db:"batch"`
-	Email    string `db:"email"`
-	Password string `db:"password"`
-	Role     string `db:"role"`
+	UserID       string `db:"user_id"`
+	SerialNumber int32  `db:"serial_number"`
+	Name         string `db:"name"`
+	Batch        int32  `db:"batch"`
+	Email        string `db:"email"`
+	Password     string `db:"password"`
+	Role         string `db:"role"`
 	CRUDTimeDate
 }
 
 type Collection struct {
-	CollectionID  int32  `db:"collection_id"`
+	CollectionID  string `db:"collection_id"`
+	SerialNumber  int32  `db:"serial_number"`
 	AccountType   string `db:"account_type"`
 	AccountNumber string `db:"account_number"`
 	Sender        string `db:"sender"`
@@ -27,23 +29,26 @@ type Collection struct {
 }
 
 type DailyReport struct {
-	ReportID int32  `db:"report_id"`
-	Date     string `db:"date"`
-	Amount   int32  `db:"amount"`
-	Currency string `db:"currency"`
+	ReportID     string `db:"report_id"`
+	SerialNumber int32  `db:"serial_number"`
+	Date         string `db:"date"`
+	Amount       int32  `db:"amount"`
+	Currency     string `db:"currency"`
 	CRUDTimeDate
 }
 
 type Comment struct {
-	CommentID int32     `db:"comment_id"`
-	Name      string    `db:"name"`
-	Email     string    `db:"email"`
-	Comment   string    `db:"comment"`
-	CreatedAt time.Time `db:"created_at,omitempty"`
+	CommentID    string    `db:"comment_id"`
+	SerialNumber int32     `db:"serial_number"`
+	Name         string    `db:"name"`
+	Email        string    `db:"email"`
+	Comment      string    `db:"comment"`
+	CreatedAt    time.Time `db:"created_at,omitempty"`
 }
 
 type Currency struct {
-	ID           int32  `db:"id"`
+	ID           string `db:"id"`
+	SerialNumber int32  `db:"serial_number"`
 	Name         string `db:"name"`
 	ExchangeRate int32  `db:"exchange_rate"`
 	CRUDTimeDate

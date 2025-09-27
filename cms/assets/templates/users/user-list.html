@@ -52,6 +52,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Serial</th>
                                 <th>Name</th>
                                 <th>Batch</th>
                                 <th>Email</th>
@@ -61,6 +62,7 @@
                         <tbody>
                             {{range .List}}
                             <tr>
+                                <td>{{.SerialNumber}}</td>
                                 <td>{{.Name}}</td>
                                 <td>{{.Batch}}</td>
                                 <td>{{.Email}}</td>

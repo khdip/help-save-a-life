@@ -24,16 +24,17 @@ const (
 
 type Currency struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ID            int32                  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	AccountNumber string                 `protobuf:"bytes,3,opt,name=AccountNumber,proto3" json:"AccountNumber,omitempty"`
-	ExchangeRate  int32                  `protobuf:"varint,4,opt,name=ExchangeRate,proto3" json:"ExchangeRate,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
-	CreatedBy     string                 `protobuf:"bytes,6,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
-	UpdatedBy     string                 `protobuf:"bytes,8,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
-	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
-	DeletedBy     string                 `protobuf:"bytes,10,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
+	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	AccountNumber string                 `protobuf:"bytes,4,opt,name=AccountNumber,proto3" json:"AccountNumber,omitempty"`
+	ExchangeRate  int32                  `protobuf:"varint,5,opt,name=ExchangeRate,proto3" json:"ExchangeRate,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	CreatedBy     string                 `protobuf:"bytes,7,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
+	UpdatedBy     string                 `protobuf:"bytes,9,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
+	DeletedBy     string                 `protobuf:"bytes,11,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -68,9 +69,16 @@ func (*Currency) Descriptor() ([]byte, []int) {
 	return file_proto_currency_currency_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Currency) GetID() int32 {
+func (x *Currency) GetID() string {
 	if x != nil {
 		return x.ID
+	}
+	return ""
+}
+
+func (x *Currency) GetSerialNumber() int32 {
+	if x != nil {
+		return x.SerialNumber
 	}
 	return 0
 }
@@ -268,7 +276,7 @@ func (x *Stats) GetTotalAmount() int32 {
 
 type CreateCurrencyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Curr          *Currency              `protobuf:"bytes,1,opt,name=curr,proto3" json:"curr,omitempty"`
+	Curr          *Currency              `protobuf:"bytes,1,opt,name=Curr,proto3" json:"Curr,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -312,7 +320,7 @@ func (x *CreateCurrencyRequest) GetCurr() *Currency {
 
 type CreateCurrencyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ID            int32                  `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -347,16 +355,16 @@ func (*CreateCurrencyResponse) Descriptor() ([]byte, []int) {
 	return file_proto_currency_currency_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateCurrencyResponse) GetID() int32 {
+func (x *CreateCurrencyResponse) GetID() string {
 	if x != nil {
 		return x.ID
 	}
-	return 0
+	return ""
 }
 
 type GetCurrencyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Curr          *Currency              `protobuf:"bytes,1,opt,name=curr,proto3" json:"curr,omitempty"`
+	Curr          *Currency              `protobuf:"bytes,1,opt,name=Curr,proto3" json:"Curr,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -400,7 +408,7 @@ func (x *GetCurrencyRequest) GetCurr() *Currency {
 
 type GetCurrencyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Curr          *Currency              `protobuf:"bytes,1,opt,name=curr,proto3" json:"curr,omitempty"`
+	Curr          *Currency              `protobuf:"bytes,1,opt,name=Curr,proto3" json:"Curr,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -444,7 +452,7 @@ func (x *GetCurrencyResponse) GetCurr() *Currency {
 
 type UpdateCurrencyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Curr          *Currency              `protobuf:"bytes,1,opt,name=curr,proto3" json:"curr,omitempty"`
+	Curr          *Currency              `protobuf:"bytes,1,opt,name=Curr,proto3" json:"Curr,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -488,7 +496,7 @@ func (x *UpdateCurrencyRequest) GetCurr() *Currency {
 
 type UpdateCurrencyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Curr          *Currency              `protobuf:"bytes,1,opt,name=curr,proto3" json:"curr,omitempty"`
+	Curr          *Currency              `protobuf:"bytes,1,opt,name=Curr,proto3" json:"Curr,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -532,7 +540,7 @@ func (x *UpdateCurrencyResponse) GetCurr() *Currency {
 
 type DeleteCurrencyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Curr          *Currency              `protobuf:"bytes,1,opt,name=curr,proto3" json:"curr,omitempty"`
+	Curr          *Currency              `protobuf:"bytes,1,opt,name=Curr,proto3" json:"Curr,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -612,7 +620,7 @@ func (*DeleteCurrencyResponse) Descriptor() ([]byte, []int) {
 
 type ListCurrencyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -700,7 +708,7 @@ func (x *ListCurrencyResponse) GetCurr() []*Currency {
 
 type CurrencyStatsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -744,7 +752,7 @@ func (x *CurrencyStatsRequest) GetFilter() *Filter {
 
 type CurrencyStatsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Stats         *Stats                 `protobuf:"bytes,1,opt,name=stats,proto3" json:"stats,omitempty"`
+	Stats         *Stats                 `protobuf:"bytes,1,opt,name=Stats,proto3" json:"Stats,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -790,19 +798,20 @@ var File_proto_currency_currency_proto protoreflect.FileDescriptor
 
 const file_proto_currency_currency_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproto/currency/currency.proto\x12\bcurrency\x1a\x1fgoogle/protobuf/timestamp.proto\"\x80\x03\n" +
+	"\x1dproto/currency/currency.proto\x12\bcurrency\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa4\x03\n" +
 	"\bCurrency\x12\x0e\n" +
-	"\x02ID\x18\x01 \x01(\x05R\x02ID\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12$\n" +
-	"\rAccountNumber\x18\x03 \x01(\tR\rAccountNumber\x12\"\n" +
-	"\fExchangeRate\x18\x04 \x01(\x05R\fExchangeRate\x128\n" +
-	"\tCreatedAt\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
-	"\tCreatedBy\x18\x06 \x01(\tR\tCreatedBy\x128\n" +
-	"\tUpdatedAt\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
-	"\tUpdatedBy\x18\b \x01(\tR\tUpdatedBy\x128\n" +
-	"\tDeletedAt\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
-	"\tDeletedBy\x18\n" +
-	" \x01(\tR\tDeletedBy\"\x84\x01\n" +
+	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\"\n" +
+	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12\x12\n" +
+	"\x04name\x18\x03 \x01(\tR\x04name\x12$\n" +
+	"\rAccountNumber\x18\x04 \x01(\tR\rAccountNumber\x12\"\n" +
+	"\fExchangeRate\x18\x05 \x01(\x05R\fExchangeRate\x128\n" +
+	"\tCreatedAt\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
+	"\tCreatedBy\x18\a \x01(\tR\tCreatedBy\x128\n" +
+	"\tUpdatedAt\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
+	"\tUpdatedBy\x18\t \x01(\tR\tUpdatedBy\x128\n" +
+	"\tDeletedAt\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
+	"\tDeletedBy\x18\v \x01(\tR\tDeletedBy\"\x84\x01\n" +
 	"\x06Filter\x12\x16\n" +
 	"\x06Offset\x18\x01 \x01(\x05R\x06Offset\x12\x14\n" +
 	"\x05Limit\x18\x02 \x01(\x05R\x05Limit\x12\x16\n" +
@@ -815,28 +824,28 @@ const file_proto_currency_currency_proto_rawDesc = "" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
 	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"?\n" +
 	"\x15CreateCurrencyRequest\x12&\n" +
-	"\x04curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04curr\"(\n" +
+	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"(\n" +
 	"\x16CreateCurrencyResponse\x12\x0e\n" +
-	"\x02ID\x18\x01 \x01(\x05R\x02ID\"<\n" +
+	"\x02ID\x18\x01 \x01(\tR\x02ID\"<\n" +
 	"\x12GetCurrencyRequest\x12&\n" +
-	"\x04curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04curr\"=\n" +
+	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"=\n" +
 	"\x13GetCurrencyResponse\x12&\n" +
-	"\x04curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04curr\"?\n" +
+	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"?\n" +
 	"\x15UpdateCurrencyRequest\x12&\n" +
-	"\x04curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04curr\"@\n" +
+	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"@\n" +
 	"\x16UpdateCurrencyResponse\x12&\n" +
-	"\x04curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04curr\"?\n" +
+	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"?\n" +
 	"\x15DeleteCurrencyRequest\x12&\n" +
-	"\x04curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04curr\"\x18\n" +
+	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"\x18\n" +
 	"\x16DeleteCurrencyResponse\"?\n" +
 	"\x13ListCurrencyRequest\x12(\n" +
-	"\x06filter\x18\x01 \x01(\v2\x10.currency.FilterR\x06filter\">\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x10.currency.FilterR\x06Filter\">\n" +
 	"\x14ListCurrencyResponse\x12&\n" +
 	"\x04curr\x18\x01 \x03(\v2\x12.currency.CurrencyR\x04curr\"@\n" +
 	"\x14CurrencyStatsRequest\x12(\n" +
-	"\x06filter\x18\x01 \x01(\v2\x10.currency.FilterR\x06filter\">\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x10.currency.FilterR\x06Filter\">\n" +
 	"\x15CurrencyStatsResponse\x12%\n" +
-	"\x05stats\x18\x01 \x01(\v2\x0f.currency.StatsR\x05stats2\x89\x04\n" +
+	"\x05Stats\x18\x01 \x01(\v2\x0f.currency.StatsR\x05Stats2\x89\x04\n" +
 	"\x0fCurrencyService\x12U\n" +
 	"\x0eCreateCurrency\x12\x1f.currency.CreateCurrencyRequest\x1a .currency.CreateCurrencyResponse\"\x00\x12L\n" +
 	"\vGetCurrency\x12\x1c.currency.GetCurrencyRequest\x1a\x1d.currency.GetCurrencyResponse\"\x00\x12U\n" +
@@ -880,16 +889,16 @@ var file_proto_currency_currency_proto_depIdxs = []int32{
 	15, // 0: currency.Currency.CreatedAt:type_name -> google.protobuf.Timestamp
 	15, // 1: currency.Currency.UpdatedAt:type_name -> google.protobuf.Timestamp
 	15, // 2: currency.Currency.DeletedAt:type_name -> google.protobuf.Timestamp
-	0,  // 3: currency.CreateCurrencyRequest.curr:type_name -> currency.Currency
-	0,  // 4: currency.GetCurrencyRequest.curr:type_name -> currency.Currency
-	0,  // 5: currency.GetCurrencyResponse.curr:type_name -> currency.Currency
-	0,  // 6: currency.UpdateCurrencyRequest.curr:type_name -> currency.Currency
-	0,  // 7: currency.UpdateCurrencyResponse.curr:type_name -> currency.Currency
-	0,  // 8: currency.DeleteCurrencyRequest.curr:type_name -> currency.Currency
-	1,  // 9: currency.ListCurrencyRequest.filter:type_name -> currency.Filter
+	0,  // 3: currency.CreateCurrencyRequest.Curr:type_name -> currency.Currency
+	0,  // 4: currency.GetCurrencyRequest.Curr:type_name -> currency.Currency
+	0,  // 5: currency.GetCurrencyResponse.Curr:type_name -> currency.Currency
+	0,  // 6: currency.UpdateCurrencyRequest.Curr:type_name -> currency.Currency
+	0,  // 7: currency.UpdateCurrencyResponse.Curr:type_name -> currency.Currency
+	0,  // 8: currency.DeleteCurrencyRequest.Curr:type_name -> currency.Currency
+	1,  // 9: currency.ListCurrencyRequest.Filter:type_name -> currency.Filter
 	0,  // 10: currency.ListCurrencyResponse.curr:type_name -> currency.Currency
-	1,  // 11: currency.CurrencyStatsRequest.filter:type_name -> currency.Filter
-	2,  // 12: currency.CurrencyStatsResponse.stats:type_name -> currency.Stats
+	1,  // 11: currency.CurrencyStatsRequest.Filter:type_name -> currency.Filter
+	2,  // 12: currency.CurrencyStatsResponse.Stats:type_name -> currency.Stats
 	3,  // 13: currency.CurrencyService.CreateCurrency:input_type -> currency.CreateCurrencyRequest
 	5,  // 14: currency.CurrencyService.GetCurrency:input_type -> currency.GetCurrencyRequest
 	7,  // 15: currency.CurrencyService.UpdateCurrency:input_type -> currency.UpdateCurrencyRequest

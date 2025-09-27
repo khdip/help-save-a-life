@@ -8,10 +8,10 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *CoreSvc) CreateComment(ctx context.Context, comm storage.Comment) (int32, error) {
+func (s *CoreSvc) CreateComment(ctx context.Context, comm storage.Comment) (string, error) {
 	commid, err := s.st.CreateComment(ctx, comm)
 	if err != nil {
-		return 0, status.Error(codes.Internal, "processing failed")
+		return "", status.Error(codes.Internal, "processing failed")
 	}
 
 	return commid, nil

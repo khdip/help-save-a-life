@@ -24,11 +24,12 @@ const (
 
 type Comment struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CommentID     int32                  `protobuf:"varint,1,opt,name=CommentID,proto3" json:"CommentID,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=Email,proto3" json:"Email,omitempty"`
-	Comment       string                 `protobuf:"bytes,4,opt,name=Comment,proto3" json:"Comment,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	CommentID     string                 `protobuf:"bytes,1,opt,name=CommentID,proto3" json:"CommentID,omitempty"`
+	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=Name,proto3" json:"Name,omitempty"`
+	Email         string                 `protobuf:"bytes,4,opt,name=Email,proto3" json:"Email,omitempty"`
+	Comment       string                 `protobuf:"bytes,5,opt,name=Comment,proto3" json:"Comment,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -63,9 +64,16 @@ func (*Comment) Descriptor() ([]byte, []int) {
 	return file_proto_comments_comments_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Comment) GetCommentID() int32 {
+func (x *Comment) GetCommentID() string {
 	if x != nil {
 		return x.CommentID
+	}
+	return ""
+}
+
+func (x *Comment) GetSerialNumber() int32 {
+	if x != nil {
+		return x.SerialNumber
 	}
 	return 0
 }
@@ -176,7 +184,7 @@ func (x *Filter) GetSearchTerm() string {
 
 type CreateCommentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Comm          *Comment               `protobuf:"bytes,1,opt,name=comm,proto3" json:"comm,omitempty"`
+	Comm          *Comment               `protobuf:"bytes,1,opt,name=Comm,proto3" json:"Comm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -220,7 +228,7 @@ func (x *CreateCommentRequest) GetComm() *Comment {
 
 type CreateCommentResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CommentID     int32                  `protobuf:"varint,1,opt,name=CommentID,proto3" json:"CommentID,omitempty"`
+	CommentID     string                 `protobuf:"bytes,1,opt,name=CommentID,proto3" json:"CommentID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -255,16 +263,16 @@ func (*CreateCommentResponse) Descriptor() ([]byte, []int) {
 	return file_proto_comments_comments_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *CreateCommentResponse) GetCommentID() int32 {
+func (x *CreateCommentResponse) GetCommentID() string {
 	if x != nil {
 		return x.CommentID
 	}
-	return 0
+	return ""
 }
 
 type GetCommentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Comm          *Comment               `protobuf:"bytes,1,opt,name=comm,proto3" json:"comm,omitempty"`
+	Comm          *Comment               `protobuf:"bytes,1,opt,name=Comm,proto3" json:"Comm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -308,7 +316,7 @@ func (x *GetCommentRequest) GetComm() *Comment {
 
 type GetCommentResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Comm          *Comment               `protobuf:"bytes,1,opt,name=comm,proto3" json:"comm,omitempty"`
+	Comm          *Comment               `protobuf:"bytes,1,opt,name=Comm,proto3" json:"Comm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -352,7 +360,7 @@ func (x *GetCommentResponse) GetComm() *Comment {
 
 type ListCommentRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -396,7 +404,7 @@ func (x *ListCommentRequest) GetFilter() *Filter {
 
 type ListCommentResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Comm          []*Comment             `protobuf:"bytes,1,rep,name=comm,proto3" json:"comm,omitempty"`
+	Comm          []*Comment             `protobuf:"bytes,1,rep,name=Comm,proto3" json:"Comm,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -442,13 +450,14 @@ var File_proto_comments_comments_proto protoreflect.FileDescriptor
 
 const file_proto_comments_comments_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproto/comments/comments.proto\x12\bcomments\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa5\x01\n" +
+	"\x1dproto/comments/comments.proto\x12\bcomments\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc9\x01\n" +
 	"\aComment\x12\x1c\n" +
-	"\tCommentID\x18\x01 \x01(\x05R\tCommentID\x12\x12\n" +
-	"\x04Name\x18\x02 \x01(\tR\x04Name\x12\x14\n" +
-	"\x05Email\x18\x03 \x01(\tR\x05Email\x12\x18\n" +
-	"\aComment\x18\x04 \x01(\tR\aComment\x128\n" +
-	"\tCreatedAt\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\"\x84\x01\n" +
+	"\tCommentID\x18\x01 \x01(\tR\tCommentID\x12\"\n" +
+	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12\x12\n" +
+	"\x04Name\x18\x03 \x01(\tR\x04Name\x12\x14\n" +
+	"\x05Email\x18\x04 \x01(\tR\x05Email\x12\x18\n" +
+	"\aComment\x18\x05 \x01(\tR\aComment\x128\n" +
+	"\tCreatedAt\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\"\x84\x01\n" +
 	"\x06Filter\x12\x16\n" +
 	"\x06Offset\x18\x01 \x01(\x05R\x06Offset\x12\x14\n" +
 	"\x05Limit\x18\x02 \x01(\x05R\x05Limit\x12\x16\n" +
@@ -458,17 +467,17 @@ const file_proto_comments_comments_proto_rawDesc = "" +
 	"SearchTerm\x18\x05 \x01(\tR\n" +
 	"SearchTerm\"=\n" +
 	"\x14CreateCommentRequest\x12%\n" +
-	"\x04comm\x18\x01 \x01(\v2\x11.comments.CommentR\x04comm\"5\n" +
+	"\x04Comm\x18\x01 \x01(\v2\x11.comments.CommentR\x04Comm\"5\n" +
 	"\x15CreateCommentResponse\x12\x1c\n" +
-	"\tCommentID\x18\x01 \x01(\x05R\tCommentID\":\n" +
+	"\tCommentID\x18\x01 \x01(\tR\tCommentID\":\n" +
 	"\x11GetCommentRequest\x12%\n" +
-	"\x04comm\x18\x01 \x01(\v2\x11.comments.CommentR\x04comm\";\n" +
+	"\x04Comm\x18\x01 \x01(\v2\x11.comments.CommentR\x04Comm\";\n" +
 	"\x12GetCommentResponse\x12%\n" +
-	"\x04comm\x18\x01 \x01(\v2\x11.comments.CommentR\x04comm\">\n" +
+	"\x04Comm\x18\x01 \x01(\v2\x11.comments.CommentR\x04Comm\">\n" +
 	"\x12ListCommentRequest\x12(\n" +
-	"\x06filter\x18\x01 \x01(\v2\x10.comments.FilterR\x06filter\"<\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x10.comments.FilterR\x06Filter\"<\n" +
 	"\x13ListCommentResponse\x12%\n" +
-	"\x04comm\x18\x01 \x03(\v2\x11.comments.CommentR\x04comm2\xfd\x01\n" +
+	"\x04Comm\x18\x01 \x03(\v2\x11.comments.CommentR\x04Comm2\xfd\x01\n" +
 	"\x0eCommentService\x12R\n" +
 	"\rCreateComment\x12\x1e.comments.CreateCommentRequest\x1a\x1f.comments.CreateCommentResponse\"\x00\x12I\n" +
 	"\n" +
@@ -501,11 +510,11 @@ var file_proto_comments_comments_proto_goTypes = []any{
 }
 var file_proto_comments_comments_proto_depIdxs = []int32{
 	8, // 0: comments.Comment.CreatedAt:type_name -> google.protobuf.Timestamp
-	0, // 1: comments.CreateCommentRequest.comm:type_name -> comments.Comment
-	0, // 2: comments.GetCommentRequest.comm:type_name -> comments.Comment
-	0, // 3: comments.GetCommentResponse.comm:type_name -> comments.Comment
-	1, // 4: comments.ListCommentRequest.filter:type_name -> comments.Filter
-	0, // 5: comments.ListCommentResponse.comm:type_name -> comments.Comment
+	0, // 1: comments.CreateCommentRequest.Comm:type_name -> comments.Comment
+	0, // 2: comments.GetCommentRequest.Comm:type_name -> comments.Comment
+	0, // 3: comments.GetCommentResponse.Comm:type_name -> comments.Comment
+	1, // 4: comments.ListCommentRequest.Filter:type_name -> comments.Filter
+	0, // 5: comments.ListCommentResponse.Comm:type_name -> comments.Comment
 	2, // 6: comments.CommentService.CreateComment:input_type -> comments.CreateCommentRequest
 	4, // 7: comments.CommentService.GetComment:input_type -> comments.GetCommentRequest
 	6, // 8: comments.CommentService.ListComment:input_type -> comments.ListCommentRequest

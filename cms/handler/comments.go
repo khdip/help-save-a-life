@@ -5,18 +5,18 @@ import (
 	commgrpc "help-save-a-life/proto/comments"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
 )
 
 type Comment struct {
-	CommentID int32
-	Name      string
-	Email     string
-	Comment   string
-	CreatedAt time.Time
+	CommentID    string
+	SerialNumber int32
+	Name         string
+	Email        string
+	Comment      string
+	CreatedAt    time.Time
 }
 
 type CommTemplateData struct {
@@ -83,10 +83,11 @@ func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {
 	commList := make([]Comment, 0, len(clst.GetComm()))
 	for _, item := range clst.GetComm() {
 		cData := Comment{
-			CommentID: item.CommentID,
-			Name:      item.Name,
-			Email:     item.Email,
-			Comment:   item.Comment,
+			CommentID:    item.CommentID,
+			SerialNumber: item.SerialNumber,
+			Name:         item.Name,
+			Email:        item.Email,
+			Comment:      item.Comment,
 
 			CreatedAt: item.CreatedAt.AsTime(),
 		}
@@ -119,14 +120,9 @@ func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) viewComment(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["comment_id"]
-	cid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	res, err := h.cmc.GetComment(r.Context(), &commgrpc.GetCommentRequest{
 		Comm: &commgrpc.Comment{
-			CommentID: int32(cid),
+			CommentID: id,
 		},
 	})
 	if err != nil {
@@ -137,11 +133,12 @@ func (h *Handler) viewComment(w http.ResponseWriter, r *http.Request) {
 
 	data := CommTemplateData{
 		Comm: Comment{
-			CommentID: res.Comm.CommentID,
-			Name:      res.Comm.Name,
-			Email:     res.Comm.Email,
-			Comment:   res.Comm.Comment,
-			CreatedAt: res.Comm.CreatedAt.AsTime(),
+			CommentID:    res.Comm.CommentID,
+			SerialNumber: res.Comm.SerialNumber,
+			Name:         res.Comm.Name,
+			Email:        res.Comm.Email,
+			Comment:      res.Comm.Comment,
+			CreatedAt:    res.Comm.CreatedAt.AsTime(),
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: commentListPath,

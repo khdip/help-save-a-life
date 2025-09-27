@@ -30,15 +30,16 @@ INSERT INTO collection (
 	collection_id;
 `
 
-func (s *Storage) CreateCollection(ctx context.Context, coll storage.Collection) (int32, error) {
+func (s *Storage) CreateCollection(ctx context.Context, coll storage.Collection) (string, error) {
 	stmt, err := s.db.PrepareNamed(insertCollection)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
-	var id int32
+	var id string
 	if err := stmt.Get(&id, coll); err != nil {
-		return 0, err
+		fmt.Println(err)
+		return "", err
 	}
 
 	return id, nil

@@ -7,11 +7,12 @@ import "google/protobuf/timestamp.proto";
 option go_package="./proto/comments";
 
 message Comment {
-    int32 CommentID = 1;
-    string Name = 2;
-    string Email = 3;
-    string Comment = 4;
-    google.protobuf.Timestamp CreatedAt = 5;
+    string CommentID = 1;
+    int32 SerialNumber = 2;
+    string Name = 3;
+    string Email = 4;
+    string Comment = 5;
+    google.protobuf.Timestamp CreatedAt = 6;
 }
 
 message Filter {
@@ -23,28 +24,27 @@ message Filter {
 }
 
 message CreateCommentRequest {
-    Comment comm = 1;
+    Comment Comm = 1;
 }
 
 message CreateCommentResponse {
-    int32 CommentID = 1;
+    string CommentID = 1;
 }
 
 message GetCommentRequest {
-    Comment comm = 1;
+    Comment Comm = 1;
 }
 
 message GetCommentResponse {
-    Comment comm = 1;
+    Comment Comm = 1;
 }
 
-
 message ListCommentRequest {
-    Filter filter = 1;
+    Filter Filter = 1;
 }
 
 message ListCommentResponse {
-   repeated Comment comm = 1;
+   repeated Comment Comm = 1;
 }
 
 service CommentService {

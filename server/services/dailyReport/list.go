@@ -26,14 +26,15 @@ func (s *Svc) ListDailyReport(ctx context.Context, req *dregrpc.ListDailyReportR
 	list := make([]*dregrpc.DailyReport, len(dr))
 	for i, r := range dr {
 		list[i] = &dregrpc.DailyReport{
-			ReportID:  r.ReportID,
-			Date:      r.Date,
-			Amount:    r.Amount,
-			Currency:  r.Currency,
-			CreatedAt: tspb.New(r.CreatedAt),
-			CreatedBy: r.CreatedBy,
-			UpdatedAt: tspb.New(r.UpdatedAt),
-			UpdatedBy: r.UpdatedBy,
+			ReportID:     r.ReportID,
+			SerialNumber: r.SerialNumber,
+			Date:         r.Date,
+			Amount:       r.Amount,
+			Currency:     r.Currency,
+			CreatedAt:    tspb.New(r.CreatedAt),
+			CreatedBy:    r.CreatedBy,
+			UpdatedAt:    tspb.New(r.UpdatedAt),
+			UpdatedBy:    r.UpdatedBy,
 		}
 	}
 

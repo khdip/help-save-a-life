@@ -22,15 +22,15 @@ INSERT INTO currency (
 	id;
 `
 
-func (s *Storage) CreateCurrency(ctx context.Context, curr storage.Currency) (int32, error) {
+func (s *Storage) CreateCurrency(ctx context.Context, curr storage.Currency) (string, error) {
 	stmt, err := s.db.PrepareNamed(insertCurrency)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
-	var id int32
+	var id string
 	if err := stmt.Get(&id, curr); err != nil {
-		return 0, err
+		return "", err
 	}
 
 	return id, nil

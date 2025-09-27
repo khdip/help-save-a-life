@@ -21,6 +21,7 @@ func (s *Svc) GetCollection(ctx context.Context, req *collgrpc.GetCollectionRequ
 	return &collgrpc.GetCollectionResponse{
 		Coll: &collgrpc.Collection{
 			CollectionID:  r.CollectionID,
+			SerialNumber:  r.SerialNumber,
 			AccountType:   r.AccountType,
 			AccountNumber: r.AccountNumber,
 			Sender:        r.Sender,

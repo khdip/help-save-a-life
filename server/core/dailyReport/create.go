@@ -8,10 +8,10 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *CoreSvc) CreateDailyReport(ctx context.Context, dre storage.DailyReport) (int32, error) {
+func (s *CoreSvc) CreateDailyReport(ctx context.Context, dre storage.DailyReport) (string, error) {
 	rid, err := s.st.CreateDailyReport(ctx, dre)
 	if err != nil {
-		return 0, status.Error(codes.Internal, "processing failed")
+		return "", status.Error(codes.Internal, "processing failed")
 	}
 
 	return rid, nil

@@ -65,8 +65,8 @@ func (h *Handler) storeUser(w http.ResponseWriter, r *http.Request) {
 			Batch:     usr.Batch,
 			Email:     usr.Email,
 			Password:  string(passByte),
-			CreatedBy: h.getLoggedUser(w, r),
-			UpdatedBy: h.getLoggedUser(w, r),
+			CreatedBy: h.getLoggedUser(r),
+			UpdatedBy: h.getLoggedUser(r),
 		},
 	})
 	if err != nil {
@@ -126,7 +126,7 @@ func (h *Handler) updateUser(w http.ResponseWriter, r *http.Request) {
 			Batch:     usr.Batch,
 			Email:     usr.Email,
 			Password:  string(passByte),
-			UpdatedBy: h.getLoggedUser(w, r),
+			UpdatedBy: h.getLoggedUser(r),
 		},
 	}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -253,19 +253,12 @@ func (h *Handler) viewUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	if err := r.ParseForm(); err != nil {
-		errMsg := "parsing form"
-		http.Error(w, errMsg, http.StatusBadRequest)
-		return
-	}
-
 	params := mux.Vars(r)
 	id := params["user_id"]
-	if _, err := h.uc.DeleteUser(ctx, &usergrpc.DeleteUserRequest{
+	if _, err := h.uc.DeleteUser(r.Context(), &usergrpc.DeleteUserRequest{
 		User: &usergrpc.User{
 			UserID:    id,
-			DeletedBy: h.getLoggedUser(w, r),
+			DeletedBy: h.getLoggedUser(r),
 		},
 	}); err != nil {
 		log.Println("unable to delete user: ", err)

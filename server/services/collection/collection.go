@@ -10,7 +10,7 @@ import (
 )
 
 type CollectionStore interface {
-	CreateCollection(ctx context.Context, cst storage.Collection) (int32, error)
+	CreateCollection(ctx context.Context, cst storage.Collection) (string, error)
 	GetCollection(ctx context.Context, cst storage.Collection) (*storage.Collection, error)
 	UpdateCollection(ctx context.Context, cst storage.Collection) (*storage.Collection, error)
 	DeleteCollection(ctx context.Context, cst storage.Collection) error

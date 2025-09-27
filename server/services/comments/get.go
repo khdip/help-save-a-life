@@ -20,11 +20,12 @@ func (s *Svc) GetComment(ctx context.Context, req *commgrpc.GetCommentRequest) (
 	}
 	return &commgrpc.GetCommentResponse{
 		Comm: &commgrpc.Comment{
-			CommentID: r.CommentID,
-			Name:      r.Name,
-			Email:     r.Email,
-			Comment:   r.Comment,
-			CreatedAt: timestamppb.New(r.CreatedAt),
+			CommentID:    r.CommentID,
+			SerialNumber: r.SerialNumber,
+			Name:         r.Name,
+			Email:        r.Email,
+			Comment:      r.Comment,
+			CreatedAt:    timestamppb.New(r.CreatedAt),
 		},
 	}, nil
 }

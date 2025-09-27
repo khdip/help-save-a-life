@@ -25,16 +25,17 @@ const (
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	UserID        string                 `protobuf:"bytes,1,opt,name=UserID,proto3" json:"UserID,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=Name,proto3" json:"Name,omitempty"`
-	Batch         int32                  `protobuf:"varint,3,opt,name=Batch,proto3" json:"Batch,omitempty"`
-	Email         string                 `protobuf:"bytes,4,opt,name=Email,proto3" json:"Email,omitempty"`
-	Password      string                 `protobuf:"bytes,5,opt,name=Password,proto3" json:"Password,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
-	CreatedBy     string                 `protobuf:"bytes,7,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
-	UpdatedBy     string                 `protobuf:"bytes,9,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
-	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
-	DeletedBy     string                 `protobuf:"bytes,11,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
+	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
+	Name          string                 `protobuf:"bytes,3,opt,name=Name,proto3" json:"Name,omitempty"`
+	Batch         int32                  `protobuf:"varint,4,opt,name=Batch,proto3" json:"Batch,omitempty"`
+	Email         string                 `protobuf:"bytes,5,opt,name=Email,proto3" json:"Email,omitempty"`
+	Password      string                 `protobuf:"bytes,6,opt,name=Password,proto3" json:"Password,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	CreatedBy     string                 `protobuf:"bytes,8,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
+	UpdatedBy     string                 `protobuf:"bytes,10,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
+	DeletedBy     string                 `protobuf:"bytes,12,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -74,6 +75,13 @@ func (x *User) GetUserID() string {
 		return x.UserID
 	}
 	return ""
+}
+
+func (x *User) GetSerialNumber() int32 {
+	if x != nil {
+		return x.SerialNumber
+	}
+	return 0
 }
 
 func (x *User) GetName() string {
@@ -276,7 +284,7 @@ func (x *Stats) GetTotalAmount() int32 {
 
 type CreateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User          *User                  `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -364,7 +372,7 @@ func (x *CreateUserResponse) GetUserID() string {
 
 type GetUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User          *User                  `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -408,7 +416,7 @@ func (x *GetUserRequest) GetUser() *User {
 
 type GetUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User          *User                  `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -452,7 +460,7 @@ func (x *GetUserResponse) GetUser() *User {
 
 type UpdateUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User          *User                  `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -496,7 +504,7 @@ func (x *UpdateUserRequest) GetUser() *User {
 
 type UpdateUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User          *User                  `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -540,7 +548,7 @@ func (x *UpdateUserResponse) GetUser() *User {
 
 type DeleteUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          *User                  `protobuf:"bytes,1,opt,name=user,proto3" json:"user,omitempty"`
+	User          *User                  `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -620,7 +628,7 @@ func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
 
 type ListUserRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -664,7 +672,7 @@ func (x *ListUserRequest) GetFilter() *Filter {
 
 type ListUserResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	User          []*User                `protobuf:"bytes,1,rep,name=user,proto3" json:"user,omitempty"`
+	User          []*User                `protobuf:"bytes,1,rep,name=User,proto3" json:"User,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -708,7 +716,7 @@ func (x *ListUserResponse) GetUser() []*User {
 
 type UserStatsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -752,7 +760,7 @@ func (x *UserStatsRequest) GetFilter() *Filter {
 
 type UserStatsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Stats         *Stats                 `protobuf:"bytes,1,opt,name=stats,proto3" json:"stats,omitempty"`
+	Stats         *Stats                 `protobuf:"bytes,1,opt,name=Stats,proto3" json:"Stats,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -798,20 +806,21 @@ var File_proto_users_users_proto protoreflect.FileDescriptor
 
 const file_proto_users_users_proto_rawDesc = "" +
 	"\n" +
-	"\x17proto/users/users.proto\x12\x05users\x1a\x1fgoogle/protobuf/timestamp.proto\"\x82\x03\n" +
+	"\x17proto/users/users.proto\x12\x05users\x1a\x1fgoogle/protobuf/timestamp.proto\"\xa6\x03\n" +
 	"\x04User\x12\x16\n" +
-	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\x12\n" +
-	"\x04Name\x18\x02 \x01(\tR\x04Name\x12\x14\n" +
-	"\x05Batch\x18\x03 \x01(\x05R\x05Batch\x12\x14\n" +
-	"\x05Email\x18\x04 \x01(\tR\x05Email\x12\x1a\n" +
-	"\bPassword\x18\x05 \x01(\tR\bPassword\x128\n" +
-	"\tCreatedAt\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
-	"\tCreatedBy\x18\a \x01(\tR\tCreatedBy\x128\n" +
-	"\tUpdatedAt\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
-	"\tUpdatedBy\x18\t \x01(\tR\tUpdatedBy\x128\n" +
-	"\tDeletedAt\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
-	"\tDeletedBy\x18\v \x01(\tR\tDeletedBy\"\x84\x01\n" +
+	"\x06UserID\x18\x01 \x01(\tR\x06UserID\x12\"\n" +
+	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12\x12\n" +
+	"\x04Name\x18\x03 \x01(\tR\x04Name\x12\x14\n" +
+	"\x05Batch\x18\x04 \x01(\x05R\x05Batch\x12\x14\n" +
+	"\x05Email\x18\x05 \x01(\tR\x05Email\x12\x1a\n" +
+	"\bPassword\x18\x06 \x01(\tR\bPassword\x128\n" +
+	"\tCreatedAt\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
+	"\tCreatedBy\x18\b \x01(\tR\tCreatedBy\x128\n" +
+	"\tUpdatedAt\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
+	"\tUpdatedBy\x18\n" +
+	" \x01(\tR\tUpdatedBy\x128\n" +
+	"\tDeletedAt\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
+	"\tDeletedBy\x18\f \x01(\tR\tDeletedBy\"\x84\x01\n" +
 	"\x06Filter\x12\x16\n" +
 	"\x06Offset\x18\x01 \x01(\x05R\x06Offset\x12\x14\n" +
 	"\x05Limit\x18\x02 \x01(\x05R\x05Limit\x12\x16\n" +
@@ -824,28 +833,28 @@ const file_proto_users_users_proto_rawDesc = "" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
 	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"4\n" +
 	"\x11CreateUserRequest\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.users.UserR\x04user\",\n" +
+	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\",\n" +
 	"\x12CreateUserResponse\x12\x16\n" +
 	"\x06UserID\x18\x01 \x01(\tR\x06UserID\"1\n" +
 	"\x0eGetUserRequest\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.users.UserR\x04user\"2\n" +
+	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\"2\n" +
 	"\x0fGetUserResponse\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.users.UserR\x04user\"4\n" +
+	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\"4\n" +
 	"\x11UpdateUserRequest\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.users.UserR\x04user\"5\n" +
+	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\"5\n" +
 	"\x12UpdateUserResponse\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.users.UserR\x04user\"4\n" +
+	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\"4\n" +
 	"\x11DeleteUserRequest\x12\x1f\n" +
-	"\x04user\x18\x01 \x01(\v2\v.users.UserR\x04user\"\x14\n" +
+	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\"\x14\n" +
 	"\x12DeleteUserResponse\"8\n" +
 	"\x0fListUserRequest\x12%\n" +
-	"\x06filter\x18\x01 \x01(\v2\r.users.FilterR\x06filter\"3\n" +
+	"\x06Filter\x18\x01 \x01(\v2\r.users.FilterR\x06Filter\"3\n" +
 	"\x10ListUserResponse\x12\x1f\n" +
-	"\x04user\x18\x01 \x03(\v2\v.users.UserR\x04user\"9\n" +
+	"\x04User\x18\x01 \x03(\v2\v.users.UserR\x04User\"9\n" +
 	"\x10UserStatsRequest\x12%\n" +
-	"\x06filter\x18\x01 \x01(\v2\r.users.FilterR\x06filter\"7\n" +
+	"\x06Filter\x18\x01 \x01(\v2\r.users.FilterR\x06Filter\"7\n" +
 	"\x11UserStatsResponse\x12\"\n" +
-	"\x05stats\x18\x01 \x01(\v2\f.users.StatsR\x05stats2\x99\x03\n" +
+	"\x05Stats\x18\x01 \x01(\v2\f.users.StatsR\x05Stats2\x99\x03\n" +
 	"\vUserService\x12C\n" +
 	"\n" +
 	"CreateUser\x12\x18.users.CreateUserRequest\x1a\x19.users.CreateUserResponse\"\x00\x12:\n" +
@@ -892,16 +901,16 @@ var file_proto_users_users_proto_depIdxs = []int32{
 	15, // 0: users.User.CreatedAt:type_name -> google.protobuf.Timestamp
 	15, // 1: users.User.UpdatedAt:type_name -> google.protobuf.Timestamp
 	15, // 2: users.User.DeletedAt:type_name -> google.protobuf.Timestamp
-	0,  // 3: users.CreateUserRequest.user:type_name -> users.User
-	0,  // 4: users.GetUserRequest.user:type_name -> users.User
-	0,  // 5: users.GetUserResponse.user:type_name -> users.User
-	0,  // 6: users.UpdateUserRequest.user:type_name -> users.User
-	0,  // 7: users.UpdateUserResponse.user:type_name -> users.User
-	0,  // 8: users.DeleteUserRequest.user:type_name -> users.User
-	1,  // 9: users.ListUserRequest.filter:type_name -> users.Filter
-	0,  // 10: users.ListUserResponse.user:type_name -> users.User
-	1,  // 11: users.UserStatsRequest.filter:type_name -> users.Filter
-	2,  // 12: users.UserStatsResponse.stats:type_name -> users.Stats
+	0,  // 3: users.CreateUserRequest.User:type_name -> users.User
+	0,  // 4: users.GetUserRequest.User:type_name -> users.User
+	0,  // 5: users.GetUserResponse.User:type_name -> users.User
+	0,  // 6: users.UpdateUserRequest.User:type_name -> users.User
+	0,  // 7: users.UpdateUserResponse.User:type_name -> users.User
+	0,  // 8: users.DeleteUserRequest.User:type_name -> users.User
+	1,  // 9: users.ListUserRequest.Filter:type_name -> users.Filter
+	0,  // 10: users.ListUserResponse.User:type_name -> users.User
+	1,  // 11: users.UserStatsRequest.Filter:type_name -> users.Filter
+	2,  // 12: users.UserStatsResponse.Stats:type_name -> users.Stats
 	3,  // 13: users.UserService.CreateUser:input_type -> users.CreateUserRequest
 	5,  // 14: users.UserService.GetUser:input_type -> users.GetUserRequest
 	7,  // 15: users.UserService.UpdateUser:input_type -> users.UpdateUserRequest

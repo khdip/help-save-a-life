@@ -2,13 +2,14 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS collection
 (
-    collection_id               SERIAL PRIMARY KEY,
+    collection_id               VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
+    serial_number               SERIAL,
     account_type                VARCHAR(100) NOT NULL DEFAULT '',
     account_number              VARCHAR(100) NOT NULL DEFAULT '',
     sender                      VARCHAR(255) NOT NULL DEFAULT 'Anonymous',
     date                        VARCHAR(100) NOT NULL DEFAULT '',
     amount                      INT NOT NULL DEFAULT 0,
-    currency                    VARCHAR(10) NOT NULL DEFAULT 'BDT',
+    currency                    VARCHAR(100) NOT NULL DEFAULT '',
     created_at                  TIMESTAMP    DEFAULT current_timestamp,
     created_by                  VARCHAR(100) NOT NULL DEFAULT '',
     updated_at                  TIMESTAMP    DEFAULT current_timestamp,

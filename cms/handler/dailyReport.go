@@ -5,23 +5,23 @@ import (
 	dregrpc "help-save-a-life/proto/dailyReport"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 
 	"github.com/gorilla/mux"
 )
 
 type DailyReport struct {
-	ReportID  int32
-	Date      string
-	Amount    int32
-	Currency  string
-	CreatedAt time.Time
-	CreatedBy string
-	UpdatedAt time.Time
-	UpdatedBy string
-	DeletedAt time.Time
-	DeletedBy string
+	ReportID     string
+	SerialNumber int32
+	Date         string
+	Amount       int32
+	Currency     string
+	CreatedAt    time.Time
+	CreatedBy    string
+	UpdatedAt    time.Time
+	UpdatedBy    string
+	DeletedAt    time.Time
+	DeletedBy    string
 }
 
 type DreTemplateData struct {
@@ -57,8 +57,8 @@ func (h *Handler) storeDailyReport(w http.ResponseWriter, r *http.Request) {
 			Date:      dre.Date,
 			Amount:    dre.Amount,
 			Currency:  dre.Currency,
-			CreatedBy: h.getLoggedUser(w, r),
-			UpdatedBy: h.getLoggedUser(w, r),
+			CreatedBy: h.getLoggedUser(r),
+			UpdatedBy: h.getLoggedUser(r),
 		},
 	})
 	if err != nil {
@@ -71,14 +71,9 @@ func (h *Handler) storeDailyReport(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) editDailyReport(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["report_id"]
-	drid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	res, err := h.drc.GetDailyReport(r.Context(), &dregrpc.GetDailyReportRequest{
 		Dre: &dregrpc.DailyReport{
-			ReportID: int32(drid),
+			ReportID: id,
 		},
 	})
 	if err != nil {
@@ -99,11 +94,6 @@ func (h *Handler) updateDailyReport(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
 	id := params["report_id"]
-	drid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	if err := r.ParseForm(); err != nil {
 		errMsg := "parsing form"
 		http.Error(w, errMsg, http.StatusBadRequest)
@@ -118,11 +108,11 @@ func (h *Handler) updateDailyReport(w http.ResponseWriter, r *http.Request) {
 
 	if _, err := h.drc.UpdateDailyReport(ctx, &dregrpc.UpdateDailyReportRequest{
 		Dre: &dregrpc.DailyReport{
-			ReportID:  int32(drid),
+			ReportID:  id,
 			Date:      dre.Date,
 			Amount:    dre.Amount,
 			Currency:  dre.Currency,
-			UpdatedBy: h.getLoggedUser(w, r),
+			UpdatedBy: h.getLoggedUser(r),
 		},
 	}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -163,14 +153,15 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 	drList := make([]DailyReport, 0, len(drlst.GetDre()))
 	for _, item := range drlst.GetDre() {
 		drData := DailyReport{
-			ReportID:  item.ReportID,
-			Date:      item.Date,
-			Amount:    item.Amount,
-			Currency:  item.Currency,
-			CreatedAt: item.CreatedAt.AsTime(),
-			CreatedBy: item.CreatedBy,
-			UpdatedAt: item.UpdatedAt.AsTime(),
-			UpdatedBy: item.UpdatedBy,
+			ReportID:     item.ReportID,
+			SerialNumber: item.SerialNumber,
+			Date:         item.Date,
+			Amount:       item.Amount,
+			Currency:     item.Currency,
+			CreatedAt:    item.CreatedAt.AsTime(),
+			CreatedBy:    item.CreatedBy,
+			UpdatedAt:    item.UpdatedAt.AsTime(),
+			UpdatedBy:    item.UpdatedBy,
 		}
 		drList = append(drList, drData)
 	}
@@ -215,32 +206,28 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["report_id"]
-	drid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	res, err := h.drc.GetDailyReport(r.Context(), &dregrpc.GetDailyReportRequest{
 		Dre: &dregrpc.DailyReport{
-			ReportID: int32(drid),
+			ReportID: id,
 		},
 	})
 	if err != nil {
-		log.Println("unable to get collection info: ", err)
+		log.Println("unable to get daily report info: ", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	data := DreTemplateData{
 		Dre: DailyReport{
-			ReportID:  res.Dre.ReportID,
-			Date:      res.Dre.Date,
-			Amount:    res.Dre.Amount,
-			Currency:  res.Dre.Currency,
-			CreatedAt: res.Dre.CreatedAt.AsTime(),
-			CreatedBy: res.Dre.CreatedBy,
-			UpdatedAt: res.Dre.UpdatedAt.AsTime(),
-			UpdatedBy: res.Dre.UpdatedBy,
+			ReportID:     res.Dre.ReportID,
+			SerialNumber: res.Dre.SerialNumber,
+			Date:         res.Dre.Date,
+			Amount:       res.Dre.Amount,
+			Currency:     res.Dre.Currency,
+			CreatedAt:    res.Dre.CreatedAt.AsTime(),
+			CreatedBy:    res.Dre.CreatedBy,
+			UpdatedAt:    res.Dre.UpdatedAt.AsTime(),
+			UpdatedBy:    res.Dre.UpdatedBy,
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: dailyReportListPath,
@@ -254,24 +241,12 @@ func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) deleteDailyReport(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	if err := r.ParseForm(); err != nil {
-		errMsg := "parsing form"
-		http.Error(w, errMsg, http.StatusBadRequest)
-		return
-	}
-
 	params := mux.Vars(r)
 	id := params["report_id"]
-	drid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	if _, err := h.drc.DeleteDailyReport(ctx, &dregrpc.DeleteDailyReportRequest{
+	if _, err := h.drc.DeleteDailyReport(r.Context(), &dregrpc.DeleteDailyReportRequest{
 		Dre: &dregrpc.DailyReport{
-			ReportID:  int32(drid),
-			DeletedBy: h.getLoggedUser(w, r),
+			ReportID:  id,
+			DeletedBy: h.getLoggedUser(r),
 		},
 	}); err != nil {
 		log.Println("unable to delete collection: ", err)

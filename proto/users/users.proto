@@ -8,16 +8,17 @@ option go_package="./proto/users";
 
 message User {
     string UserID = 1;
-    string Name = 2;
-    int32 Batch = 3;
-    string Email = 4;
-    string Password = 5;
-    google.protobuf.Timestamp CreatedAt = 6;
-    string CreatedBy = 7;
-    google.protobuf.Timestamp UpdatedAt = 8;
-    string UpdatedBy = 9;
-    google.protobuf.Timestamp DeletedAt = 10;
-    string DeletedBy = 11;
+    int32 SerialNumber = 2;
+    string Name = 3;
+    int32 Batch = 4;
+    string Email = 5;
+    string Password = 6;
+    google.protobuf.Timestamp CreatedAt = 7;
+    string CreatedBy = 8;
+    google.protobuf.Timestamp UpdatedAt = 9;
+    string UpdatedBy = 10;
+    google.protobuf.Timestamp DeletedAt = 11;
+    string DeletedBy = 12;
 }
 
 message Filter {
@@ -34,7 +35,7 @@ message Stats {
 }
 
 message CreateUserRequest {
-    User user = 1;
+    User User = 1;
 }
 
 message CreateUserResponse {
@@ -42,41 +43,41 @@ message CreateUserResponse {
 }
 
 message GetUserRequest {
-    User user = 1;
+    User User = 1;
 }
 
 message GetUserResponse {
-    User user = 1;
+    User User = 1;
 }
 
 message UpdateUserRequest {
-    User user = 1;
+    User User = 1;
 }
 
 message UpdateUserResponse {
-    User user = 1;
+    User User = 1;
 }
 
 message DeleteUserRequest {
-    User user = 1;
+    User User = 1;
 }
 
 message DeleteUserResponse {}
 
 message ListUserRequest {
-    Filter filter = 1;
+    Filter Filter = 1;
 }
 
 message ListUserResponse {
-   repeated User user = 1;
+   repeated User User = 1;
 }
 
 message UserStatsRequest {
-    Filter filter = 1;
+    Filter Filter = 1;
 }
 
 message UserStatsResponse {
-    Stats stats = 1;
+    Stats Stats = 1;
 }
 
 service UserService {

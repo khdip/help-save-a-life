@@ -12,7 +12,7 @@ import (
 const (
 	limitPerPage = 10
 	targetamount = 7500000
-	sessionName  = "tamal-session"
+	sessionName  = "save-life"
 )
 
 type Filter struct {
@@ -74,7 +74,7 @@ func GetFilterData(r *http.Request) *Filter {
 	return &data
 }
 
-func (h *Handler) getLoggedUser(w http.ResponseWriter, r *http.Request) string {
+func (h *Handler) getLoggedUser(r *http.Request) string {
 	session, err := h.session.Get(r, sessionName)
 	if err != nil {
 		log.Fatal(err)

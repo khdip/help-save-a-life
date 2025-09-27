@@ -20,15 +20,15 @@ INSERT INTO comments (
 	comment_id;
 `
 
-func (s *Storage) CreateComment(ctx context.Context, comm storage.Comment) (int32, error) {
+func (s *Storage) CreateComment(ctx context.Context, comm storage.Comment) (string, error) {
 	stmt, err := s.db.PrepareNamed(insertComment)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
-	var id int32
+	var id string
 	if err := stmt.Get(&id, comm); err != nil {
-		return 0, err
+		return "", err
 	}
 
 	return id, nil

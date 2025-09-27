@@ -10,7 +10,7 @@ import (
 )
 
 type DailyReportStore interface {
-	CreateDailyReport(ctx context.Context, cst storage.DailyReport) (int32, error)
+	CreateDailyReport(ctx context.Context, cst storage.DailyReport) (string, error)
 	GetDailyReport(ctx context.Context, cst storage.DailyReport) (*storage.DailyReport, error)
 	UpdateDailyReport(ctx context.Context, cst storage.DailyReport) (*storage.DailyReport, error)
 	DeleteDailyReport(ctx context.Context, cst storage.DailyReport) error

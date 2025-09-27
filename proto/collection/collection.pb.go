@@ -24,19 +24,20 @@ const (
 
 type Collection struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CollectionID  int32                  `protobuf:"varint,1,opt,name=CollectionID,proto3" json:"CollectionID,omitempty"`
-	AccountType   string                 `protobuf:"bytes,2,opt,name=AccountType,proto3" json:"AccountType,omitempty"`
-	AccountNumber string                 `protobuf:"bytes,3,opt,name=AccountNumber,proto3" json:"AccountNumber,omitempty"`
-	Sender        string                 `protobuf:"bytes,4,opt,name=Sender,proto3" json:"Sender,omitempty"`
-	Date          string                 `protobuf:"bytes,5,opt,name=Date,proto3" json:"Date,omitempty"`
-	Amount        int32                  `protobuf:"varint,6,opt,name=Amount,proto3" json:"Amount,omitempty"`
-	Currency      string                 `protobuf:"bytes,7,opt,name=Currency,proto3" json:"Currency,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
-	CreatedBy     string                 `protobuf:"bytes,9,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
-	UpdatedBy     string                 `protobuf:"bytes,11,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
-	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
-	DeletedBy     string                 `protobuf:"bytes,13,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
+	CollectionID  string                 `protobuf:"bytes,1,opt,name=CollectionID,proto3" json:"CollectionID,omitempty"`
+	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
+	AccountType   string                 `protobuf:"bytes,3,opt,name=AccountType,proto3" json:"AccountType,omitempty"`
+	AccountNumber string                 `protobuf:"bytes,4,opt,name=AccountNumber,proto3" json:"AccountNumber,omitempty"`
+	Sender        string                 `protobuf:"bytes,5,opt,name=Sender,proto3" json:"Sender,omitempty"`
+	Date          string                 `protobuf:"bytes,6,opt,name=Date,proto3" json:"Date,omitempty"`
+	Amount        int32                  `protobuf:"varint,7,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Currency      string                 `protobuf:"bytes,8,opt,name=Currency,proto3" json:"Currency,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	CreatedBy     string                 `protobuf:"bytes,10,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
+	UpdatedBy     string                 `protobuf:"bytes,12,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,13,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
+	DeletedBy     string                 `protobuf:"bytes,14,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -71,9 +72,16 @@ func (*Collection) Descriptor() ([]byte, []int) {
 	return file_proto_collection_collection_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Collection) GetCollectionID() int32 {
+func (x *Collection) GetCollectionID() string {
 	if x != nil {
 		return x.CollectionID
+	}
+	return ""
+}
+
+func (x *Collection) GetSerialNumber() int32 {
+	if x != nil {
+		return x.SerialNumber
 	}
 	return 0
 }
@@ -292,7 +300,7 @@ func (x *Stats) GetTotalAmount() int32 {
 
 type CreateCollectionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          *Collection            `protobuf:"bytes,1,opt,name=coll,proto3" json:"coll,omitempty"`
+	Coll          *Collection            `protobuf:"bytes,1,opt,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -336,7 +344,7 @@ func (x *CreateCollectionRequest) GetColl() *Collection {
 
 type CreateCollectionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	CollectionID  int32                  `protobuf:"varint,1,opt,name=CollectionID,proto3" json:"CollectionID,omitempty"`
+	CollectionID  string                 `protobuf:"bytes,1,opt,name=CollectionID,proto3" json:"CollectionID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -371,16 +379,16 @@ func (*CreateCollectionResponse) Descriptor() ([]byte, []int) {
 	return file_proto_collection_collection_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateCollectionResponse) GetCollectionID() int32 {
+func (x *CreateCollectionResponse) GetCollectionID() string {
 	if x != nil {
 		return x.CollectionID
 	}
-	return 0
+	return ""
 }
 
 type GetCollectionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          *Collection            `protobuf:"bytes,1,opt,name=coll,proto3" json:"coll,omitempty"`
+	Coll          *Collection            `protobuf:"bytes,1,opt,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -424,7 +432,7 @@ func (x *GetCollectionRequest) GetColl() *Collection {
 
 type GetCollectionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          *Collection            `protobuf:"bytes,1,opt,name=coll,proto3" json:"coll,omitempty"`
+	Coll          *Collection            `protobuf:"bytes,1,opt,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -468,7 +476,7 @@ func (x *GetCollectionResponse) GetColl() *Collection {
 
 type UpdateCollectionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          *Collection            `protobuf:"bytes,1,opt,name=coll,proto3" json:"coll,omitempty"`
+	Coll          *Collection            `protobuf:"bytes,1,opt,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -512,7 +520,7 @@ func (x *UpdateCollectionRequest) GetColl() *Collection {
 
 type UpdateCollectionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          *Collection            `protobuf:"bytes,1,opt,name=coll,proto3" json:"coll,omitempty"`
+	Coll          *Collection            `protobuf:"bytes,1,opt,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -556,7 +564,7 @@ func (x *UpdateCollectionResponse) GetColl() *Collection {
 
 type DeleteCollectionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          *Collection            `protobuf:"bytes,1,opt,name=coll,proto3" json:"coll,omitempty"`
+	Coll          *Collection            `protobuf:"bytes,1,opt,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -636,7 +644,7 @@ func (*DeleteCollectionResponse) Descriptor() ([]byte, []int) {
 
 type ListCollectionRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -680,7 +688,7 @@ func (x *ListCollectionRequest) GetFilter() *Filter {
 
 type ListCollectionResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Coll          []*Collection          `protobuf:"bytes,1,rep,name=coll,proto3" json:"coll,omitempty"`
+	Coll          []*Collection          `protobuf:"bytes,1,rep,name=Coll,proto3" json:"Coll,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -724,7 +732,7 @@ func (x *ListCollectionResponse) GetColl() []*Collection {
 
 type CollectionStatsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -768,7 +776,7 @@ func (x *CollectionStatsRequest) GetFilter() *Filter {
 
 type CollectionStatsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Stats         *Stats                 `protobuf:"bytes,1,opt,name=stats,proto3" json:"stats,omitempty"`
+	Stats         *Stats                 `protobuf:"bytes,1,opt,name=Stats,proto3" json:"Stats,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -815,23 +823,24 @@ var File_proto_collection_collection_proto protoreflect.FileDescriptor
 const file_proto_collection_collection_proto_rawDesc = "" +
 	"\n" +
 	"!proto/collection/collection.proto\x12\n" +
-	"collection\x1a\x1fgoogle/protobuf/timestamp.proto\"\xe0\x03\n" +
+	"collection\x1a\x1fgoogle/protobuf/timestamp.proto\"\x84\x04\n" +
 	"\n" +
 	"Collection\x12\"\n" +
-	"\fCollectionID\x18\x01 \x01(\x05R\fCollectionID\x12 \n" +
-	"\vAccountType\x18\x02 \x01(\tR\vAccountType\x12$\n" +
-	"\rAccountNumber\x18\x03 \x01(\tR\rAccountNumber\x12\x16\n" +
-	"\x06Sender\x18\x04 \x01(\tR\x06Sender\x12\x12\n" +
-	"\x04Date\x18\x05 \x01(\tR\x04Date\x12\x16\n" +
-	"\x06Amount\x18\x06 \x01(\x05R\x06Amount\x12\x1a\n" +
-	"\bCurrency\x18\a \x01(\tR\bCurrency\x128\n" +
-	"\tCreatedAt\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
-	"\tCreatedBy\x18\t \x01(\tR\tCreatedBy\x128\n" +
-	"\tUpdatedAt\x18\n" +
-	" \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
-	"\tUpdatedBy\x18\v \x01(\tR\tUpdatedBy\x128\n" +
-	"\tDeletedAt\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
-	"\tDeletedBy\x18\r \x01(\tR\tDeletedBy\"\x84\x01\n" +
+	"\fCollectionID\x18\x01 \x01(\tR\fCollectionID\x12\"\n" +
+	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12 \n" +
+	"\vAccountType\x18\x03 \x01(\tR\vAccountType\x12$\n" +
+	"\rAccountNumber\x18\x04 \x01(\tR\rAccountNumber\x12\x16\n" +
+	"\x06Sender\x18\x05 \x01(\tR\x06Sender\x12\x12\n" +
+	"\x04Date\x18\x06 \x01(\tR\x04Date\x12\x16\n" +
+	"\x06Amount\x18\a \x01(\x05R\x06Amount\x12\x1a\n" +
+	"\bCurrency\x18\b \x01(\tR\bCurrency\x128\n" +
+	"\tCreatedAt\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
+	"\tCreatedBy\x18\n" +
+	" \x01(\tR\tCreatedBy\x128\n" +
+	"\tUpdatedAt\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
+	"\tUpdatedBy\x18\f \x01(\tR\tUpdatedBy\x128\n" +
+	"\tDeletedAt\x18\r \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
+	"\tDeletedBy\x18\x0e \x01(\tR\tDeletedBy\"\x84\x01\n" +
 	"\x06Filter\x12\x16\n" +
 	"\x06Offset\x18\x01 \x01(\x05R\x06Offset\x12\x14\n" +
 	"\x05Limit\x18\x02 \x01(\x05R\x05Limit\x12\x16\n" +
@@ -844,28 +853,28 @@ const file_proto_collection_collection_proto_rawDesc = "" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
 	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"E\n" +
 	"\x17CreateCollectionRequest\x12*\n" +
-	"\x04coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04coll\">\n" +
+	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\">\n" +
 	"\x18CreateCollectionResponse\x12\"\n" +
-	"\fCollectionID\x18\x01 \x01(\x05R\fCollectionID\"B\n" +
+	"\fCollectionID\x18\x01 \x01(\tR\fCollectionID\"B\n" +
 	"\x14GetCollectionRequest\x12*\n" +
-	"\x04coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04coll\"C\n" +
+	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\"C\n" +
 	"\x15GetCollectionResponse\x12*\n" +
-	"\x04coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04coll\"E\n" +
+	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\"E\n" +
 	"\x17UpdateCollectionRequest\x12*\n" +
-	"\x04coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04coll\"F\n" +
+	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\"F\n" +
 	"\x18UpdateCollectionResponse\x12*\n" +
-	"\x04coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04coll\"E\n" +
+	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\"E\n" +
 	"\x17DeleteCollectionRequest\x12*\n" +
-	"\x04coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04coll\"\x1a\n" +
+	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\"\x1a\n" +
 	"\x18DeleteCollectionResponse\"C\n" +
 	"\x15ListCollectionRequest\x12*\n" +
-	"\x06filter\x18\x01 \x01(\v2\x12.collection.FilterR\x06filter\"D\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x12.collection.FilterR\x06Filter\"D\n" +
 	"\x16ListCollectionResponse\x12*\n" +
-	"\x04coll\x18\x01 \x03(\v2\x16.collection.CollectionR\x04coll\"D\n" +
+	"\x04Coll\x18\x01 \x03(\v2\x16.collection.CollectionR\x04Coll\"D\n" +
 	"\x16CollectionStatsRequest\x12*\n" +
-	"\x06filter\x18\x01 \x01(\v2\x12.collection.FilterR\x06filter\"B\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x12.collection.FilterR\x06Filter\"B\n" +
 	"\x17CollectionStatsResponse\x12'\n" +
-	"\x05stats\x18\x01 \x01(\v2\x11.collection.StatsR\x05stats2\xc7\x04\n" +
+	"\x05Stats\x18\x01 \x01(\v2\x11.collection.StatsR\x05Stats2\xc7\x04\n" +
 	"\x11CollectionService\x12_\n" +
 	"\x10CreateCollection\x12#.collection.CreateCollectionRequest\x1a$.collection.CreateCollectionResponse\"\x00\x12V\n" +
 	"\rGetCollection\x12 .collection.GetCollectionRequest\x1a!.collection.GetCollectionResponse\"\x00\x12_\n" +
@@ -909,16 +918,16 @@ var file_proto_collection_collection_proto_depIdxs = []int32{
 	15, // 0: collection.Collection.CreatedAt:type_name -> google.protobuf.Timestamp
 	15, // 1: collection.Collection.UpdatedAt:type_name -> google.protobuf.Timestamp
 	15, // 2: collection.Collection.DeletedAt:type_name -> google.protobuf.Timestamp
-	0,  // 3: collection.CreateCollectionRequest.coll:type_name -> collection.Collection
-	0,  // 4: collection.GetCollectionRequest.coll:type_name -> collection.Collection
-	0,  // 5: collection.GetCollectionResponse.coll:type_name -> collection.Collection
-	0,  // 6: collection.UpdateCollectionRequest.coll:type_name -> collection.Collection
-	0,  // 7: collection.UpdateCollectionResponse.coll:type_name -> collection.Collection
-	0,  // 8: collection.DeleteCollectionRequest.coll:type_name -> collection.Collection
-	1,  // 9: collection.ListCollectionRequest.filter:type_name -> collection.Filter
-	0,  // 10: collection.ListCollectionResponse.coll:type_name -> collection.Collection
-	1,  // 11: collection.CollectionStatsRequest.filter:type_name -> collection.Filter
-	2,  // 12: collection.CollectionStatsResponse.stats:type_name -> collection.Stats
+	0,  // 3: collection.CreateCollectionRequest.Coll:type_name -> collection.Collection
+	0,  // 4: collection.GetCollectionRequest.Coll:type_name -> collection.Collection
+	0,  // 5: collection.GetCollectionResponse.Coll:type_name -> collection.Collection
+	0,  // 6: collection.UpdateCollectionRequest.Coll:type_name -> collection.Collection
+	0,  // 7: collection.UpdateCollectionResponse.Coll:type_name -> collection.Collection
+	0,  // 8: collection.DeleteCollectionRequest.Coll:type_name -> collection.Collection
+	1,  // 9: collection.ListCollectionRequest.Filter:type_name -> collection.Filter
+	0,  // 10: collection.ListCollectionResponse.Coll:type_name -> collection.Collection
+	1,  // 11: collection.CollectionStatsRequest.Filter:type_name -> collection.Filter
+	2,  // 12: collection.CollectionStatsResponse.Stats:type_name -> collection.Stats
 	3,  // 13: collection.CollectionService.CreateCollection:input_type -> collection.CreateCollectionRequest
 	5,  // 14: collection.CollectionService.GetCollection:input_type -> collection.GetCollectionRequest
 	7,  // 15: collection.CollectionService.UpdateCollection:input_type -> collection.UpdateCollectionRequest

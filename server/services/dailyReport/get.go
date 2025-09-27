@@ -20,14 +20,15 @@ func (s *Svc) GetDailyReport(ctx context.Context, req *dregrpc.GetDailyReportReq
 	}
 	return &dregrpc.GetDailyReportResponse{
 		Dre: &dregrpc.DailyReport{
-			ReportID:  r.ReportID,
-			Date:      r.Date,
-			Amount:    r.Amount,
-			Currency:  r.Currency,
-			CreatedAt: timestamppb.New(r.CreatedAt),
-			CreatedBy: r.CreatedBy,
-			UpdatedAt: timestamppb.New(r.UpdatedAt),
-			UpdatedBy: r.UpdatedBy,
+			ReportID:     r.ReportID,
+			SerialNumber: r.SerialNumber,
+			Date:         r.Date,
+			Amount:       r.Amount,
+			Currency:     r.Currency,
+			CreatedAt:    timestamppb.New(r.CreatedAt),
+			CreatedBy:    r.CreatedBy,
+			UpdatedAt:    timestamppb.New(r.UpdatedAt),
+			UpdatedBy:    r.UpdatedBy,
 		},
 	}, nil
 }

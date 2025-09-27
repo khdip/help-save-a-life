@@ -24,16 +24,17 @@ const (
 
 type DailyReport struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ReportID      int32                  `protobuf:"varint,1,opt,name=ReportID,proto3" json:"ReportID,omitempty"`
-	Date          string                 `protobuf:"bytes,2,opt,name=Date,proto3" json:"Date,omitempty"`
-	Amount        int32                  `protobuf:"varint,3,opt,name=Amount,proto3" json:"Amount,omitempty"`
-	Currency      string                 `protobuf:"bytes,4,opt,name=Currency,proto3" json:"Currency,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
-	CreatedBy     string                 `protobuf:"bytes,6,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
-	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
-	UpdatedBy     string                 `protobuf:"bytes,8,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
-	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
-	DeletedBy     string                 `protobuf:"bytes,10,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
+	ReportID      string                 `protobuf:"bytes,1,opt,name=ReportID,proto3" json:"ReportID,omitempty"`
+	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
+	Date          string                 `protobuf:"bytes,3,opt,name=Date,proto3" json:"Date,omitempty"`
+	Amount        int32                  `protobuf:"varint,4,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Currency      string                 `protobuf:"bytes,5,opt,name=Currency,proto3" json:"Currency,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
+	CreatedBy     string                 `protobuf:"bytes,7,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
+	UpdatedBy     string                 `protobuf:"bytes,9,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
+	DeletedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=DeletedAt,proto3" json:"DeletedAt,omitempty"`
+	DeletedBy     string                 `protobuf:"bytes,11,opt,name=DeletedBy,proto3" json:"DeletedBy,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -68,9 +69,16 @@ func (*DailyReport) Descriptor() ([]byte, []int) {
 	return file_proto_dailyReport_dailyReport_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *DailyReport) GetReportID() int32 {
+func (x *DailyReport) GetReportID() string {
 	if x != nil {
 		return x.ReportID
+	}
+	return ""
+}
+
+func (x *DailyReport) GetSerialNumber() int32 {
+	if x != nil {
+		return x.SerialNumber
 	}
 	return 0
 }
@@ -312,7 +320,7 @@ func (x *CreateDailyReportRequest) GetDre() *DailyReport {
 
 type CreateDailyReportResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	ReportID      int32                  `protobuf:"varint,1,opt,name=ReportID,proto3" json:"ReportID,omitempty"`
+	ReportID      string                 `protobuf:"bytes,1,opt,name=ReportID,proto3" json:"ReportID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -347,11 +355,11 @@ func (*CreateDailyReportResponse) Descriptor() ([]byte, []int) {
 	return file_proto_dailyReport_dailyReport_proto_rawDescGZIP(), []int{4}
 }
 
-func (x *CreateDailyReportResponse) GetReportID() int32 {
+func (x *CreateDailyReportResponse) GetReportID() string {
 	if x != nil {
 		return x.ReportID
 	}
-	return 0
+	return ""
 }
 
 type GetDailyReportRequest struct {
@@ -612,7 +620,7 @@ func (*DeleteDailyReportResponse) Descriptor() ([]byte, []int) {
 
 type ListDailyReportRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -700,7 +708,7 @@ func (x *ListDailyReportResponse) GetDre() []*DailyReport {
 
 type DailyReportStatsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=Filter,proto3" json:"Filter,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -744,7 +752,7 @@ func (x *DailyReportStatsRequest) GetFilter() *Filter {
 
 type DailyReportStatsResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Stats         *Stats                 `protobuf:"bytes,1,opt,name=stats,proto3" json:"stats,omitempty"`
+	Stats         *Stats                 `protobuf:"bytes,1,opt,name=Stats,proto3" json:"Stats,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -790,19 +798,20 @@ var File_proto_dailyReport_dailyReport_proto protoreflect.FileDescriptor
 
 const file_proto_dailyReport_dailyReport_proto_rawDesc = "" +
 	"\n" +
-	"#proto/dailyReport/dailyReport.proto\x12\vdailyreport\x1a\x1fgoogle/protobuf/timestamp.proto\"\xf9\x02\n" +
+	"#proto/dailyReport/dailyReport.proto\x12\vdailyreport\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9d\x03\n" +
 	"\vDailyReport\x12\x1a\n" +
-	"\bReportID\x18\x01 \x01(\x05R\bReportID\x12\x12\n" +
-	"\x04Date\x18\x02 \x01(\tR\x04Date\x12\x16\n" +
-	"\x06Amount\x18\x03 \x01(\x05R\x06Amount\x12\x1a\n" +
-	"\bCurrency\x18\x04 \x01(\tR\bCurrency\x128\n" +
-	"\tCreatedAt\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
-	"\tCreatedBy\x18\x06 \x01(\tR\tCreatedBy\x128\n" +
-	"\tUpdatedAt\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
-	"\tUpdatedBy\x18\b \x01(\tR\tUpdatedBy\x128\n" +
-	"\tDeletedAt\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
-	"\tDeletedBy\x18\n" +
-	" \x01(\tR\tDeletedBy\"\x84\x01\n" +
+	"\bReportID\x18\x01 \x01(\tR\bReportID\x12\"\n" +
+	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12\x12\n" +
+	"\x04Date\x18\x03 \x01(\tR\x04Date\x12\x16\n" +
+	"\x06Amount\x18\x04 \x01(\x05R\x06Amount\x12\x1a\n" +
+	"\bCurrency\x18\x05 \x01(\tR\bCurrency\x128\n" +
+	"\tCreatedAt\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
+	"\tCreatedBy\x18\a \x01(\tR\tCreatedBy\x128\n" +
+	"\tUpdatedAt\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
+	"\tUpdatedBy\x18\t \x01(\tR\tUpdatedBy\x128\n" +
+	"\tDeletedAt\x18\n" +
+	" \x01(\v2\x1a.google.protobuf.TimestampR\tDeletedAt\x12\x1c\n" +
+	"\tDeletedBy\x18\v \x01(\tR\tDeletedBy\"\x84\x01\n" +
 	"\x06Filter\x12\x16\n" +
 	"\x06Offset\x18\x01 \x01(\x05R\x06Offset\x12\x14\n" +
 	"\x05Limit\x18\x02 \x01(\x05R\x05Limit\x12\x16\n" +
@@ -817,7 +826,7 @@ const file_proto_dailyReport_dailyReport_proto_rawDesc = "" +
 	"\x18CreateDailyReportRequest\x12*\n" +
 	"\x03Dre\x18\x01 \x01(\v2\x18.dailyreport.DailyReportR\x03Dre\"7\n" +
 	"\x19CreateDailyReportResponse\x12\x1a\n" +
-	"\bReportID\x18\x01 \x01(\x05R\bReportID\"C\n" +
+	"\bReportID\x18\x01 \x01(\tR\bReportID\"C\n" +
 	"\x15GetDailyReportRequest\x12*\n" +
 	"\x03Dre\x18\x01 \x01(\v2\x18.dailyreport.DailyReportR\x03Dre\"D\n" +
 	"\x16GetDailyReportResponse\x12*\n" +
@@ -830,13 +839,13 @@ const file_proto_dailyReport_dailyReport_proto_rawDesc = "" +
 	"\x03Dre\x18\x01 \x01(\v2\x18.dailyreport.DailyReportR\x03Dre\"\x1b\n" +
 	"\x19DeleteDailyReportResponse\"E\n" +
 	"\x16ListDailyReportRequest\x12+\n" +
-	"\x06filter\x18\x01 \x01(\v2\x13.dailyreport.FilterR\x06filter\"E\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x13.dailyreport.FilterR\x06Filter\"E\n" +
 	"\x17ListDailyReportResponse\x12*\n" +
 	"\x03Dre\x18\x01 \x03(\v2\x18.dailyreport.DailyReportR\x03Dre\"F\n" +
 	"\x17DailyReportStatsRequest\x12+\n" +
-	"\x06filter\x18\x01 \x01(\v2\x13.dailyreport.FilterR\x06filter\"D\n" +
+	"\x06Filter\x18\x01 \x01(\v2\x13.dailyreport.FilterR\x06Filter\"D\n" +
 	"\x18DailyReportStatsResponse\x12(\n" +
-	"\x05stats\x18\x01 \x01(\v2\x12.dailyreport.StatsR\x05stats2\xe6\x04\n" +
+	"\x05Stats\x18\x01 \x01(\v2\x12.dailyreport.StatsR\x05Stats2\xe6\x04\n" +
 	"\x12DailyReportService\x12d\n" +
 	"\x11CreateDailyReport\x12%.dailyreport.CreateDailyReportRequest\x1a&.dailyreport.CreateDailyReportResponse\"\x00\x12[\n" +
 	"\x0eGetDailyReport\x12\".dailyreport.GetDailyReportRequest\x1a#.dailyreport.GetDailyReportResponse\"\x00\x12d\n" +
@@ -886,10 +895,10 @@ var file_proto_dailyReport_dailyReport_proto_depIdxs = []int32{
 	0,  // 6: dailyreport.UpdateDailyReportRequest.Dre:type_name -> dailyreport.DailyReport
 	0,  // 7: dailyreport.UpdateDailyReportResponse.Dre:type_name -> dailyreport.DailyReport
 	0,  // 8: dailyreport.DeleteDailyReportRequest.Dre:type_name -> dailyreport.DailyReport
-	1,  // 9: dailyreport.ListDailyReportRequest.filter:type_name -> dailyreport.Filter
+	1,  // 9: dailyreport.ListDailyReportRequest.Filter:type_name -> dailyreport.Filter
 	0,  // 10: dailyreport.ListDailyReportResponse.Dre:type_name -> dailyreport.DailyReport
-	1,  // 11: dailyreport.DailyReportStatsRequest.filter:type_name -> dailyreport.Filter
-	2,  // 12: dailyreport.DailyReportStatsResponse.stats:type_name -> dailyreport.Stats
+	1,  // 11: dailyreport.DailyReportStatsRequest.Filter:type_name -> dailyreport.Filter
+	2,  // 12: dailyreport.DailyReportStatsResponse.Stats:type_name -> dailyreport.Stats
 	3,  // 13: dailyreport.DailyReportService.CreateDailyReport:input_type -> dailyreport.CreateDailyReportRequest
 	5,  // 14: dailyreport.DailyReportService.GetDailyReport:input_type -> dailyreport.GetDailyReportRequest
 	7,  // 15: dailyreport.DailyReportService.UpdateDailyReport:input_type -> dailyreport.UpdateDailyReportRequest

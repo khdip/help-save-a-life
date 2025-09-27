@@ -26,11 +26,12 @@ func (s *Svc) ListComment(ctx context.Context, req *commgrpc.ListCommentRequest)
 	list := make([]*commgrpc.Comment, len(comm))
 	for i, c := range comm {
 		list[i] = &commgrpc.Comment{
-			CommentID: c.CommentID,
-			Name:      c.Name,
-			Email:     c.Email,
-			Comment:   c.Comment,
-			CreatedAt: timestamppb.New(c.CreatedAt),
+			CommentID:    c.CommentID,
+			SerialNumber: c.SerialNumber,
+			Name:         c.Name,
+			Email:        c.Email,
+			Comment:      c.Comment,
+			CreatedAt:    timestamppb.New(c.CreatedAt),
 		}
 	}
 

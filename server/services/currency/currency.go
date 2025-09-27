@@ -10,7 +10,7 @@ import (
 )
 
 type CurrencyStore interface {
-	CreateCurrency(ctx context.Context, cst storage.Currency) (int32, error)
+	CreateCurrency(ctx context.Context, cst storage.Currency) (string, error)
 	GetCurrency(ctx context.Context, cst storage.Currency) (*storage.Currency, error)
 	UpdateCurrency(ctx context.Context, cst storage.Currency) (*storage.Currency, error)
 	DeleteCurrency(ctx context.Context, cst storage.Currency) error

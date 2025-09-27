@@ -5,6 +5,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE TABLE IF NOT EXISTS users
 (
     user_id                     VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
+    serial_number               SERIAL,
     name                        VARCHAR(100) NOT NULL DEFAULT '',
     batch                       INT          DEFAULT 0,
     email                       VARCHAR(255) NOT NULL DEFAULT '',

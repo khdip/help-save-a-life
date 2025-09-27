@@ -27,6 +27,7 @@ func (s *Svc) ListCollection(ctx context.Context, req *collgrpc.ListCollectionRe
 	for i, c := range coll {
 		list[i] = &collgrpc.Collection{
 			CollectionID:  c.CollectionID,
+			SerialNumber:  c.SerialNumber,
 			AccountType:   c.AccountType,
 			AccountNumber: c.AccountNumber,
 			Sender:        c.Sender,

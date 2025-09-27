@@ -2,9 +2,10 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS currency
 (
-    id                          SERIAL PRIMARY KEY,
+    id                          VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
+    serial_number               SERIAL,
     name                        VARCHAR(100) NOT NULL DEFAULT '',
-    exchange_rate               INT          NOT NULL DEFAULT 0,
+    exchange_rate               INT          NOT NULL DEFAULT 1,
     created_at                  TIMESTAMP    DEFAULT current_timestamp,
     created_by                  VARCHAR(100) NOT NULL DEFAULT '',
     updated_at                  TIMESTAMP    DEFAULT current_timestamp,

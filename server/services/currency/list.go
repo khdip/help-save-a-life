@@ -27,6 +27,7 @@ func (s *Svc) ListCurrency(ctx context.Context, req *currgrpc.ListCurrencyReques
 	for i, c := range curr {
 		list[i] = &currgrpc.Currency{
 			ID:           c.ID,
+			SerialNumber: c.SerialNumber,
 			Name:         c.Name,
 			ExchangeRate: c.ExchangeRate,
 			CreatedAt:    tspb.New(c.CreatedAt),

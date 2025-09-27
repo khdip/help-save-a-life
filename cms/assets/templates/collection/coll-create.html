@@ -17,17 +17,19 @@
                     <div class="mb-3">
                         <label class="form-label">Account Type</label>
                         <select class="form-select" name="AccountType">
-                            <option selected value="Bank">Bank</option>
-                            <option value="Bkash">Bkash</option>
-                            <option value="Nagad">Nagad</option>
-                            <option value="Rocket">Rocket</option>
-                            <option value="Upay">Upay</option>
-                            <option value="Cash">Cash</option>
+                            <option {{if eq .Coll.AccountType "Bank"}}selected{{end}} value="Bank">Bank</option>
+                            <option {{if eq .Coll.AccountType "Bkash"}}selected{{end}}  value="Bkash">Bkash</option>
+                            <option {{if eq .Coll.AccountType "Nagad"}}selected{{end}}  value="Nagad">Nagad</option>
+                            <option {{if eq .Coll.AccountType "Rocket"}}selected{{end}}  value="Rocket">Rocket</option>
+                            <option {{if eq .Coll.AccountType "Upay"}}selected{{end}}  value="Upay">Upay</option>
+                            <option {{if eq .Coll.AccountType "Cash"}}selected{{end}}  value="Cash">Cash</option>
                         </select>
+                        <p class="text-danger">{{.FormErrors.AccountType}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Account Number*</label>
-                        <input type="text" class="form-control" name="AccountNumber" placeholder="Enter donor account number" required>
+                        <input type="text" class="form-control" name="AccountNumber" placeholder="Enter donor account number" value="{{.Coll.AccountNumber}}">
+                        <p class="text-danger">{{.FormErrors.AccountNumber}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Sender</label>
@@ -35,20 +37,20 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Date*</label>
-                        <input type="date" class="form-control" name="Date" required>
+                        <input type="date" class="form-control" name="Date" value="{{.Coll.Date}}">
+                        <p class="text-danger">{{.FormErrors.Date}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Amount*</label>
-                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" required>
+                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" value="{{.Coll.Amount}}">
+                        <p class="text-danger">{{.FormErrors.Amount}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Currency</label>
                         <select class="form-select" name="Currency">
-                            <option selected value="BDT">BDT</option>
-                            <option value="AUD">AUD</option>
-                            <option value="USD">USD</option>
-                            <option value="EURO">EURO</option>
-                            <option value="POUND">POUND</option>
+                            {{range .Currencies}}
+                            <option {{if eq .ID $.Coll.Currency}}selected{{end}} value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
                         </select>
                     </div>
                     <a class="btn btn-primary" href="{{.URLs.collList}}">Back to List</a>

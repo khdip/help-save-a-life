@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	postgres.CreateFirstUser()
+	postgres.InsertDemoData()
 }

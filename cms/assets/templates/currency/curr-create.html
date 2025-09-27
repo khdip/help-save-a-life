@@ -16,11 +16,13 @@
                 <form method="post" action="{{.URLs.currStore}}">
                     <div class="mb-3">
                         <label class="form-label">Name*</label>
-                        <input type="text" class="form-control" name="Name" placeholder="Enter currency name" required>
+                        <input type="text" class="form-control" name="Name" placeholder="Enter currency name" value="{{.Curr.Name}}">
+                        <p class="text-danger">{{.FormErrors.Name}}</p>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Exchange Rate</label>
-                        <input type="number" class="form-control" name="ExchangeRate" placeholder="Enter exchange rate">
+                        <label class="form-label">Exchange Rate*</label>
+                        <input type="number" class="form-control" name="ExchangeRate" placeholder="Enter exchange rate with BDT" value="{{.Curr.ExchangeRate}}">
+                        <p class="text-danger">{{.FormErrors.ExchangeRate}}</p>
                     </div>
                     <a class="btn btn-primary" href="{{.URLs.currList}}">Back to List</a>
                     <button type="submit" class="btn btn-success float-end">Create</button>

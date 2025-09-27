@@ -21,15 +21,16 @@ func (s *Svc) GetUser(ctx context.Context, req *usergrpc.GetUserRequest) (*userg
 	}
 	return &usergrpc.GetUserResponse{
 		User: &usergrpc.User{
-			UserID:    r.UserID,
-			Name:      r.Name,
-			Batch:     r.Batch,
-			Email:     r.Email,
-			Password:  r.Password,
-			CreatedAt: timestamppb.New(r.CreatedAt),
-			CreatedBy: r.CreatedBy,
-			UpdatedAt: timestamppb.New(r.UpdatedAt),
-			UpdatedBy: r.UpdatedBy,
+			UserID:       r.UserID,
+			SerialNumber: r.SerialNumber,
+			Name:         r.Name,
+			Batch:        r.Batch,
+			Email:        r.Email,
+			Password:     r.Password,
+			CreatedAt:    timestamppb.New(r.CreatedAt),
+			CreatedBy:    r.CreatedBy,
+			UpdatedAt:    timestamppb.New(r.UpdatedAt),
+			UpdatedBy:    r.UpdatedBy,
 		},
 	}, nil
 }

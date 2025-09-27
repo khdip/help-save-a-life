@@ -2,7 +2,8 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS comments
 (
-    comment_id                  SERIAL PRIMARY KEY,
+    comment_id                  VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
+    serial_number               SERIAL,
     name                        VARCHAR(100) NOT NULL DEFAULT '',
     email                       VARCHAR(100) NOT NULL DEFAULT '',
     comment                     TEXT NOT NULL DEFAULT '',

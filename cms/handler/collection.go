@@ -5,14 +5,15 @@ import (
 	collgrpc "help-save-a-life/proto/collection"
 	"log"
 	"net/http"
-	"strconv"
 	"time"
 
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"
 )
 
 type Collection struct {
-	CollectionID  int32
+	CollectionID  string
+	SerialNumber  int32
 	AccountType   string
 	AccountNumber string
 	Sender        string
@@ -30,15 +31,43 @@ type Collection struct {
 type CollTemplateData struct {
 	Coll           Collection
 	List           []Collection
+	Currencies     []Currency
 	Paginator      paginator.Paginator
 	FilterData     Filter
 	URLs           map[string]string
 	Message        map[string]string
+	FormErrors     map[string]string
 	CurrentPageURL string
 }
 
+func (c Collection) Validate(h *Handler) error {
+	return validation.ValidateStruct(&c,
+		validation.Field(&c.AccountType,
+			validation.Required.Error("Account type field can not be empty"),
+		),
+		validation.Field(&c.AccountNumber,
+			validation.Required.Error("Account number field can not be empty"),
+		),
+		validation.Field(&c.Date,
+			validation.Required.Error("Date field can not be empty"),
+		),
+		validation.Field(&c.Amount,
+			validation.Required.Error("Amount field can not be empty"),
+		),
+		validation.Field(&c.Amount,
+			validation.Required.Error("Currency field can not be empty"),
+		),
+	)
+}
+
 func (h *Handler) createCollection(w http.ResponseWriter, r *http.Request) {
-	h.loadCollectionCreateForm(w, Collection{})
+	data := CollTemplateData{
+		Coll:           Collection{},
+		Currencies:     h.getCurrencyList(w, r),
+		URLs:           listOfURLs(),
+		CurrentPageURL: collectionListPath,
+	}
+	h.loadCollectionCreateForm(w, data)
 }
 
 func (h *Handler) storeCollection(w http.ResponseWriter, r *http.Request) {
@@ -55,6 +84,26 @@ func (h *Handler) storeCollection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := coll.Validate(h); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := CollTemplateData{
+			Coll:           coll,
+			Currencies:     h.getCurrencyList(w, r),
+			FormErrors:     vErrs,
+			URLs:           listOfURLs(),
+			CurrentPageURL: collectionListPath,
+		}
+		h.loadCollectionCreateForm(w, data)
+		return
+	}
+
 	_, err = h.cc.CreateCollection(r.Context(), &collgrpc.CreateCollectionRequest{
 		Coll: &collgrpc.Collection{
 			AccountType:   coll.AccountType,
@@ -63,8 +112,8 @@ func (h *Handler) storeCollection(w http.ResponseWriter, r *http.Request) {
 			Date:          coll.Date,
 			Amount:        coll.Amount,
 			Currency:      coll.Currency,
-			CreatedBy:     h.getLoggedUser(w, r),
-			UpdatedBy:     h.getLoggedUser(w, r),
+			CreatedBy:     h.getLoggedUser(r),
+			UpdatedBy:     h.getLoggedUser(r),
 		},
 	})
 	if err != nil {
@@ -77,14 +126,9 @@ func (h *Handler) storeCollection(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) editCollection(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["collection_id"]
-	cid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	res, err := h.cc.GetCollection(r.Context(), &collgrpc.GetCollectionRequest{
 		Coll: &collgrpc.Collection{
-			CollectionID: int32(cid),
+			CollectionID: id,
 		},
 	})
 	if err != nil {
@@ -93,14 +137,19 @@ func (h *Handler) editCollection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.loadCollectionEditForm(w, Collection{
-		CollectionID:  res.Coll.CollectionID,
-		AccountType:   res.Coll.AccountType,
-		AccountNumber: res.Coll.AccountNumber,
-		Sender:        res.Coll.Sender,
-		Date:          res.Coll.Date,
-		Amount:        res.Coll.Amount,
-		Currency:      res.Coll.Currency,
+	h.loadCollectionEditForm(w, CollTemplateData{
+		Coll: Collection{
+			CollectionID:  res.Coll.CollectionID,
+			AccountType:   res.Coll.AccountType,
+			AccountNumber: res.Coll.AccountNumber,
+			Sender:        res.Coll.Sender,
+			Date:          res.Coll.Date,
+			Amount:        res.Coll.Amount,
+			Currency:      res.Coll.Currency,
+		},
+		Currencies:     h.getCurrencyList(w, r),
+		URLs:           listOfURLs(),
+		CurrentPageURL: collectionListPath,
 	})
 }
 
@@ -108,11 +157,6 @@ func (h *Handler) updateCollection(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	params := mux.Vars(r)
 	id := params["collection_id"]
-	cid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	if err := r.ParseForm(); err != nil {
 		errMsg := "parsing form"
 		http.Error(w, errMsg, http.StatusBadRequest)
@@ -125,16 +169,36 @@ func (h *Handler) updateCollection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if err := coll.Validate(h); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := CollTemplateData{
+			Coll:           coll,
+			Currencies:     h.getCurrencyList(w, r),
+			FormErrors:     vErrs,
+			URLs:           listOfURLs(),
+			CurrentPageURL: collectionListPath,
+		}
+		h.loadCollectionEditForm(w, data)
+		return
+	}
+
 	if _, err := h.cc.UpdateCollection(ctx, &collgrpc.UpdateCollectionRequest{
 		Coll: &collgrpc.Collection{
-			CollectionID:  int32(cid),
+			CollectionID:  id,
 			AccountType:   coll.AccountType,
 			AccountNumber: coll.AccountNumber,
 			Sender:        coll.Sender,
 			Date:          coll.Date,
 			Amount:        coll.Amount,
 			Currency:      coll.Currency,
-			UpdatedBy:     h.getLoggedUser(w, r),
+			UpdatedBy:     h.getLoggedUser(r),
 		},
 	}); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -172,16 +236,18 @@ func (h *Handler) listCollection(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
+	currencyList := h.getCurrencyListMap(w, r)
 	collList := make([]Collection, 0, len(clst.GetColl()))
 	for _, item := range clst.GetColl() {
 		cData := Collection{
 			CollectionID:  item.CollectionID,
+			SerialNumber:  item.SerialNumber,
 			AccountType:   item.AccountType,
 			AccountNumber: item.AccountNumber,
 			Sender:        item.Sender,
 			Date:          item.Date,
 			Amount:        item.Amount,
-			Currency:      item.Currency,
+			Currency:      currencyList[item.Currency],
 			CreatedAt:     item.CreatedAt.AsTime(),
 			CreatedBy:     item.CreatedBy,
 			UpdatedAt:     item.UpdatedAt.AsTime(),
@@ -230,14 +296,9 @@ func (h *Handler) listCollection(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id := params["collection_id"]
-	cid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	res, err := h.cc.GetCollection(r.Context(), &collgrpc.GetCollectionRequest{
 		Coll: &collgrpc.Collection{
-			CollectionID: int32(cid),
+			CollectionID: id,
 		},
 	})
 	if err != nil {
@@ -249,12 +310,13 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 	data := CollTemplateData{
 		Coll: Collection{
 			CollectionID:  res.Coll.CollectionID,
+			SerialNumber:  res.Coll.SerialNumber,
 			AccountType:   res.Coll.AccountType,
 			AccountNumber: res.Coll.AccountNumber,
 			Sender:        res.Coll.Sender,
 			Date:          res.Coll.Date,
 			Amount:        res.Coll.Amount,
-			Currency:      res.Coll.Currency,
+			Currency:      h.getCurrencyListMap(w, r)[res.Coll.Currency],
 			CreatedAt:     res.Coll.CreatedAt.AsTime(),
 			CreatedBy:     res.Coll.CreatedBy,
 			UpdatedAt:     res.Coll.UpdatedAt.AsTime(),
@@ -272,24 +334,12 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) deleteCollection(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-	if err := r.ParseForm(); err != nil {
-		errMsg := "parsing form"
-		http.Error(w, errMsg, http.StatusBadRequest)
-		return
-	}
-
 	params := mux.Vars(r)
 	id := params["collection_id"]
-	cid, err := strconv.Atoi(id)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-	if _, err := h.cc.DeleteCollection(ctx, &collgrpc.DeleteCollectionRequest{
+	if _, err := h.cc.DeleteCollection(r.Context(), &collgrpc.DeleteCollectionRequest{
 		Coll: &collgrpc.Collection{
-			CollectionID: int32(cid),
-			DeletedBy:    h.getLoggedUser(w, r),
+			CollectionID: id,
+			DeletedBy:    h.getLoggedUser(r),
 		},
 	}); err != nil {
 		log.Println("unable to delete collection: ", err)
@@ -299,28 +349,16 @@ func (h *Handler) deleteCollection(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, collectionListPath, http.StatusSeeOther)
 }
 
-func (h *Handler) loadCollectionCreateForm(w http.ResponseWriter, coll Collection) {
-	form := CollTemplateData{
-		Coll:           coll,
-		URLs:           listOfURLs(),
-		CurrentPageURL: collectionListPath,
-	}
-
-	err := h.templates.ExecuteTemplate(w, "coll-create.html", form)
+func (h *Handler) loadCollectionCreateForm(w http.ResponseWriter, data CollTemplateData) {
+	err := h.templates.ExecuteTemplate(w, "coll-create.html", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
-func (h *Handler) loadCollectionEditForm(w http.ResponseWriter, coll Collection) {
-	form := CollTemplateData{
-		Coll:           coll,
-		URLs:           listOfURLs(),
-		CurrentPageURL: collectionListPath,
-	}
-
-	err := h.templates.ExecuteTemplate(w, "coll-edit.html", form)
+func (h *Handler) loadCollectionEditForm(w http.ResponseWriter, data CollTemplateData) {
+	err := h.templates.ExecuteTemplate(w, "coll-edit.html", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

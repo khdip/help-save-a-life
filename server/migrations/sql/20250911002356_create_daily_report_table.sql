@@ -2,7 +2,8 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS daily_report
 (
-    report_id                   SERIAL PRIMARY KEY,
+    report_id                   VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
+    serial_number               SERIAL,
     date                        VARCHAR(100) NOT NULL DEFAULT '', 
     amount                      INT NOT NULL DEFAULT 0,
     currency                    VARCHAR(10) NOT NULL DEFAULT 'BDT',

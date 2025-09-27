@@ -24,15 +24,15 @@ INSERT INTO daily_report (
 	report_id;
 `
 
-func (s *Storage) CreateDailyReport(ctx context.Context, dre storage.DailyReport) (int32, error) {
+func (s *Storage) CreateDailyReport(ctx context.Context, dre storage.DailyReport) (string, error) {
 	stmt, err := s.db.PrepareNamed(insertEntry)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 
-	var id int32
+	var id string
 	if err := stmt.Get(&id, dre); err != nil {
-		return 0, err
+		return "", err
 	}
 
 	return id, nil

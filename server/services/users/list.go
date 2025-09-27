@@ -26,14 +26,15 @@ func (s *Svc) ListUser(ctx context.Context, req *usergrpc.ListUserRequest) (*use
 	list := make([]*usergrpc.User, len(users))
 	for i, u := range users {
 		list[i] = &usergrpc.User{
-			UserID:    u.UserID,
-			Name:      u.Name,
-			Batch:     u.Batch,
-			Email:     u.Email,
-			CreatedAt: tspb.New(u.CreatedAt),
-			CreatedBy: u.CreatedBy,
-			UpdatedAt: tspb.New(u.UpdatedAt),
-			UpdatedBy: u.UpdatedBy,
+			UserID:       u.UserID,
+			SerialNumber: u.SerialNumber,
+			Name:         u.Name,
+			Batch:        u.Batch,
+			Email:        u.Email,
+			CreatedAt:    tspb.New(u.CreatedAt),
+			CreatedBy:    u.CreatedBy,
+			UpdatedAt:    tspb.New(u.UpdatedAt),
+			UpdatedBy:    u.UpdatedBy,
 		}
 	}
 

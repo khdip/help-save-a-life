@@ -54,6 +54,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Serial</th>
                                 <th>Date</th>
                                 <th>Account Type</th>
                                 <th>Account Number</th>
@@ -65,6 +66,7 @@
                         <tbody>
                             {{range .List}}
                             <tr>
+                                <td>{{.SerialNumber}}</td>
                                 <td>{{.Date}}</td>
                                 <td>{{.AccountType}}</td>
                                 <td>{{.AccountNumber}}</td>

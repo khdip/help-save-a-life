@@ -30,7 +30,22 @@ INSERT INTO users (
 	user_id;
 `
 
-func CreateFirstUser() {
+const insertFirstCurrency = `
+INSERT INTO currency (
+	name,
+	exchange_rate,
+	created_by,
+	updated_by
+) VALUES (
+	'BDT',
+	1,
+	'a67dc254-7410-4394-8b53-eb148eab0477',
+	'a67dc254-7410-4394-8b53-eb148eab0477'
+) RETURNING
+	id;
+`
+
+func InsertDemoData() {
 	configPath := flag.String("config", "env/config.yaml", "config file")
 
 	config := viper.NewWithOptions(
@@ -55,6 +70,10 @@ func CreateFirstUser() {
 		log.Fatal(err)
 	}
 	_, err = db.Exec(insertFirstUser, config.GetString("admin.name"), config.GetString("admin.batch"), config.GetString("admin.email"), passByte)
+	if err != nil {
+		log.Fatalf("failed to insert user: %v", err)
+	}
+	_, err = db.Exec(insertFirstCurrency)
 	if err != nil {
 		log.Fatalf("failed to insert user: %v", err)
 	}
