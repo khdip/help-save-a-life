@@ -54,7 +54,7 @@ func (c Collection) Validate(h *Handler) error {
 		validation.Field(&c.Amount,
 			validation.Required.Error("Amount field can not be empty"),
 		),
-		validation.Field(&c.Amount,
+		validation.Field(&c.Currency,
 			validation.Required.Error("Currency field can not be empty"),
 		),
 	)
@@ -168,6 +168,7 @@ func (h *Handler) updateCollection(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	coll.CollectionID = id
 
 	if err := coll.Validate(h); err != nil {
 		vErrs := map[string]string{}

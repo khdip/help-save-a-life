@@ -144,6 +144,7 @@ func (h *Handler) updateCurrency(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	curr.ID = id
 
 	if err := curr.Validate(h); err != nil {
 		vErrs := map[string]string{}

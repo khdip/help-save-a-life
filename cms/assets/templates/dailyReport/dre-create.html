@@ -16,21 +16,22 @@
                 <form method="post" action="{{.URLs.dreStore}}">
                     <div class="mb-3">
                         <label class="form-label">Date*</label>
-                        <input type="date" class="form-control" name="Date" required>
+                        <input type="date" class="form-control" name="Date" value="{{.Dre.Date}}">
+                        <p class="text-danger">{{.FormErrors.Date}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Amount*</label>
-                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" required>
+                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" value="{{.Dre.Amount}}">
+                        <p class="text-danger">{{.FormErrors.Amount}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Currency</label>
                         <select class="form-select" name="Currency">
-                            <option selected value="BDT">BDT</option>
-                            <option value="AUD">AUD</option>
-                            <option value="USD">USD</option>
-                            <option value="EURO">EURO</option>
-                            <option value="POUND">POUND</option>
+                            {{range .Currencies}}
+                            <option {{if eq .ID $.Dre.Currency}}selected{{end}} value="{{.ID}}">{{.Name}}</option>
+                            {{end}}
                         </select>
+                        <p class="text-danger">{{.FormErrors.Currency}}</p>
                     </div>
                     <a class="btn btn-primary" href="{{.URLs.dreList}}">Back to List</a>
                     <button type="submit" class="btn btn-success float-end">Create</button>

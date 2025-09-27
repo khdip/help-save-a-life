@@ -24,30 +24,35 @@
                             <option {{if eq .Coll.AccountType "Upay"}}selected {{end}} value="Upay">Upay</option>
                             <option {{if eq .Coll.AccountType "Cash"}}selected {{end}} value="Cash">Cash</option>
                         </select>
+                        <p class="text-danger">{{.FormErrors.AccountType}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Account Number*</label>
-                        <input type="text" class="form-control" name="AccountNumber" placeholder="Enter donor account number" value="{{.Coll.AccountNumber}}" required>
+                        <input type="text" class="form-control" name="AccountNumber" placeholder="Enter donor account number" value="{{.Coll.AccountNumber}}">
+                        <p class="text-danger">{{.FormErrors.AccountNumber}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Sender</label>
-                        <input type="text" class="form-control" name="Sender" placeholder="Enter sender's name" value="{{.Coll.Sender}}" required>
+                        <input type="text" class="form-control" name="Sender" placeholder="Enter sender's name" value="{{.Coll.Sender}}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Date*</label>
                         <input type="date" class="form-control" name="Date" value="{{.Coll.Date}}">
+                        <p class="text-danger">{{.FormErrors.Date}}</p>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Amount*</label>
-                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" value="{{.Coll.Amount}}" required>
+                        <input type="number" class="form-control" name="Amount" placeholder="Enter amount" value="{{.Coll.Amount}}">
+                        <p class="text-danger">{{.FormErrors.Amount}}</p>
                     </div>
                      <div class="mb-3">
                         <label class="form-label">Currency</label>
                         <select class="form-select" name="Currency">
-                            {{range .Currences}}
+                            {{range .Currencies}}
                             <option {{if eq .ID $.Coll.Currency}}selected{{end}} value="{{.ID}}">{{.Name}}</option>
                             {{end}}
                         </select>
+                        <p class="text-danger">{{.FormErrors.Currency}}</p>
                     </div>
                     <a class="btn btn-primary" href="{{.URLs.collList}}">Back to List</a>
                     <button type="submit" class="btn btn-success float-end">Update</button>

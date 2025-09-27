@@ -33,7 +33,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Sender</label>
-                        <input type="text" class="form-control" name="Sender" placeholder="Enter sender's name">
+                        <input type="text" class="form-control" name="Sender" placeholder="Enter sender's name" value="{{.Coll.Sender}}">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Date*</label>
@@ -52,6 +52,7 @@
                             <option {{if eq .ID $.Coll.Currency}}selected{{end}} value="{{.ID}}">{{.Name}}</option>
                             {{end}}
                         </select>
+                        <p class="text-danger">{{.FormErrors.Currency}}</p>
                     </div>
                     <a class="btn btn-primary" href="{{.URLs.collList}}">Back to List</a>
                     <button type="submit" class="btn btn-success float-end">Create</button>

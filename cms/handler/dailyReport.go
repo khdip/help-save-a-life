@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"time"
 
+	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"
 )
 
@@ -27,15 +28,37 @@ type DailyReport struct {
 type DreTemplateData struct {
 	Dre            DailyReport
 	List           []DailyReport
+	Currencies     []Currency
 	Paginator      paginator.Paginator
 	FilterData     Filter
 	URLs           map[string]string
 	Message        map[string]string
+	FormErrors     map[string]string
 	CurrentPageURL string
 }
 
+func (d DailyReport) Validate(h *Handler) error {
+	return validation.ValidateStruct(&d,
+		validation.Field(&d.Date,
+			validation.Required.Error("Date field can not be empty"),
+		),
+		validation.Field(&d.Amount,
+			validation.Required.Error("Amount field can not be empty"),
+		),
+		validation.Field(&d.Currency,
+			validation.Required.Error("Currency field can not be empty"),
+		),
+	)
+}
+
 func (h *Handler) createDailyReport(w http.ResponseWriter, r *http.Request) {
-	h.loadDailyReportCreateForm(w, DailyReport{})
+	data := DreTemplateData{
+		Dre:            DailyReport{},
+		Currencies:     h.getCurrencyList(w, r),
+		URLs:           listOfURLs(),
+		CurrentPageURL: dailyReportListPath,
+	}
+	h.loadDailyReportCreateForm(w, data)
 }
 
 func (h *Handler) storeDailyReport(w http.ResponseWriter, r *http.Request) {
@@ -49,6 +72,26 @@ func (h *Handler) storeDailyReport(w http.ResponseWriter, r *http.Request) {
 	err = h.decoder.Decode(&dre, r.PostForm)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := dre.Validate(h); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := DreTemplateData{
+			Dre:            dre,
+			Currencies:     h.getCurrencyList(w, r),
+			FormErrors:     vErrs,
+			URLs:           listOfURLs(),
+			CurrentPageURL: dailyReportListPath,
+		}
+		h.loadDailyReportCreateForm(w, data)
 		return
 	}
 
@@ -82,11 +125,16 @@ func (h *Handler) editDailyReport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.loadDailyReportEditForm(w, DailyReport{
-		ReportID: res.Dre.ReportID,
-		Date:     res.Dre.Date,
-		Amount:   res.Dre.Amount,
-		Currency: res.Dre.Currency,
+	h.loadDailyReportEditForm(w, DreTemplateData{
+		Dre: DailyReport{
+			ReportID: res.Dre.ReportID,
+			Date:     res.Dre.Date,
+			Amount:   res.Dre.Amount,
+			Currency: res.Dre.Currency,
+		},
+		Currencies:     h.getCurrencyList(w, r),
+		URLs:           listOfURLs(),
+		CurrentPageURL: dailyReportListPath,
 	})
 }
 
@@ -103,6 +151,27 @@ func (h *Handler) updateDailyReport(w http.ResponseWriter, r *http.Request) {
 	var dre DailyReport
 	if err := h.decoder.Decode(&dre, r.PostForm); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	dre.ReportID = id
+
+	if err := dre.Validate(h); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := DreTemplateData{
+			Dre:            dre,
+			Currencies:     h.getCurrencyList(w, r),
+			FormErrors:     vErrs,
+			URLs:           listOfURLs(),
+			CurrentPageURL: dailyReportListPath,
+		}
+		h.loadDailyReportEditForm(w, data)
 		return
 	}
 
@@ -150,6 +219,7 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
+	currencyList := h.getCurrencyListMap(w, r)
 	drList := make([]DailyReport, 0, len(drlst.GetDre()))
 	for _, item := range drlst.GetDre() {
 		drData := DailyReport{
@@ -157,7 +227,7 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 			SerialNumber: item.SerialNumber,
 			Date:         item.Date,
 			Amount:       item.Amount,
-			Currency:     item.Currency,
+			Currency:     currencyList[item.Currency],
 			CreatedAt:    item.CreatedAt.AsTime(),
 			CreatedBy:    item.CreatedBy,
 			UpdatedAt:    item.UpdatedAt.AsTime(),
@@ -223,7 +293,7 @@ func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 			SerialNumber: res.Dre.SerialNumber,
 			Date:         res.Dre.Date,
 			Amount:       res.Dre.Amount,
-			Currency:     res.Dre.Currency,
+			Currency:     h.getCurrencyListMap(w, r)[res.Dre.Currency],
 			CreatedAt:    res.Dre.CreatedAt.AsTime(),
 			CreatedBy:    res.Dre.CreatedBy,
 			UpdatedAt:    res.Dre.UpdatedAt.AsTime(),
@@ -256,28 +326,16 @@ func (h *Handler) deleteDailyReport(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, dailyReportListPath, http.StatusSeeOther)
 }
 
-func (h *Handler) loadDailyReportCreateForm(w http.ResponseWriter, dre DailyReport) {
-	form := DreTemplateData{
-		Dre:            dre,
-		URLs:           listOfURLs(),
-		CurrentPageURL: dailyReportListPath,
-	}
-
-	err := h.templates.ExecuteTemplate(w, "dre-create.html", form)
+func (h *Handler) loadDailyReportCreateForm(w http.ResponseWriter, data DreTemplateData) {
+	err := h.templates.ExecuteTemplate(w, "dre-create.html", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
-func (h *Handler) loadDailyReportEditForm(w http.ResponseWriter, dre DailyReport) {
-	form := DreTemplateData{
-		Dre:            dre,
-		URLs:           listOfURLs(),
-		CurrentPageURL: dailyReportListPath,
-	}
-
-	err := h.templates.ExecuteTemplate(w, "dre-edit.html", form)
+func (h *Handler) loadDailyReportEditForm(w http.ResponseWriter, data DreTemplateData) {
+	err := h.templates.ExecuteTemplate(w, "dre-edit.html", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

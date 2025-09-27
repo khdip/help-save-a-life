@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"context"
+	"fmt"
 	"help-save-a-life/cms/paginator"
 	"log"
 	"net/http"
@@ -8,22 +10,25 @@ import (
 
 	usergrpc "help-save-a-life/proto/users"
 
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation/is"
 	"github.com/gorilla/mux"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type User struct {
-	UserID    string
-	Name      string
-	Batch     int32
-	Email     string
-	Password  string
-	CreatedAt time.Time
-	CreatedBy string
-	UpdatedAt time.Time
-	UpdatedBy string
-	DeletedAt time.Time
-	DeletedBy string
+	UserID       string
+	SerialNumber int32
+	Name         string
+	Batch        int32
+	Email        string
+	Password     string
+	CreatedAt    time.Time
+	CreatedBy    string
+	UpdatedAt    time.Time
+	UpdatedBy    string
+	DeletedAt    time.Time
+	DeletedBy    string
 }
 
 type UserTemplateData struct {
@@ -33,11 +38,34 @@ type UserTemplateData struct {
 	FilterData     Filter
 	URLs           map[string]string
 	Message        map[string]string
+	FormErrors     map[string]string
 	CurrentPageURL string
 }
 
+func (u User) Validate(h *Handler, id string) error {
+	return validation.ValidateStruct(&u,
+		validation.Field(&u.Name,
+			validation.Required.Error("Name field can not be empty"),
+		),
+		validation.Field(&u.Email,
+			validation.Required.Error("Email field can not be empty"),
+			is.Email,
+			validateEmployeeEmail(h, u.Email, id),
+		),
+		validation.Field(&u.Password,
+			validation.Required.Error("Password field can not be empty"),
+			validation.Length(6, 20).Error("Password must be between 6 to 20 characters"),
+		),
+	)
+}
+
 func (h *Handler) createUser(w http.ResponseWriter, r *http.Request) {
-	h.loadUserCreateForm(w, User{})
+	data := UserTemplateData{
+		User:           User{},
+		URLs:           listOfURLs(),
+		CurrentPageURL: userListPath,
+	}
+	h.loadUserCreateForm(w, data)
 }
 
 func (h *Handler) storeUser(w http.ResponseWriter, r *http.Request) {
@@ -51,6 +79,25 @@ func (h *Handler) storeUser(w http.ResponseWriter, r *http.Request) {
 	err = h.decoder.Decode(&usr, r.PostForm)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := usr.Validate(h, ""); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := UserTemplateData{
+			User:           usr,
+			FormErrors:     vErrs,
+			URLs:           listOfURLs(),
+			CurrentPageURL: userListPath,
+		}
+		h.loadUserCreateForm(w, data)
 		return
 	}
 
@@ -90,11 +137,15 @@ func (h *Handler) editUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.loadUserEditForm(w, User{
-		UserID: res.User.UserID,
-		Name:   res.User.Name,
-		Batch:  res.User.Batch,
-		Email:  res.User.Email,
+	h.loadUserEditForm(w, UserTemplateData{
+		User: User{
+			UserID: res.User.UserID,
+			Name:   res.User.Name,
+			Batch:  res.User.Batch,
+			Email:  res.User.Email,
+		},
+		URLs:           listOfURLs(),
+		CurrentPageURL: userListPath,
 	})
 }
 
@@ -111,6 +162,26 @@ func (h *Handler) updateUser(w http.ResponseWriter, r *http.Request) {
 	var usr User
 	if err := h.decoder.Decode(&usr, r.PostForm); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	usr.UserID = id
+
+	if err := usr.Validate(h, id); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := UserTemplateData{
+			User:           usr,
+			FormErrors:     vErrs,
+			URLs:           listOfURLs(),
+			CurrentPageURL: userListPath,
+		}
+		h.loadUserEditForm(w, data)
 		return
 	}
 
@@ -167,14 +238,15 @@ func (h *Handler) listUser(w http.ResponseWriter, r *http.Request) {
 	userList := make([]User, 0, len(usrlst.GetUser()))
 	for _, item := range usrlst.GetUser() {
 		usrData := User{
-			UserID:    item.UserID,
-			Name:      item.Name,
-			Batch:     item.Batch,
-			Email:     item.Email,
-			CreatedAt: item.CreatedAt.AsTime(),
-			CreatedBy: item.CreatedBy,
-			UpdatedAt: item.UpdatedAt.AsTime(),
-			UpdatedBy: item.UpdatedBy,
+			UserID:       item.UserID,
+			SerialNumber: item.SerialNumber,
+			Name:         item.Name,
+			Batch:        item.Batch,
+			Email:        item.Email,
+			CreatedAt:    item.CreatedAt.AsTime(),
+			CreatedBy:    item.CreatedBy,
+			UpdatedAt:    item.UpdatedAt.AsTime(),
+			UpdatedBy:    item.UpdatedBy,
 		}
 		userList = append(userList, usrData)
 	}
@@ -232,14 +304,15 @@ func (h *Handler) viewUser(w http.ResponseWriter, r *http.Request) {
 
 	data := UserTemplateData{
 		User: User{
-			UserID:    id,
-			Name:      res.User.Name,
-			Batch:     res.User.Batch,
-			Email:     res.User.Email,
-			CreatedAt: res.User.CreatedAt.AsTime(),
-			CreatedBy: res.User.CreatedBy,
-			UpdatedAt: res.User.UpdatedAt.AsTime(),
-			UpdatedBy: res.User.UpdatedBy,
+			UserID:       id,
+			SerialNumber: res.User.SerialNumber,
+			Name:         res.User.Name,
+			Batch:        res.User.Batch,
+			Email:        res.User.Email,
+			CreatedAt:    res.User.CreatedAt.AsTime(),
+			CreatedBy:    res.User.CreatedBy,
+			UpdatedAt:    res.User.UpdatedAt.AsTime(),
+			UpdatedBy:    res.User.UpdatedBy,
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: userListPath,
@@ -268,32 +341,36 @@ func (h *Handler) deleteUser(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, userListPath, http.StatusSeeOther)
 }
 
-func (h *Handler) loadUserCreateForm(w http.ResponseWriter, usr User) {
-	form := UserTemplateData{
-		User:           usr,
-		URLs:           listOfURLs(),
-		CurrentPageURL: userListPath,
-	}
-
-	err := h.templates.ExecuteTemplate(w, "user-create.html", form)
+func (h *Handler) loadUserCreateForm(w http.ResponseWriter, data UserTemplateData) {
+	err := h.templates.ExecuteTemplate(w, "user-create.html", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 }
 
-func (h *Handler) loadUserEditForm(w http.ResponseWriter, usr User) {
-	form := UserTemplateData{
-		User:           usr,
-		URLs:           listOfURLs(),
-		CurrentPageURL: userListPath,
-	}
-
-	err := h.templates.ExecuteTemplate(w, "user-edit.html", form)
+func (h *Handler) loadUserEditForm(w http.ResponseWriter, data UserTemplateData) {
+	err := h.templates.ExecuteTemplate(w, "user-edit.html", data)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func validateEmployeeEmail(h *Handler, value string, id string) validation.Rule {
+	return validation.By(func(interface{}) error {
+		EmailExist, _ := h.uc.GetUser(context.Background(), &usergrpc.GetUserRequest{
+			User: &usergrpc.User{
+				Email: value,
+			},
+		})
+		if EmailExist != nil {
+			if EmailExist.User.UserID != id {
+				return fmt.Errorf(" This email already exists")
+			}
+		}
+		return nil
+	})
 }
 
 func (h *Handler) getName(w http.ResponseWriter, r *http.Request, userid string) string {

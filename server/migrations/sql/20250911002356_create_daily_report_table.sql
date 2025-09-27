@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS daily_report
     serial_number               SERIAL,
     date                        VARCHAR(100) NOT NULL DEFAULT '', 
     amount                      INT NOT NULL DEFAULT 0,
-    currency                    VARCHAR(10) NOT NULL DEFAULT 'BDT',
+    currency                    VARCHAR(100) NOT NULL DEFAULT '',
     created_at                  TIMESTAMP    DEFAULT current_timestamp,
     created_by                  VARCHAR(100) NOT NULL DEFAULT '',
     updated_at                  TIMESTAMP    DEFAULT current_timestamp,
