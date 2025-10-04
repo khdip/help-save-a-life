@@ -1,12 +1,15 @@
 package handler
 
 import (
+	"encoding/json"
 	"help-save-a-life/cms/paginator"
 	commgrpc "help-save-a-life/proto/comments"
 	"log"
 	"net/http"
 	"time"
 
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation/is"
 	"github.com/gorilla/mux"
 )
 
@@ -26,20 +29,53 @@ type CommTemplateData struct {
 	FilterData     Filter
 	URLs           map[string]string
 	Message        map[string]string
+	FormErrors     map[string]string
 	CurrentPageURL string
 }
 
+func (c Comment) Validate(h *Handler) error {
+	return validation.ValidateStruct(&c,
+		validation.Field(&c.Name,
+			validation.Required.Error("Name field can not be empty"),
+			validation.Length(1, 50).Error("Name field can not contain more than 50 characters"),
+		),
+		validation.Field(&c.Email,
+			validation.Required.Error("Email field can not be empty"),
+			is.Email,
+		),
+		validation.Field(&c.Comment,
+			validation.Required.Error("Comment field can not be empty"),
+		),
+	)
+}
+
 func (h *Handler) storeComment(w http.ResponseWriter, r *http.Request) {
-	err := r.ParseForm()
+	err := r.ParseMultipartForm(10 << 20)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	var comm Comment
-	err = h.decoder.Decode(&comm, r.PostForm)
+	err = h.decoder.Decode(&comm, r.MultipartForm.Value)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := comm.Validate(h); err != nil {
+		vErrs := map[string]string{}
+		if err, ok := (err).(validation.Errors); ok {
+			if len(err) > 0 {
+				for k, v := range err {
+					vErrs[k] = v.Error()
+				}
+			}
+		}
+		data := CommTemplateData{
+			FormErrors: vErrs,
+		}
+		json.NewEncoder(w).Encode(data)
 		return
 	}
 
@@ -54,7 +90,11 @@ func (h *Handler) storeComment(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	http.Redirect(w, r, homePath, http.StatusTemporaryRedirect)
+
+	data := CollTemplateData{
+		Message: map[string]string{"SuccessMessage": "Thank you for contacting us. We will reach out to you via email soon."},
+	}
+	json.NewEncoder(w).Encode(data)
 }
 
 func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {

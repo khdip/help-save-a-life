@@ -219,18 +219,21 @@
                 <div class="d-block">
                     <h2 class="mb-4 text-center text-success">CONTACT US</h2>
                     <p class="text-center mb-4">If you have any questions, feedback, suggestions or complaints, please feel free to reach out to us</p>
-                    <form method="POST" action="{{.URLs.commStore}}">
+                    <form id="contactForm" method="POST" action="{{.URLs.commStore}}">
                         <div class="mb-3">
                             <label for="nameInput" class="form-label">Name*</label>
-                            <input type="text" name="Name" class="form-control border-success" placeholder="Please enter your name" id="nameInput" aria-describedby="nameHelp" required>
+                            <input type="text" name="Name" class="form-control border-success" placeholder="Please enter your name" id="nameInput" aria-describedby="nameHelp">
+                            <span id="nameError" class="error text-danger"></span>
                         </div>
                         <div class="mb-3">
                             <label for="emailInput" class="form-label">Email address*</label>
-                            <input type="email" name="Email" class="form-control border-success" placeholder="Please enter your email address" id="emailInput" aria-describedby="emailHelp" required>
+                            <input type="email" name="Email" class="form-control border-success" placeholder="Please enter your email address" id="emailInput" aria-describedby="emailHelp">
+                            <span id="emailError" class="error text-danger"></span>
                         </div>
                         <div class="mb-3">
                             <label for="inputText" class="form-label">Your comment*</label>
                             <textarea name="Comment" class="form-control border-success" id="inputText" rows="3" placeholder="Leave a comment..."></textarea>
+                            <span id="commentError" class="error text-danger"></span>
                         </div>
                         <div class="d-flex justify-content-center">
                             <button type="submit" class="btn btn-success">Submit</button>
@@ -238,6 +241,11 @@
                     </form>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body text-light" id="formMessage"></div>
         </div>
     </div>
     <div class="container-fluid p-4 bg-gray">
@@ -262,4 +270,5 @@
     </div>
 </body>
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/custom.js"></script>
 </html>
