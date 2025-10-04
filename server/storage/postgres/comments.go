@@ -76,3 +76,17 @@ func (s *Storage) ListComment(ctx context.Context, f storage.Filter) ([]storage.
 
 	return comm, nil
 }
+
+func (s *Storage) CommentStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
+	var commStat = fmt.Sprintf("SELECT COUNT(*) FROM comments WHERE name ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
+	var stat storage.Stats
+	if err := s.db.Get(&stat, commStat); err != nil {
+		fmt.Println(err)
+		if err == sql.ErrNoRows {
+			return storage.Stats{}, err
+		}
+		return storage.Stats{}, err
+	}
+
+	return stat, nil
+}

@@ -13,6 +13,7 @@ type CommentStore interface {
 	CreateComment(ctx context.Context, cst storage.Comment) (string, error)
 	GetComment(ctx context.Context, cst storage.Comment) (*storage.Comment, error)
 	ListComment(ctx context.Context, flt storage.Filter) ([]storage.Comment, error)
+	CommentStats(ctx context.Context, flt storage.Filter) (storage.Stats, error)
 }
 
 type Svc struct {

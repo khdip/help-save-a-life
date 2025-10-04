@@ -134,6 +134,20 @@ func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {
 		commList = append(commList, cData)
 	}
 
+	commstat, err := h.cmc.CommentStats(r.Context(), &commgrpc.CommentStatsRequest{
+		Filter: &commgrpc.Filter{
+			Offset:     filterData.Offset,
+			Limit:      limitPerPage,
+			SortBy:     filterData.SortBy,
+			Order:      filterData.Order,
+			SearchTerm: filterData.SearchTerm,
+		},
+	})
+	if err != nil {
+		log.Println("unable to get stats: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
 	msg := map[string]string{}
 	if filterData.SearchTerm != "" && len(clst.GetComm()) > 0 {
 		msg = map[string]string{"FoundMessage": "Data Found"}
@@ -148,7 +162,7 @@ func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {
 		CurrentPageURL: commentListPath,
 	}
 	if len(commList) > 0 {
-		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, int32(len(commList)), r)
+		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, commstat.Stats.Count, r)
 	}
 
 	if err := template.Execute(w, data); err != nil {

@@ -22,6 +22,7 @@ const (
 	CommentService_CreateComment_FullMethodName = "/comments.CommentService/CreateComment"
 	CommentService_GetComment_FullMethodName    = "/comments.CommentService/GetComment"
 	CommentService_ListComment_FullMethodName   = "/comments.CommentService/ListComment"
+	CommentService_CommentStats_FullMethodName  = "/comments.CommentService/CommentStats"
 )
 
 // CommentServiceClient is the client API for CommentService service.
@@ -31,6 +32,7 @@ type CommentServiceClient interface {
 	CreateComment(ctx context.Context, in *CreateCommentRequest, opts ...grpc.CallOption) (*CreateCommentResponse, error)
 	GetComment(ctx context.Context, in *GetCommentRequest, opts ...grpc.CallOption) (*GetCommentResponse, error)
 	ListComment(ctx context.Context, in *ListCommentRequest, opts ...grpc.CallOption) (*ListCommentResponse, error)
+	CommentStats(ctx context.Context, in *CommentStatsRequest, opts ...grpc.CallOption) (*CommentStatsResponse, error)
 }
 
 type commentServiceClient struct {
@@ -71,6 +73,16 @@ func (c *commentServiceClient) ListComment(ctx context.Context, in *ListCommentR
 	return out, nil
 }
 
+func (c *commentServiceClient) CommentStats(ctx context.Context, in *CommentStatsRequest, opts ...grpc.CallOption) (*CommentStatsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CommentStatsResponse)
+	err := c.cc.Invoke(ctx, CommentService_CommentStats_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CommentServiceServer is the server API for CommentService service.
 // All implementations must embed UnimplementedCommentServiceServer
 // for forward compatibility.
@@ -78,6 +90,7 @@ type CommentServiceServer interface {
 	CreateComment(context.Context, *CreateCommentRequest) (*CreateCommentResponse, error)
 	GetComment(context.Context, *GetCommentRequest) (*GetCommentResponse, error)
 	ListComment(context.Context, *ListCommentRequest) (*ListCommentResponse, error)
+	CommentStats(context.Context, *CommentStatsRequest) (*CommentStatsResponse, error)
 	mustEmbedUnimplementedCommentServiceServer()
 }
 
@@ -96,6 +109,9 @@ func (UnimplementedCommentServiceServer) GetComment(context.Context, *GetComment
 }
 func (UnimplementedCommentServiceServer) ListComment(context.Context, *ListCommentRequest) (*ListCommentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListComment not implemented")
+}
+func (UnimplementedCommentServiceServer) CommentStats(context.Context, *CommentStatsRequest) (*CommentStatsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CommentStats not implemented")
 }
 func (UnimplementedCommentServiceServer) mustEmbedUnimplementedCommentServiceServer() {}
 func (UnimplementedCommentServiceServer) testEmbeddedByValue()                        {}
@@ -172,6 +188,24 @@ func _CommentService_ListComment_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CommentService_CommentStats_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CommentStatsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CommentServiceServer).CommentStats(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: CommentService_CommentStats_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CommentServiceServer).CommentStats(ctx, req.(*CommentStatsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CommentService_ServiceDesc is the grpc.ServiceDesc for CommentService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -190,6 +224,10 @@ var CommentService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListComment",
 			Handler:    _CommentService_ListComment_Handler,
+		},
+		{
+			MethodName: "CommentStats",
+			Handler:    _CommentService_CommentStats_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
