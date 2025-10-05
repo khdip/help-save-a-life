@@ -308,6 +308,7 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	users := h.getUserListMap(w, r)
 	data := CollTemplateData{
 		Coll: Collection{
 			CollectionID:  res.Coll.CollectionID,
@@ -319,9 +320,9 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 			Amount:        res.Coll.Amount,
 			Currency:      h.getCurrencyListMap(w, r)[res.Coll.Currency],
 			CreatedAt:     res.Coll.CreatedAt.AsTime(),
-			CreatedBy:     res.Coll.CreatedBy,
+			CreatedBy:     users[res.Coll.CreatedBy],
 			UpdatedAt:     res.Coll.UpdatedAt.AsTime(),
-			UpdatedBy:     res.Coll.UpdatedBy,
+			UpdatedBy:     users[res.Coll.UpdatedBy],
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,

@@ -301,7 +301,7 @@ func (h *Handler) viewUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	users := h.getUserListMap(w, r)
 	data := UserTemplateData{
 		User: User{
 			UserID:       id,
@@ -310,9 +310,9 @@ func (h *Handler) viewUser(w http.ResponseWriter, r *http.Request) {
 			Batch:        res.User.Batch,
 			Email:        res.User.Email,
 			CreatedAt:    res.User.CreatedAt.AsTime(),
-			CreatedBy:    res.User.CreatedBy,
+			CreatedBy:    users[res.User.CreatedBy],
 			UpdatedAt:    res.User.UpdatedAt.AsTime(),
-			UpdatedBy:    res.User.UpdatedBy,
+			UpdatedBy:    users[res.User.UpdatedBy],
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: userListPath,
@@ -373,15 +373,18 @@ func validateEmployeeEmail(h *Handler, value string, id string) validation.Rule 
 	})
 }
 
-func (h *Handler) getName(w http.ResponseWriter, r *http.Request, userid string) string {
-	res, err := h.uc.GetUser(r.Context(), &usergrpc.GetUserRequest{
-		User: &usergrpc.User{
-			UserID: userid,
-		},
+func (h *Handler) getUserListMap(w http.ResponseWriter, r *http.Request) map[string]string {
+	ulst, err := h.uc.ListUser(r.Context(), &usergrpc.ListUserRequest{
+		Filter: &usergrpc.Filter{},
 	})
 	if err != nil {
-		log.Println("unable to get user info: ", err)
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println("unable to get list: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
-	return res.User.Name
+
+	userList := make(map[string]string, len(ulst.GetUser()))
+	for _, item := range ulst.GetUser() {
+		userList[item.UserID] = item.Name
+	}
+	return userList
 }

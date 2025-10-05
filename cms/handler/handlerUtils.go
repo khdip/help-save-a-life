@@ -26,8 +26,11 @@ type Filter struct {
 }
 
 func hideDigits(s string) string {
-	modifiedStr := s[:len(s)-4]
-	return modifiedStr + "****"
+	modifiedStr := s
+	if len(s) > 5 {
+		modifiedStr = s[:len(s)-4] + "****"
+	}
+	return modifiedStr
 }
 
 func formatWithCommas(number int32) string {

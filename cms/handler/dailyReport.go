@@ -286,7 +286,7 @@ func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	users := h.getUserListMap(w, r)
 	data := DreTemplateData{
 		Dre: DailyReport{
 			ReportID:     res.Dre.ReportID,
@@ -295,9 +295,9 @@ func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 			Amount:       res.Dre.Amount,
 			Currency:     h.getCurrencyListMap(w, r)[res.Dre.Currency],
 			CreatedAt:    res.Dre.CreatedAt.AsTime(),
-			CreatedBy:    res.Dre.CreatedBy,
+			CreatedBy:    users[res.Dre.CreatedBy],
 			UpdatedAt:    res.Dre.UpdatedAt.AsTime(),
-			UpdatedBy:    res.Dre.UpdatedBy,
+			UpdatedBy:    users[res.Dre.UpdatedBy],
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: dailyReportListPath,

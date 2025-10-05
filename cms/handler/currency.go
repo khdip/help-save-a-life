@@ -267,7 +267,7 @@ func (h *Handler) viewCurrency(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
+	users := h.getUserListMap(w, r)
 	data := CurrencyTemplateData{
 		Curr: Currency{
 			ID:           res.Curr.ID,
@@ -275,9 +275,9 @@ func (h *Handler) viewCurrency(w http.ResponseWriter, r *http.Request) {
 			Name:         res.Curr.Name,
 			ExchangeRate: res.Curr.ExchangeRate,
 			CreatedAt:    res.Curr.CreatedAt.AsTime(),
-			CreatedBy:    res.Curr.CreatedBy,
+			CreatedBy:    users[res.Curr.CreatedBy],
 			UpdatedAt:    res.Curr.UpdatedAt.AsTime(),
-			UpdatedBy:    res.Curr.UpdatedBy,
+			UpdatedBy:    users[res.Curr.UpdatedBy],
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: currencyListPath,
