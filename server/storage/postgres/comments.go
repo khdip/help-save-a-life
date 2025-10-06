@@ -50,8 +50,8 @@ func (s *Storage) GetComment(ctx context.Context, comm storage.Comment) (*storag
 
 func (s *Storage) ListComment(ctx context.Context, f storage.Filter) ([]storage.Comment, error) {
 	var comm []storage.Comment
-	order := "DESC"
-	sortBy := "created_at"
+	order := "ASC"
+	sortBy := "serial_number"
 
 	if f.Order != "" {
 		order = f.Order
@@ -65,7 +65,7 @@ func (s *Storage) ListComment(ctx context.Context, f storage.Filter) ([]storage.
 		limit = fmt.Sprintf(" LIMIT NULLIF(%d, 0) OFFSET %d;", f.Limit, f.Offset)
 	}
 
-	listColl := fmt.Sprintf("SELECT * FROM comments WHERE name ILIKE '%%' || '%s' || '%%' ORDER BY %s %s", f.SearchTerm, sortBy, order)
+	listColl := fmt.Sprintf("SELECT * FROM comments WHERE name ILIKE '%%' || '%s' || '%%' OR email ILIKE '%%' || '%s' || '%%' OR comment ILIKE '%%' || '%s' || '%%' ORDER BY %s %s", f.SearchTerm, f.SearchTerm, f.SearchTerm, sortBy, order)
 	fullQuery := listColl + limit
 	if err := s.db.Select(&comm, fullQuery); err != nil {
 		if err == sql.ErrNoRows {
@@ -78,7 +78,7 @@ func (s *Storage) ListComment(ctx context.Context, f storage.Filter) ([]storage.
 }
 
 func (s *Storage) CommentStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
-	var commStat = fmt.Sprintf("SELECT COUNT(*) FROM comments WHERE name ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
+	var commStat = fmt.Sprintf("SELECT COUNT(*) FROM comments WHERE name ILIKE '%%' || '%s' || '%%' OR email ILIKE '%%' || '%s' || '%%' OR comment ILIKE '%%' || '%s' || '%%';", f.SearchTerm, f.SearchTerm, f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, commStat); err != nil {
 		fmt.Println(err)

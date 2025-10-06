@@ -12,38 +12,35 @@
     <div class="container-fluid">
         <h2 class="p-2 text-center">Collection List</h2>
         <div class="row p-2 justify-content-between">
-            <!-- <div class="col-md-3">
-                <form action="/collection/sort" method="GET">
+            <div class="col-md-3">
+                <form action="/collection" method="GET">
                     <div class="input-group mb-3">
                         <select class="form-select" name="SortBy">
-                            <option selected>Sort By</option>
-                            <option value="account_type">Account Type</option>
-                            <option value="account_number">Account Number</option>
-                            <option value="sender">Sender</option>
-                            <option value="date">Date</option>
-                            <option value="amount">Amount</option>
-                            <option value="created_at">Created At</option>
-                            <option value="created_by">Created By</option>
-                            <option value="updated_at">Updated At</option>
-                            <option value="updated_by">Updated By</option>
+                            <option {{if eq .FilterData.SortBy "serial_number"}} selected {{end}} value="serial_number">Serial</option>
+                            <option {{if eq .FilterData.SortBy "account_type"}} selected {{end}} value="account_type">Account Type</option>
+                            <option {{if eq .FilterData.SortBy "account_number"}} selected {{end}} value="account_number">Account Number</option>
+                            <option {{if eq .FilterData.SortBy "sender"}} selected {{end}} value="sender">Sender</option>
+                            <option {{if eq .FilterData.SortBy "date"}} selected {{end}} value="date">Date</option>
+                            <option {{if eq .FilterData.SortBy "amount"}} selected {{end}} value="amount">Amount</option>
+                            <option {{if eq .FilterData.SortBy "created_at"}} selected {{end}} value="created_at">Created At</option>
+                            <option {{if eq .FilterData.SortBy "updated_at"}} selected {{end}} value="updated_at">Updated At</option>
                         </select>
                         <select class="form-select" name="Order">
-                            <option selected>Order</option>
-                            <option value="ASC">A to Z</option>
-                            <option value="DESC">Z to A</option>
+                            <option {{if eq .FilterData.Order "ASC"}} selected {{end}} value="ASC">A to Z</option>
+                            <option {{if eq .FilterData.Order "DESC"}} selected {{end}} value="DESC">Z to A</option>
                         </select>
                         <button type="submit" class="btn btn-success">Filter</button>
                     </div>
                 </form>
-            </div> -->
-            <!-- <div class="col-md-4">
-                <form action="/collection/search" method="GET">
+            </div>
+            <div class="col-md-4">
+                <form action="/collection" method="GET">
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" placeholder="Search ..." name="SearchTerm">
+                        <input type="text" class="form-control" placeholder="Search ..." name="SearchTerm" value="{{.FilterData.SearchTerm}}">
                         <button type="submit" class="btn btn-success">Search</button>
                     </div>
                 </form>
-            </div> -->
+            </div>
             <div class="col-md-2">
                 <a class="btn btn-success" href="{{.URLs.collCreate}}">+ Add Collection</a>
             </div>

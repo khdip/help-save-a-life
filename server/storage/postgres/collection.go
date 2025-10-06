@@ -113,8 +113,8 @@ func (s *Storage) UpdateCollection(ctx context.Context, coll storage.Collection)
 
 func (s *Storage) ListCollection(ctx context.Context, f storage.Filter) ([]storage.Collection, error) {
 	var coll []storage.Collection
-	order := "DESC"
-	sortBy := "date"
+	order := "ASC"
+	sortBy := "serial_number"
 
 	if f.Order != "" {
 		order = f.Order
@@ -128,7 +128,7 @@ func (s *Storage) ListCollection(ctx context.Context, f storage.Filter) ([]stora
 		limit = fmt.Sprintf(" LIMIT NULLIF(%d, 0) OFFSET %d;", f.Limit, f.Offset)
 	}
 
-	listColl := fmt.Sprintf("SELECT * FROM collection WHERE deleted_at IS NULL AND account_number ILIKE '%%' || '%s' || '%%' ORDER BY %s %s", f.SearchTerm, sortBy, order)
+	listColl := fmt.Sprintf("SELECT * FROM collection WHERE deleted_at IS NULL AND (account_number ILIKE '%%' || '%s' || '%%' OR account_type ILIKE '%%' || '%s' || '%%' OR date ILIKE '%%' || '%s' || '%%' OR sender ILIKE '%%' || '%s' || '%%') ORDER BY %s %s", f.SearchTerm, f.SearchTerm, f.SearchTerm, f.SearchTerm, sortBy, order)
 	fullQuery := listColl + limit
 	if err := s.db.Select(&coll, fullQuery); err != nil {
 		if err == sql.ErrNoRows {
@@ -141,7 +141,7 @@ func (s *Storage) ListCollection(ctx context.Context, f storage.Filter) ([]stora
 }
 
 func (s *Storage) CollectionStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
-	var collStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM collection where deleted_at IS NULL AND account_number ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
+	var collStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM collection where deleted_at IS NULL AND (account_number ILIKE '%%' || '%s' || '%%' OR account_type ILIKE '%%' || '%s' || '%%' OR date ILIKE '%%' || '%s' || '%%' OR sender ILIKE '%%' || '%s' || '%%');", f.SearchTerm, f.SearchTerm, f.SearchTerm, f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, collStat); err != nil {
 		fmt.Println(err)

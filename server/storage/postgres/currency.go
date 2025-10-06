@@ -100,8 +100,8 @@ func (s *Storage) UpdateCurrency(ctx context.Context, curr storage.Currency) (*s
 
 func (s *Storage) ListCurrency(ctx context.Context, f storage.Filter) ([]storage.Currency, error) {
 	var curr []storage.Currency
-	order := "DESC"
-	sortBy := "name"
+	order := "ASC"
+	sortBy := "serial_number"
 
 	if f.Order != "" {
 		order = f.Order
@@ -115,7 +115,7 @@ func (s *Storage) ListCurrency(ctx context.Context, f storage.Filter) ([]storage
 		limit = fmt.Sprintf(" LIMIT NULLIF(%d, 0) OFFSET %d;", f.Limit, f.Offset)
 	}
 
-	listCurr := fmt.Sprintf("SELECT * FROM currency WHERE deleted_at IS NULL AND name ILIKE '%%' || '%s' || '%%' ORDER BY %s %s", f.SearchTerm, sortBy, order)
+	listCurr := fmt.Sprintf("SELECT * FROM currency WHERE deleted_at IS NULL AND (name ILIKE '%%' || '%s' || '%%' OR exchange_rate ILIKE '%%' || '%s' || '%%') ORDER BY %s %s", f.SearchTerm, f.SearchTerm, sortBy, order)
 	fullQuery := listCurr + limit
 	if err := s.db.Select(&curr, fullQuery); err != nil {
 		if err == sql.ErrNoRows {
@@ -128,7 +128,7 @@ func (s *Storage) ListCurrency(ctx context.Context, f storage.Filter) ([]storage
 }
 
 func (s *Storage) CurrencyStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
-	var currStat = fmt.Sprintf("SELECT COUNT(*) FROM currency where deleted_at IS NULL AND name ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
+	var currStat = fmt.Sprintf("SELECT COUNT(*) FROM currency where deleted_at IS NULL AND (name ILIKE '%%' || '%s' || '%%' OR exchange_rate ILIKE '%%' || '%s' || '%%');", f.SearchTerm, f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, currStat); err != nil {
 		if err == sql.ErrNoRows {

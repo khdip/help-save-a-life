@@ -46,10 +46,10 @@ func GetFilterData(r *http.Request) *Filter {
 	if err != nil {
 		data.SearchTerm = ""
 	}
-	data.SortBy = "created_at"
+	data.SortBy = "serial_number"
 	data.SortBy, err = url.PathUnescape(queryParams.Get("SortBy"))
 	if err != nil {
-		data.SortBy = "created_at"
+		data.SortBy = "serial_number"
 	}
 	data.Order = "ASC"
 	data.Order, err = url.PathUnescape(queryParams.Get("Order"))
