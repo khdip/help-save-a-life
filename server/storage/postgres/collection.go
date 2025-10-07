@@ -144,7 +144,6 @@ func (s *Storage) CollectionStats(ctx context.Context, f storage.Filter) (storag
 	var collStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM collection where deleted_at IS NULL AND (account_number ILIKE '%%' || '%s' || '%%' OR account_type ILIKE '%%' || '%s' || '%%' OR date ILIKE '%%' || '%s' || '%%' OR sender ILIKE '%%' || '%s' || '%%');", f.SearchTerm, f.SearchTerm, f.SearchTerm, f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, collStat); err != nil {
-		fmt.Println(err)
 		if err == sql.ErrNoRows {
 			return storage.Stats{}, err
 		}

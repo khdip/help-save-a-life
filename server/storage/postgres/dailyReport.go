@@ -118,7 +118,7 @@ func (s *Storage) ListDailyReport(ctx context.Context, f storage.Filter) ([]stor
 		limit = fmt.Sprintf(" LIMIT NULLIF(%d, 0) OFFSET %d;", f.Limit, f.Offset)
 	}
 
-	listDre := fmt.Sprintf("SELECT * FROM daily_report WHERE deleted_at IS NULL AND (date ILIKE '%%' || '%s' || '%%' OR amount ILIKE '%%' || '%s' || '%%') ORDER BY %s %s", f.SearchTerm, f.SearchTerm, sortBy, order)
+	listDre := fmt.Sprintf("SELECT * FROM daily_report WHERE deleted_at IS NULL AND date ILIKE '%%' || '%s' || '%%' ORDER BY %s %s", f.SearchTerm, sortBy, order)
 	fullQuery := listDre + limit
 	if err := s.db.Select(&dre, fullQuery); err != nil {
 		if err == sql.ErrNoRows {
@@ -131,10 +131,9 @@ func (s *Storage) ListDailyReport(ctx context.Context, f storage.Filter) ([]stor
 }
 
 func (s *Storage) DailyReportStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
-	var dreStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM daily_report WHERE deleted_at IS NULL AND (date ILIKE '%%' || '%s' || '%%' OR amount ILIKE '%%' || '%s' || '%%');", f.SearchTerm, f.SearchTerm)
+	var dreStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM daily_report WHERE deleted_at IS NULL AND date ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, dreStat); err != nil {
-		fmt.Println(err)
 		if err == sql.ErrNoRows {
 			return storage.Stats{}, err
 		}
