@@ -17,7 +17,7 @@ func (h *Handler) authMiddleware(next http.Handler) http.Handler {
 		if authUserID != nil {
 			next.ServeHTTP(w, r)
 		} else {
-			http.Error(w, "Unauthorized Access", http.StatusUnauthorized)
+			http.Redirect(w, r, unauthorizedPath, http.StatusTemporaryRedirect)
 		}
 	})
 }
@@ -32,7 +32,7 @@ func (h *Handler) restrictMiddleware(next http.Handler) http.Handler {
 		authUserID := session.Values["authUserId"]
 
 		if authUserID != nil {
-			http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+			http.Redirect(w, r, homePath, http.StatusTemporaryRedirect)
 		} else {
 			next.ServeHTTP(w, r)
 		}

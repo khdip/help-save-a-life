@@ -3,8 +3,6 @@ package currency
 import (
 	"context"
 
-	"google.golang.org/grpc"
-
 	currgrpc "help-save-a-life/proto/currency"
 	"help-save-a-life/server/storage"
 )
@@ -27,10 +25,4 @@ func New(cs CurrencyStore) *Svc {
 	return &Svc{
 		cst: cs,
 	}
-}
-
-// RegisterService with grpc server.
-func (s *Svc) RegisterSvc(srv *grpc.Server) error {
-	currgrpc.RegisterCurrencyServiceServer(srv, s)
-	return nil
 }

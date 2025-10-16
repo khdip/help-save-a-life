@@ -3,8 +3,6 @@ package dailyreport
 import (
 	"context"
 
-	"google.golang.org/grpc"
-
 	dregrpc "help-save-a-life/proto/dailyReport"
 	"help-save-a-life/server/storage"
 )
@@ -27,10 +25,4 @@ func New(cs DailyReportStore) *Svc {
 	return &Svc{
 		drst: cs,
 	}
-}
-
-// RegisterService with grpc server.
-func (s *Svc) RegisterSvc(srv *grpc.Server) error {
-	dregrpc.RegisterDailyReportServiceServer(srv, s)
-	return nil
 }

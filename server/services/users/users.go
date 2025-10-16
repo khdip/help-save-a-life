@@ -3,8 +3,6 @@ package users
 import (
 	"context"
 
-	"google.golang.org/grpc"
-
 	usergrpc "help-save-a-life/proto/users"
 	"help-save-a-life/server/storage"
 )
@@ -27,10 +25,4 @@ func New(cs UserStore) *Svc {
 	return &Svc{
 		ust: cs,
 	}
-}
-
-// RegisterService with grpc server.
-func (s *Svc) RegisterSvc(srv *grpc.Server) error {
-	usergrpc.RegisterUserServiceServer(srv, s)
-	return nil
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Unauthorized</title>
+</head>
+<body>
+    {{ template "header" . }}
+    <div class="container-fluid">
+        <div class="row p-5 justify-content-center">
+            <div class="col-12 col-lg-5 text-center">
+                <h1>Unauthorized! Login to access this page page.</h1>
+                <img src="/assets/images/undraw_safe.png" alt="Unauthorized" class="img-fluid">
+                <div>
+                    <a class="btn btn-success my-4" href="{{.URLs.login}}">Log In</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

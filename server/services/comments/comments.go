@@ -3,8 +3,6 @@ package comments
 import (
 	"context"
 
-	"google.golang.org/grpc"
-
 	commgrpc "help-save-a-life/proto/comments"
 	"help-save-a-life/server/storage"
 )
@@ -25,10 +23,4 @@ func New(cs CommentStore) *Svc {
 	return &Svc{
 		cst: cs,
 	}
-}
-
-// RegisterService with grpc server.
-func (s *Svc) RegisterSvc(srv *grpc.Server) error {
-	commgrpc.RegisterCommentServiceServer(srv, s)
-	return nil
 }

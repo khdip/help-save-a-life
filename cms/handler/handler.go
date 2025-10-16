@@ -47,6 +47,8 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 	r := mux.NewRouter()
 	r.HandleFunc(homePath, hand.homeHandler)
 	r.HandleFunc(commentStorePath, hand.storeComment)
+	r.HandleFunc(unauthorizedPath, hand.unauthorizedHandler)
+	r.HandleFunc(logoutPath, hand.logout)
 
 	loginRouter := r.NewRoute().Subrouter()
 	loginRouter.HandleFunc(loginPath, hand.login)
@@ -127,6 +129,7 @@ func (h *Handler) GetTemplate() {
 		"cms/assets/templates/currency/curr-edit.html",
 		"cms/assets/templates/currency/curr-view.html",
 		"cms/assets/templates/base/404.html",
+		"cms/assets/templates/base/unauthorized.html",
 		"cms/assets/templates/base/login.html",
 	))
 }
