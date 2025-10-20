@@ -55,13 +55,22 @@ type Currency struct {
 }
 
 type Settings struct {
-	PatientName          string `db:"patient_name"`
-	TargetAmount         int32  `db:"target_amount"`
-	ShowMedicalDocuments bool   `db:"show_med_docs"`
-	ShowCollection       bool   `db:"show_collection"`
-	ShowDailyReport      bool   `db:"show_daily_report"`
-	ShowFundUpdates      bool   `db:"show_fund_updates"`
-	CRUDTimeDate
+	PatientName                  string    `db:"patient_name"`
+	Title                        string    `db:"title"`
+	BannerTitle                  string    `db:"banner_title"`
+	HighlightedBannerTitle       string    `db:"highlighted_banner_title"`
+	BannerDescription            string    `db:"banner_description"`
+	HighlightedBannerDescription string    `db:"highlighted_banner_description"`
+	BannerImage                  string    `db:"banner_image"`
+	AboutPatient                 string    `db:"about_patient"`
+	TargetAmount                 int32     `db:"target_amount"`
+	ShowMedicalDocuments         bool      `db:"show_med_docs"`
+	ShowCollection               bool      `db:"show_collection"`
+	ShowDailyReport              bool      `db:"show_daily_report"`
+	ShowFundUpdates              bool      `db:"show_fund_updates"`
+	CalculateCollection          string    `db:"calculate_collection"`
+	UpdatedAt                    time.Time `db:"updated_at,omitempty"`
+	UpdatedBy                    string    `db:"updated_by,omitempty"`
 }
 
 type CRUDTimeDate struct {

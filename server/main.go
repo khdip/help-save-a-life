@@ -25,6 +25,10 @@ import (
 	currcore "help-save-a-life/server/core/currency"
 	currsvc "help-save-a-life/server/services/currency"
 
+	settgrpc "help-save-a-life/proto/settings"
+	settcore "help-save-a-life/server/core/settings"
+	settsvc "help-save-a-life/server/services/settings"
+
 	"help-save-a-life/server/storage/postgres"
 	"strconv"
 	"strings"
@@ -71,6 +75,10 @@ func main() {
 	currC := currcore.New(store)
 	currS := currsvc.New(currC)
 	currgrpc.RegisterCurrencyServiceServer(grpcServer, currS)
+
+	settC := settcore.New(store)
+	settS := settsvc.New(settC)
+	settgrpc.RegisterSettingsServiceServer(grpcServer, settS)
 
 	host, port := config.GetString("server.host"), config.GetString("server.port")
 	lis, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))

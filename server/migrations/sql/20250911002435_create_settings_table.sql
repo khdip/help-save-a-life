@@ -15,7 +15,9 @@ CREATE TABLE IF NOT EXISTS settings
     show_collection                 BOOLEAN NOT NULL DEFAULT true,
     show_daily_report               BOOLEAN NOT NULL DEFAULT true,
     show_fund_updates               BOOLEAN NOT NULL DEFAULT true,
-    calculate_collection            VARCHAR(30) NOT NULL DEFAULT ''
+    calculate_collection            VARCHAR(30) NOT NULL DEFAULT '',
+    updated_at                      TIMESTAMP    DEFAULT current_timestamp,
+    updated_by                      VARCHAR(100) NOT NULL DEFAULT ''
 );
 -- +goose StatementEnd
 

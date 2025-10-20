@@ -1,0 +1,47 @@
+syntax="proto3";
+
+package settings;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/settings";
+
+message Settings {
+    string PatientName = 1;
+    string Title = 2;
+    string BannerTitle = 3;
+    string HighlightedBannerTitle = 4;
+    string BannerDescription = 5;
+    string HighlightedBannerDescription = 6;
+    string BannerImage = 7;
+    string AboutPatient = 8;
+    int32 TargetAmount = 9;
+    bool ShowMedicalDocuments = 10;
+    bool ShowCollection = 11;
+    bool ShowDailyReport = 12;
+    bool ShowFundUpdates = 13;
+    string CalculateCollection = 14;
+    google.protobuf.Timestamp UpdatedAt = 15;
+    string UpdatedBy = 16;
+}
+
+message GetSettingsRequest {
+    Settings Sett = 1;
+}
+
+message GetSettingsResponse {
+    Settings Sett = 1;
+}
+
+message UpdateSettingsRequest {
+    Settings Sett = 1;
+}
+
+message UpdateSettingsResponse {
+    Settings Sett = 1;
+}
+
+service SettingsService {
+    rpc GetSettings(GetSettingsRequest) returns(GetSettingsResponse) {}
+    rpc UpdateSettings(UpdateSettingsRequest) returns(UpdateSettingsResponse) {}
+}
