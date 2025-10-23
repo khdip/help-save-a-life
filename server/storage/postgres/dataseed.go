@@ -61,6 +61,7 @@ INSERT INTO settings (
 	show_daily_report,
 	show_fund_updates,
 	calculate_collection,
+	total_amount,
 	updated_by
 ) VALUES (
 	'Tamal',
@@ -92,7 +93,8 @@ INSERT INTO settings (
 	true,
 	true,
 	true,
-	'0',
+	0,
+	0,
 	'a67dc254-7410-4394-8b53-eb148eab0477'
 );
 `

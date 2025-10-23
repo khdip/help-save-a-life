@@ -40,6 +40,8 @@ const (
 	currencyUpdatePath    = "/currency/update/{id}"
 	currencyDeletePath    = "/currency/delete/{id}"
 	currencyViewPath      = "/currency/view/{id}"
+	settingsEditPath      = "/settings"
+	settingsUpdatePath    = "/settings/update"
 )
 
 func listOfURLs() map[string]string {
@@ -81,5 +83,7 @@ func listOfURLs() map[string]string {
 		"currUpdate":   currencyUpdatePath,
 		"currDelete":   currencyDeletePath,
 		"currView":     currencyViewPath,
+		"settEdit":     settingsEditPath,
+		"settUpdate":   settingsUpdatePath,
 	}
 }

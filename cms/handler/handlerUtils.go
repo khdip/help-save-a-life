@@ -1,10 +1,15 @@
 package handler
 
 import (
+	"fmt"
+	"io"
 	"log"
+	"mime/multipart"
 	"net/http"
 	"net/url"
+	"os"
 	"strconv"
+	"time"
 
 	"golang.org/x/text/message"
 )
@@ -89,4 +94,20 @@ func (h *Handler) getLoggedUser(r *http.Request) string {
 	} else {
 		return ""
 	}
+}
+
+func (h *Handler) saveImage(file multipart.File, fileHeader *multipart.FileHeader, imagePath string) (string, error) {
+	if fileHeader != nil {
+		fileName := fmt.Sprintf("banner-%d.jpeg", time.Now().Unix())
+		dest, err := os.Create(fmt.Sprintf(imagePath+"%s", fileName))
+		if err != nil {
+			return "", err
+		}
+		defer dest.Close()
+		if _, err := io.Copy(dest, file); err != nil {
+			fmt.Println(err.Error())
+		}
+		return fileName, err
+	}
+	return "", nil
 }

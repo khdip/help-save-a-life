@@ -35,6 +35,7 @@ SET
 	show_daily_report = :show_daily_report,
 	show_fund_updates = :show_fund_updates,
 	calculate_collection = :calculate_collection,
+	total_amount = :total_amount,
 	updated_at = now(),
 	updated_by = :updated_by
 RETURNING 

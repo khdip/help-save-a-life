@@ -31,6 +31,7 @@ func (s *Svc) GetSettings(ctx context.Context, req *settgrpc.GetSettingsRequest)
 			ShowDailyReport:              r.ShowDailyReport,
 			ShowFundUpdates:              r.ShowFundUpdates,
 			CalculateCollection:          r.CalculateCollection,
+			TotalAmount:                  r.TotalAmount,
 			UpdatedBy:                    r.UpdatedBy,
 		},
 	}, nil

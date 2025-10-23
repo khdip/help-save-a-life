@@ -14,6 +14,7 @@ import (
 	commgrpc "help-save-a-life/proto/comments"
 	currgrpc "help-save-a-life/proto/currency"
 	dregrpc "help-save-a-life/proto/dailyReport"
+	settgrpc "help-save-a-life/proto/settings"
 	usergrpc "help-save-a-life/proto/users"
 )
 
@@ -28,9 +29,10 @@ type Handler struct {
 	cmc       commgrpc.CommentServiceClient
 	drc       dregrpc.DailyReportServiceClient
 	cuc       currgrpc.CurrencyServiceClient
+	sc        settgrpc.SettingsServiceClient
 }
 
-func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient) *mux.Router {
+func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient, sc settgrpc.SettingsServiceClient) *mux.Router {
 	hand := &Handler{
 		decoder: decoder,
 		session: session,
@@ -41,6 +43,7 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 		cmc:     cmc,
 		drc:     drc,
 		cuc:     cuc,
+		sc:      sc,
 	}
 	hand.GetTemplate()
 
@@ -87,6 +90,8 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 	s.HandleFunc(currencyListPath, hand.listCurrency)
 	s.HandleFunc(currencyViewPath, hand.viewCurrency)
 	s.HandleFunc(currencyDeletePath, hand.deleteCurrency)
+	s.HandleFunc(settingsEditPath, hand.editSettings)
+	s.HandleFunc(settingsUpdatePath, hand.saveSettings)
 	s.Use(hand.authMiddleware)
 
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.FS(hand.assetFS))))
@@ -131,5 +136,6 @@ func (h *Handler) GetTemplate() {
 		"cms/assets/templates/base/404.html",
 		"cms/assets/templates/base/unauthorized.html",
 		"cms/assets/templates/base/login.html",
+		"cms/assets/templates/settings/settings.html",
 	))
 }

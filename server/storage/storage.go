@@ -68,7 +68,8 @@ type Settings struct {
 	ShowCollection               bool      `db:"show_collection"`
 	ShowDailyReport              bool      `db:"show_daily_report"`
 	ShowFundUpdates              bool      `db:"show_fund_updates"`
-	CalculateCollection          string    `db:"calculate_collection"`
+	CalculateCollection          int32     `db:"calculate_collection"`
+	TotalAmount                  int32     `db:"total_amount"`
 	UpdatedAt                    time.Time `db:"updated_at,omitempty"`
 	UpdatedBy                    string    `db:"updated_by,omitempty"`
 }

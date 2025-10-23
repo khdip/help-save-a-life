@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Settings</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Settings</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <form method="post" action="{{.URLs.settUpdate}}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">Patient Name*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The patient name is used at the title of the about section in the homepage">&#9432;</span>
+                        <input type="text" class="form-control" name="PatientName" placeholder="Enter patient name" value="{{.Sett.PatientName}}">
+                        <p class="text-danger">{{.FormErrors.PatientName}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Title*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The title is used at the header in the homepage">&#9432;</span>
+                        <input type="text" class="form-control" name="Title" placeholder="Enter title" value="{{.Sett.Title}}">
+                        <p class="text-danger">{{.FormErrors.Title}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Banner Title*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The banner title is used at the banner image in the homepage">&#9432;</span>
+                        <input type="text" class="form-control" name="BannerTitle" placeholder="Enter banner title" value="{{.Sett.BannerTitle}}">
+                        <p class="text-danger">{{.FormErrors.BannerTitle}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Highlighted Banner Title</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Use it to highlight a portion of the banner image title">&#9432;</span>
+                        <input type="text" class="form-control" name="HighlightedBannerTitle" placeholder="Enter highlighted banner title" value="{{.Sett.HighlightedBannerTitle}}">
+                        <p class="text-danger">{{.FormErrors.HighlightedBannerTitle}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Banner Description*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The description is used at the bottom of the banner title of the banner image section in the homepage">&#9432;</span>
+                        <textarea class="form-control" name="BannerDescription" placeholder="Enter banner description" rows="4">{{.Sett.BannerDescription}}</textarea>
+                        <p class="text-danger">{{.FormErrors.BannerDescription}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Highlighted Banner Description</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Use it to highlight a portion of the banner description">&#9432;</span>
+                        <textarea class="form-control" name="HighlightedBannerDescription" placeholder="Enter highlighted banner description">{{.Sett.HighlightedBannerDescription}}</textarea>
+                        <p class="text-danger">{{.FormErrors.HighlightedBannerDescription}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Upload Banner Image</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The image is used as the background of the banner section in the homepage">&#9432;</span>
+                        <input type="file" class="form-control" name="BannerImage" accept="image/jpg">
+                        <span class="form-text">Current banner image: {{.Sett.BannerImage}}</span>
+                        <p class="text-danger">{{.FormErrors.BannerImage}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">About Patient*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The about text is used at the about section in the homepage">&#9432;</span>
+                        <textarea class="form-control" name="AboutPatient" placeholder="Enter patient details" rows="10">{{.Sett.AboutPatient}}</textarea>
+                        <p class="text-danger">{{.FormErrors.AboutPatient}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Target Amount*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The target amount is used for showing the fund collection progress and calculate remaining amount to be collected">&#9432;</span>
+                        <input type="number" class="form-control" name="TargetAmount" placeholder="Enter target amount" value="{{.Sett.TargetAmount}}">
+                        <p class="text-danger">{{.FormErrors.TargetAmount}}</p>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input id="ShowFundUpdates" class="form-check-input" type="checkbox" name="ShowFundUpdates" value="true" {{if .Sett.ShowFundUpdates}}checked{{end}}>
+                        <label class="form-check-label" for="ShowFundUpdates">Show fund collection progress in home page</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Check the box if you want to show the fund collection progress in the homepage">&#9432;</span>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input id="ShowMedicalDocuments" class="form-check-input" type="checkbox" name="ShowMedicalDocuments" value="true" {{if .Sett.ShowMedicalDocuments}}checked{{end}}>
+                        <label class="form-check-label" for="ShowMedicalDocuments">Show medical documents section in home page</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Check this box if you want to show the medical documents section in the homepage">&#9432;</span>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input id="ShowCollection" class="form-check-input" type="checkbox" name="ShowCollection" value="true" {{if .Sett.ShowCollection}}checked{{end}}>
+                        <label class="form-check-label" for="ShowCollection">Show collection section in home page</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Check this box if you want to show the collection table in the homepage">&#9432;</span>
+                    </div>
+                     <div class="mb-3 form-check">
+                        <input id="ShowDailyReport" class="form-check-input" type="checkbox" name="ShowDailyReport" value="true" {{if .Sett.ShowDailyReport}}checked{{end}}>
+                        <label class="form-check-label" for="ShowDailyReport">Show daily report section in home page</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Check this box if you want to show the daily report table in the homepage">&#9432;</span>
+                    </div>
+                    <div>
+                        <p>How do you want the total collection to be calculated?<span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="This option is used to calculate the total collection by summing up the amounts of collection table or daily report table or a custom amount">&#9432;</span></p>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="radio" name="CalculateCollection" id="fromCollection" value="0" {{if eq .Sett.CalculateCollection 0}}checked{{end}}>
+                        <label class="form-check-label" for="fromCollection">From Collection</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="radio" name="CalculateCollection" id="fromDailyReport" value="1" {{if eq .Sett.CalculateCollection 1}}checked{{end}}>
+                        <label class="form-check-label" for="fromDailyReport">From Daily Report</label>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input class="form-check-input" type="radio" name="CalculateCollection" id="fromCustom" value="2" {{if eq .Sett.CalculateCollection 2}}checked{{end}}>
+                        <label class="form-check-label" for="fromCustom">Custom</label>
+                        <input id="customInput" type="number" class="form-control" name="TotalAmount" placeholder="Enter total amount" >
+                        <style>
+                            #fromCustom:not(:checked) ~ #customInput {display: none;}
+                        </style>
+                    </div>
+                    <button type="submit" class="btn btn-success float-end">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+</script>
+</html>

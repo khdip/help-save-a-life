@@ -37,9 +37,10 @@ type Settings struct {
 	ShowCollection               bool                   `protobuf:"varint,11,opt,name=ShowCollection,proto3" json:"ShowCollection,omitempty"`
 	ShowDailyReport              bool                   `protobuf:"varint,12,opt,name=ShowDailyReport,proto3" json:"ShowDailyReport,omitempty"`
 	ShowFundUpdates              bool                   `protobuf:"varint,13,opt,name=ShowFundUpdates,proto3" json:"ShowFundUpdates,omitempty"`
-	CalculateCollection          string                 `protobuf:"bytes,14,opt,name=CalculateCollection,proto3" json:"CalculateCollection,omitempty"`
-	UpdatedAt                    *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
-	UpdatedBy                    string                 `protobuf:"bytes,16,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
+	CalculateCollection          int32                  `protobuf:"varint,14,opt,name=CalculateCollection,proto3" json:"CalculateCollection,omitempty"`
+	TotalAmount                  int32                  `protobuf:"varint,15,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	UpdatedAt                    *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
+	UpdatedBy                    string                 `protobuf:"bytes,17,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
 	unknownFields                protoimpl.UnknownFields
 	sizeCache                    protoimpl.SizeCache
 }
@@ -165,11 +166,18 @@ func (x *Settings) GetShowFundUpdates() bool {
 	return false
 }
 
-func (x *Settings) GetCalculateCollection() string {
+func (x *Settings) GetCalculateCollection() int32 {
 	if x != nil {
 		return x.CalculateCollection
 	}
-	return ""
+	return 0
+}
+
+func (x *Settings) GetTotalAmount() int32 {
+	if x != nil {
+		return x.TotalAmount
+	}
+	return 0
 }
 
 func (x *Settings) GetUpdatedAt() *timestamppb.Timestamp {
@@ -366,7 +374,7 @@ var File_proto_settings_settings_proto protoreflect.FileDescriptor
 
 const file_proto_settings_settings_proto_rawDesc = "" +
 	"\n" +
-	"\x1dproto/settings/settings.proto\x12\bsettings\x1a\x1fgoogle/protobuf/timestamp.proto\"\xb2\x05\n" +
+	"\x1dproto/settings/settings.proto\x12\bsettings\x1a\x1fgoogle/protobuf/timestamp.proto\"\xd4\x05\n" +
 	"\bSettings\x12 \n" +
 	"\vPatientName\x18\x01 \x01(\tR\vPatientName\x12\x14\n" +
 	"\x05Title\x18\x02 \x01(\tR\x05Title\x12 \n" +
@@ -382,9 +390,10 @@ const file_proto_settings_settings_proto_rawDesc = "" +
 	"\x0eShowCollection\x18\v \x01(\bR\x0eShowCollection\x12(\n" +
 	"\x0fShowDailyReport\x18\f \x01(\bR\x0fShowDailyReport\x12(\n" +
 	"\x0fShowFundUpdates\x18\r \x01(\bR\x0fShowFundUpdates\x120\n" +
-	"\x13CalculateCollection\x18\x0e \x01(\tR\x13CalculateCollection\x128\n" +
-	"\tUpdatedAt\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
-	"\tUpdatedBy\x18\x10 \x01(\tR\tUpdatedBy\"<\n" +
+	"\x13CalculateCollection\x18\x0e \x01(\x05R\x13CalculateCollection\x12 \n" +
+	"\vTotalAmount\x18\x0f \x01(\x05R\vTotalAmount\x128\n" +
+	"\tUpdatedAt\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
+	"\tUpdatedBy\x18\x11 \x01(\tR\tUpdatedBy\"<\n" +
 	"\x12GetSettingsRequest\x12&\n" +
 	"\x04Sett\x18\x01 \x01(\v2\x12.settings.SettingsR\x04Sett\"=\n" +
 	"\x13GetSettingsResponse\x12&\n" +

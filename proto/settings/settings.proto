@@ -20,9 +20,10 @@ message Settings {
     bool ShowCollection = 11;
     bool ShowDailyReport = 12;
     bool ShowFundUpdates = 13;
-    string CalculateCollection = 14;
-    google.protobuf.Timestamp UpdatedAt = 15;
-    string UpdatedBy = 16;
+    int32 CalculateCollection = 14;
+    int32 TotalAmount = 15;
+    google.protobuf.Timestamp UpdatedAt = 16;
+    string UpdatedBy = 17;
 }
 
 message GetSettingsRequest {
