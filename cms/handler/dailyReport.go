@@ -199,11 +199,6 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	filterData := GetFilterData(r)
 	drlst, err := h.drc.ListDailyReport(r.Context(), &dregrpc.ListDailyReportRequest{
 		Filter: &dregrpc.Filter{

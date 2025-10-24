@@ -217,11 +217,6 @@ func (h *Handler) listCollection(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := r.ParseForm()
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 	filterData := GetFilterData(r)
 	clst, err := h.cc.ListCollection(r.Context(), &collgrpc.ListCollectionRequest{
 		Filter: &collgrpc.Filter{

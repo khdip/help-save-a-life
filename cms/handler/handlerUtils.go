@@ -16,7 +16,6 @@ import (
 
 const (
 	limitPerPage = 10
-	targetamount = 7500000
 	sessionName  = "save-life"
 )
 

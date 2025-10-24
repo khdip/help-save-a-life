@@ -1,7 +1,9 @@
 package handler
 
 import (
+	collgrpc "help-save-a-life/proto/collection"
 	dregrpc "help-save-a-life/proto/dailyReport"
+	settgrpc "help-save-a-life/proto/settings"
 	"log"
 	"net/http"
 )
@@ -15,6 +17,7 @@ type DashBoardData struct {
 }
 
 func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	template := h.templates.Lookup("dashboard.html")
 	if template == nil {
 		errMsg := "unable to load template"
@@ -22,18 +25,44 @@ func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	drstat, err := h.drc.DailyReportStats(r.Context(), &dregrpc.DailyReportStatsRequest{
-		Filter: &dregrpc.Filter{},
-	})
+	sett, err := h.sc.GetSettings(ctx, &settgrpc.GetSettingsRequest{})
 	if err != nil {
-		log.Println("unable to get stats: ", err)
+		log.Println("unable to get settings: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
+	collstat, err := h.cc.CollectionStats(ctx, &collgrpc.CollectionStatsRequest{
+		Filter: &collgrpc.Filter{},
+	})
+	if err != nil {
+		log.Println("unable to get collection stats: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	drstat, err := h.drc.DailyReportStats(ctx, &dregrpc.DailyReportStatsRequest{
+		Filter: &dregrpc.Filter{},
+	})
+	if err != nil {
+		log.Println("unable to get daily report stats: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	var totalCollection int32
+	switch sett.Sett.CalculateCollection {
+	case 0:
+		totalCollection = collstat.Stats.TotalAmount
+	case 1:
+		totalCollection = drstat.Stats.TotalAmount
+	case 2:
+		totalCollection = sett.Sett.TotalAmount
+	}
+
+	targetAmount := sett.Sett.TargetAmount
+
 	data := DashBoardData{
-		TargetAmount:    targetamount,
-		CollectedAmount: drstat.Stats.TotalAmount,
-		RemainingAmount: targetamount - drstat.Stats.TotalAmount,
+		TargetAmount:    targetAmount,
+		CollectedAmount: totalCollection,
+		RemainingAmount: targetAmount - totalCollection,
 		URLs:            listOfURLs(),
 		CurrentPageURL:  dashboardPath,
 	}

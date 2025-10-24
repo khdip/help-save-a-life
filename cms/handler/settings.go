@@ -93,6 +93,7 @@ func (h *Handler) editSettings(w http.ResponseWriter, r *http.Request) {
 			ShowDailyReport:              res.Sett.ShowDailyReport,
 			ShowFundUpdates:              res.Sett.ShowFundUpdates,
 			CalculateCollection:          res.Sett.CalculateCollection,
+			TotalAmount:                  res.Sett.TotalAmount,
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: settingsEditPath,
@@ -100,6 +101,13 @@ func (h *Handler) editSettings(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
+	res, err := h.sc.GetSettings(r.Context(), &settgrpc.GetSettingsRequest{})
+	if err != nil {
+		log.Println("unable to get settings info: ", err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	if err := r.ParseMultipartForm(10 << 20); err != nil {
 		errMsg := "parsing form"
 		http.Error(w, errMsg, http.StatusBadRequest)
@@ -110,6 +118,19 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 	if err := h.decoder.Decode(&sett, r.PostForm); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+
+	file, fileHeader, _ := r.FormFile("BannerImage")
+	image, err := h.saveImage(file, fileHeader, "./cms/assets/images/")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if image != "" {
+		sett.BannerImage = image
+	} else {
+		sett.BannerImage = res.Sett.BannerImage
 	}
 
 	if err := sett.Validate(h); err != nil {
@@ -131,13 +152,6 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, fileHeader, _ := r.FormFile("BannerImage")
-	image, err := h.saveImage(file, fileHeader, "./cms/assets/images/")
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
-
 	if _, err := h.sc.UpdateSettings(r.Context(), &settgrpc.UpdateSettingsRequest{
 		Sett: &settgrpc.Settings{
 			PatientName:                  sett.PatientName,
@@ -146,7 +160,7 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 			HighlightedBannerTitle:       sett.HighlightedBannerDescription,
 			BannerDescription:            sett.BannerDescription,
 			HighlightedBannerDescription: sett.HighlightedBannerDescription,
-			BannerImage:                  image,
+			BannerImage:                  sett.BannerImage,
 			AboutPatient:                 sett.AboutPatient,
 			TargetAmount:                 sett.TargetAmount,
 			ShowMedicalDocuments:         sett.ShowMedicalDocuments,
@@ -154,6 +168,7 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 			ShowDailyReport:              sett.ShowDailyReport,
 			ShowFundUpdates:              sett.ShowFundUpdates,
 			CalculateCollection:          sett.CalculateCollection,
+			TotalAmount:                  sett.TotalAmount,
 			UpdatedBy:                    h.getLoggedUser(r),
 		},
 	}); err != nil {
@@ -161,7 +176,12 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(w, r, settingsEditPath, http.StatusTemporaryRedirect)
+	h.loadSettingsForm(w, SettingsData{
+		Sett:           sett,
+		Message:        map[string]string{"SuccsessMessage": "Settings updated successfully."},
+		URLs:           listOfURLs(),
+		CurrentPageURL: settingsEditPath,
+	})
 }
 
 func (h *Handler) loadSettingsForm(w http.ResponseWriter, data SettingsData) {

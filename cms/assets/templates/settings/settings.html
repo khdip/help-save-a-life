@@ -103,10 +103,7 @@
                     <div class="mb-3 form-check">
                         <input class="form-check-input" type="radio" name="CalculateCollection" id="fromCustom" value="2" {{if eq .Sett.CalculateCollection 2}}checked{{end}}>
                         <label class="form-check-label" for="fromCustom">Custom</label>
-                        <input id="customInput" type="number" class="form-control" name="TotalAmount" placeholder="Enter total amount" >
-                        <style>
-                            #fromCustom:not(:checked) ~ #customInput {display: none;}
-                        </style>
+                        <input id="totalAmount" type="number" class="form-control" name="TotalAmount" placeholder="Enter total amount" value="{{.Sett.TotalAmount}}">
                     </div>
                     <button type="submit" class="btn btn-success float-end">Save</button>
                 </form>

@@ -5,12 +5,15 @@ import (
 	"help-save-a-life/cms/paginator"
 	collgrpc "help-save-a-life/proto/collection"
 	dregrpc "help-save-a-life/proto/dailyReport"
+	settgrpc "help-save-a-life/proto/settings"
 	"log"
 	"net/http"
 )
 
 type HomeTemplateData struct {
-	List            []Collection
+	CollList        []Collection
+	DreList         []DailyReport
+	Sett            Settings
 	Paginator       paginator.Paginator
 	FilterData      Filter
 	TargetAmount    string
@@ -21,6 +24,7 @@ type HomeTemplateData struct {
 }
 
 func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
 	template := h.templates.Lookup("index.html")
 	if template == nil {
 		errMsg := "unable to load template"
@@ -28,13 +32,16 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err := r.ParseForm()
+	sett, err := h.sc.GetSettings(ctx, &settgrpc.GetSettingsRequest{})
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		log.Println("unable to get settings: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 		return
 	}
+
+	currencyList := h.getCurrencyListMap(w, r)
 	filterData := GetFilterData(r)
-	clst, err := h.cc.ListCollection(r.Context(), &collgrpc.ListCollectionRequest{
+	clst, err := h.cc.ListCollection(ctx, &collgrpc.ListCollectionRequest{
 		Filter: &collgrpc.Filter{
 			Offset:     filterData.Offset,
 			Limit:      limitPerPage,
@@ -46,27 +53,24 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("unable to get list: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+		return
 	}
 
 	collList := make([]Collection, 0, len(clst.GetColl()))
-	for _, item := range clst.GetColl() {
-		cData := Collection{
-			CollectionID:  item.CollectionID,
-			AccountType:   item.AccountType,
-			AccountNumber: hideDigits(item.AccountNumber),
-			Sender:        item.Sender,
-			Date:          item.Date,
-			Amount:        item.Amount,
-			Currency:      item.Currency,
-			CreatedAt:     item.CreatedAt.AsTime(),
-			CreatedBy:     item.CreatedBy,
-			UpdatedAt:     item.UpdatedAt.AsTime(),
-			UpdatedBy:     item.UpdatedBy,
+	if sett.Sett.ShowCollection {
+		for _, item := range clst.GetColl() {
+			cData := Collection{
+				AccountType:   item.AccountType,
+				AccountNumber: hideDigits(item.AccountNumber),
+				Date:          item.Date,
+				Amount:        item.Amount,
+				Currency:      currencyList[item.Currency],
+			}
+			collList = append(collList, cData)
 		}
-		collList = append(collList, cData)
 	}
 
-	collstat, err := h.cc.CollectionStats(r.Context(), &collgrpc.CollectionStatsRequest{
+	collstat, err := h.cc.CollectionStats(ctx, &collgrpc.CollectionStatsRequest{
 		Filter: &collgrpc.Filter{
 			Offset:     filterData.Offset,
 			Limit:      limitPerPage,
@@ -78,9 +82,43 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("unable to get stats: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+		return
 	}
 
-	drstat, err := h.drc.DailyReportStats(r.Context(), &dregrpc.DailyReportStatsRequest{
+	drlst, err := h.drc.ListDailyReport(ctx, &dregrpc.ListDailyReportRequest{
+		Filter: &dregrpc.Filter{
+			Offset:     filterData.Offset,
+			Limit:      limitPerPage,
+			SortBy:     filterData.SortBy,
+			Order:      filterData.Order,
+			SearchTerm: filterData.SearchTerm,
+		},
+	})
+	if err != nil {
+		log.Println("unable to get list: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+		return
+	}
+
+	drList := make([]DailyReport, 0, len(drlst.GetDre()))
+	if sett.Sett.ShowDailyReport {
+		for _, item := range drlst.GetDre() {
+			drData := DailyReport{
+				ReportID:     item.ReportID,
+				SerialNumber: item.SerialNumber,
+				Date:         item.Date,
+				Amount:       item.Amount,
+				Currency:     currencyList[item.Currency],
+				CreatedAt:    item.CreatedAt.AsTime(),
+				CreatedBy:    item.CreatedBy,
+				UpdatedAt:    item.UpdatedAt.AsTime(),
+				UpdatedBy:    item.UpdatedBy,
+			}
+			drList = append(drList, drData)
+		}
+	}
+
+	drstat, err := h.drc.DailyReportStats(ctx, &dregrpc.DailyReportStatsRequest{
 		Filter: &dregrpc.Filter{
 			Offset:     filterData.Offset,
 			Limit:      limitPerPage,
@@ -94,19 +132,42 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
-	totalCollection := drstat.Stats.TotalAmount
-	if totalCollection > targetamount {
-		totalCollection = targetamount
+	var totalCollection int32
+	switch sett.Sett.CalculateCollection {
+	case 0:
+		totalCollection = collstat.Stats.TotalAmount
+	case 1:
+		totalCollection = drstat.Stats.TotalAmount
+	case 2:
+		totalCollection = sett.Sett.TotalAmount
+	}
+
+	targetAmount := sett.Sett.TargetAmount
+	if totalCollection > targetAmount {
+		totalCollection = targetAmount
 	}
 
 	data := HomeTemplateData{
-		List:            collList,
+		CollList: collList,
+		DreList:  drList,
+		Sett: Settings{
+			PatientName:          sett.Sett.PatientName,
+			Title:                sett.Sett.Title,
+			BannerTitle:          sett.Sett.BannerTitle,
+			BannerDescription:    sett.Sett.BannerDescription,
+			BannerImage:          sett.Sett.BannerImage,
+			AboutPatient:         sett.Sett.AboutPatient,
+			ShowMedicalDocuments: sett.Sett.ShowMedicalDocuments,
+			ShowCollection:       sett.Sett.ShowCollection,
+			ShowDailyReport:      sett.Sett.ShowDailyReport,
+			ShowFundUpdates:      sett.Sett.ShowFundUpdates,
+		},
 		FilterData:      *filterData,
 		URLs:            listOfURLs(),
-		TargetAmount:    formatWithCommas(targetamount),
+		TargetAmount:    formatWithCommas(targetAmount),
 		CollectedAmount: formatWithCommas(totalCollection),
-		RemainingAmount: formatWithCommas(targetamount - totalCollection),
-		Percentage:      fmt.Sprintf("%.2f", ((float64(totalCollection) / float64(targetamount)) * 100)),
+		RemainingAmount: formatWithCommas(targetAmount - totalCollection),
+		Percentage:      fmt.Sprintf("%.2f", ((float64(totalCollection) / float64(targetAmount)) * 100)),
 	}
 	if len(collList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, collstat.Stats.Count, r)
@@ -115,5 +176,6 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if err := template.Execute(w, data); err != nil {
 		log.Printf("error with template execution: %+v", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+		return
 	}
 }

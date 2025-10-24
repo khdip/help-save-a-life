@@ -26,6 +26,7 @@ func (s *Svc) UpdateSettings(ctx context.Context, req *settgrpc.UpdateSettingsRe
 		ShowDailyReport:              req.Sett.ShowDailyReport,
 		ShowFundUpdates:              req.Sett.ShowFundUpdates,
 		CalculateCollection:          req.Sett.CalculateCollection,
+		TotalAmount:                  req.Sett.TotalAmount,
 		UpdatedBy:                    req.Sett.UpdatedBy,
 	})
 	if err != nil {
@@ -49,6 +50,8 @@ func (s *Svc) UpdateSettings(ctx context.Context, req *settgrpc.UpdateSettingsRe
 			ShowCollection:               res.ShowCollection,
 			ShowDailyReport:              res.ShowDailyReport,
 			ShowFundUpdates:              res.ShowFundUpdates,
+			CalculateCollection:          res.CalculateCollection,
+			TotalAmount:                  res.TotalAmount,
 		},
 	}, nil
 }
