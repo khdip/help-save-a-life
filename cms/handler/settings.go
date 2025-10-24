@@ -191,3 +191,29 @@ func (h *Handler) loadSettingsForm(w http.ResponseWriter, data SettingsData) {
 		return
 	}
 }
+
+func (h *Handler) getSettings(w http.ResponseWriter, r *http.Request) Settings {
+	sett, err := h.sc.GetSettings(r.Context(), &settgrpc.GetSettingsRequest{})
+	if err != nil {
+		log.Println("unable to get settings: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	return Settings{
+		PatientName:                  sett.Sett.PatientName,
+		Title:                        sett.Sett.Title,
+		BannerTitle:                  sett.Sett.BannerTitle,
+		HighlightedBannerTitle:       sett.Sett.HighlightedBannerTitle,
+		BannerDescription:            sett.Sett.BannerDescription,
+		HighlightedBannerDescription: sett.Sett.HighlightedBannerDescription,
+		BannerImage:                  sett.Sett.BannerImage,
+		AboutPatient:                 sett.Sett.AboutPatient,
+		TargetAmount:                 sett.Sett.TargetAmount,
+		ShowMedicalDocuments:         sett.Sett.ShowMedicalDocuments,
+		ShowCollection:               sett.Sett.ShowCollection,
+		ShowDailyReport:              sett.Sett.ShowDailyReport,
+		ShowFundUpdates:              sett.Sett.ShowFundUpdates,
+		CalculateCollection:          sett.Sett.CalculateCollection,
+		TotalAmount:                  sett.Sett.TotalAmount,
+	}
+}

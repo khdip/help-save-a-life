@@ -15,6 +15,7 @@ type LoginFormData struct {
 	Errors   map[string]string
 	Notices  string
 	URLs     map[string]string
+	Sett     Settings
 }
 
 func (l LoginFormData) Validate() error {
@@ -32,6 +33,7 @@ func (h *Handler) login(w http.ResponseWriter, r *http.Request) {
 
 	form := LoginFormData{
 		URLs: listOfURLs(),
+		Sett: h.getSettings(w, r),
 	}
 
 	if flashes := session.Flashes(); len(flashes) > 0 {
@@ -53,8 +55,11 @@ func (h *Handler) loginAuth(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	var form LoginFormData
-	form.URLs = listOfURLs()
+	form := LoginFormData{
+		URLs: listOfURLs(),
+		Sett: h.getSettings(w, r),
+	}
+
 	err = h.decoder.Decode(&form, r.PostForm)
 	if err != nil {
 		log.Fatal(err)

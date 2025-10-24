@@ -5,7 +5,6 @@ import (
 	"help-save-a-life/cms/paginator"
 	collgrpc "help-save-a-life/proto/collection"
 	dregrpc "help-save-a-life/proto/dailyReport"
-	settgrpc "help-save-a-life/proto/settings"
 	"log"
 	"net/http"
 )
@@ -32,14 +31,8 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sett, err := h.sc.GetSettings(ctx, &settgrpc.GetSettingsRequest{})
-	if err != nil {
-		log.Println("unable to get settings: ", err)
-		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
-		return
-	}
-
 	currencyList := h.getCurrencyListMap(w, r)
+	sett := h.getSettings(w, r)
 	filterData := GetFilterData(r)
 	clst, err := h.cc.ListCollection(ctx, &collgrpc.ListCollectionRequest{
 		Filter: &collgrpc.Filter{
@@ -53,11 +46,10 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("unable to get list: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
-		return
 	}
 
 	collList := make([]Collection, 0, len(clst.GetColl()))
-	if sett.Sett.ShowCollection {
+	if sett.ShowCollection {
 		for _, item := range clst.GetColl() {
 			cData := Collection{
 				AccountType:   item.AccountType,
@@ -82,7 +74,6 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("unable to get stats: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
-		return
 	}
 
 	drlst, err := h.drc.ListDailyReport(ctx, &dregrpc.ListDailyReportRequest{
@@ -97,11 +88,10 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println("unable to get list: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
-		return
 	}
 
 	drList := make([]DailyReport, 0, len(drlst.GetDre()))
-	if sett.Sett.ShowDailyReport {
+	if sett.ShowDailyReport {
 		for _, item := range drlst.GetDre() {
 			drData := DailyReport{
 				ReportID:     item.ReportID,
@@ -133,35 +123,24 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var totalCollection int32
-	switch sett.Sett.CalculateCollection {
+	switch sett.CalculateCollection {
 	case 0:
 		totalCollection = collstat.Stats.TotalAmount
 	case 1:
 		totalCollection = drstat.Stats.TotalAmount
 	case 2:
-		totalCollection = sett.Sett.TotalAmount
+		totalCollection = sett.TotalAmount
 	}
 
-	targetAmount := sett.Sett.TargetAmount
+	targetAmount := sett.TargetAmount
 	if totalCollection > targetAmount {
 		totalCollection = targetAmount
 	}
 
 	data := HomeTemplateData{
-		CollList: collList,
-		DreList:  drList,
-		Sett: Settings{
-			PatientName:          sett.Sett.PatientName,
-			Title:                sett.Sett.Title,
-			BannerTitle:          sett.Sett.BannerTitle,
-			BannerDescription:    sett.Sett.BannerDescription,
-			BannerImage:          sett.Sett.BannerImage,
-			AboutPatient:         sett.Sett.AboutPatient,
-			ShowMedicalDocuments: sett.Sett.ShowMedicalDocuments,
-			ShowCollection:       sett.Sett.ShowCollection,
-			ShowDailyReport:      sett.Sett.ShowDailyReport,
-			ShowFundUpdates:      sett.Sett.ShowFundUpdates,
-		},
+		CollList:        collList,
+		DreList:         drList,
+		Sett:            sett,
 		FilterData:      *filterData,
 		URLs:            listOfURLs(),
 		TargetAmount:    formatWithCommas(targetAmount),

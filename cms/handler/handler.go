@@ -98,9 +98,13 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 
 	type NotFoundTempData struct {
 		URLs map[string]string
+		Sett Settings
 	}
 	r.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		err := hand.templates.ExecuteTemplate(w, "404.html", NotFoundTempData{URLs: listOfURLs()})
+		err := hand.templates.ExecuteTemplate(w, "404.html", NotFoundTempData{
+			URLs: listOfURLs(),
+			Sett: hand.getSettings(w, r),
+		})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
