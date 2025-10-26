@@ -12,7 +12,7 @@ import (
 type HomeTemplateData struct {
 	CollList        []Collection
 	DreList         []DailyReport
-	Sett            Settings
+	Sett            SettingsHome
 	Paginator       paginator.Paginator
 	FilterData      Filter
 	TargetAmount    string
@@ -32,7 +32,7 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	currencyList := h.getCurrencyListMap(w, r)
-	sett := h.getSettings(w, r)
+	sett := h.getSettingsHome(w, r)
 	filterData := GetFilterData(r)
 	clst, err := h.cc.ListCollection(ctx, &collgrpc.ListCollectionRequest{
 		Filter: &collgrpc.Filter{

@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"html/template"
 	"io"
 	"log"
 	"mime/multipart"
@@ -9,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"golang.org/x/text/message"
@@ -109,4 +111,12 @@ func (h *Handler) saveImage(file multipart.File, fileHeader *multipart.FileHeade
 		return fileName, err
 	}
 	return "", nil
+}
+
+func highlightSubstring(text, keyword string, padding int32) template.HTML {
+	if keyword == "" || text == "" {
+		return template.HTML(text)
+	}
+	highlighted := fmt.Sprintf(`<span class="bg-success text-light p-%d rounded-3">%s</span>`, padding, keyword)
+	return template.HTML(strings.ReplaceAll(text, keyword, highlighted))
 }

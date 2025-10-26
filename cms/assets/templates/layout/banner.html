@@ -2,8 +2,9 @@
     <div class="container-fluid banner-image">
         <div class="row p-5">
             <div class="col-md-7">
-                <h1><span class="bg-success text-light p-2 rounded-3">তমাল</span> বাঁচতে চায়</h1>
-                <p class="fs-5">খুলনা বিশ্ববিদ্যালয়ের ইলেক্ট্রনিক্স অ্যান্ড কমিউনিকেশন ইঞ্জিনিয়ারিং ডিসিপ্লিনের ‘১১ ব্যাচের ছাত্র মো. নাজমুল ইসলাম তমাল- দুরারোগ্য ব্লাড ক্যান্সারে আক্রান্ত! তমালের চিকিৎসার জন্য <span class="bg-success text-light p-1 rounded-3">প্রায় ৭৫ লাখ</span> টাকা প্রয়োজন যা এই মুহুর্তে তার পরিবারের পক্ষে বহন করা অসম্ভব। তাই তমালকে বাঁচাতে আপনাদের আর্থিক সহায়তা অত্যন্ত জরুরী।</p>
+                <h1>{{.Sett.BannerTitle}}</h1>
+                <p class="fs-5">{{.Sett.BannerDescription}}</p>
+                {{if .Sett.ShowFundUpdates}}
                 <div class="row">
                     <div class="col-12 col-lg-6">
                         <div class="card bg-dark">
@@ -19,6 +20,9 @@
                         </div>
                     </div>
                 </div>
+                {{else}}
+                <a href="{{.URLs.home}}#donate" class="btn btn-success btn-lg">Donate</a>
+                {{end}}
             </div>
         </div>
     </div>

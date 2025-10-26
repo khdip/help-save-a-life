@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"html/template"
 	"log"
 	"net/http"
 
@@ -34,6 +35,22 @@ type SettingsData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+}
+
+type SettingsHome struct {
+	PatientName          string
+	Title                string
+	BannerTitle          template.HTML
+	BannerDescription    template.HTML
+	BannerImage          string
+	AboutPatient         template.HTML
+	TargetAmount         int32
+	ShowMedicalDocuments bool
+	ShowCollection       bool
+	ShowDailyReport      bool
+	ShowFundUpdates      bool
+	CalculateCollection  int32
+	TotalAmount          int32
 }
 
 func (s Settings) Validate(h *Handler) error {
@@ -157,7 +174,7 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 			PatientName:                  sett.PatientName,
 			Title:                        sett.Title,
 			BannerTitle:                  sett.BannerTitle,
-			HighlightedBannerTitle:       sett.HighlightedBannerDescription,
+			HighlightedBannerTitle:       sett.HighlightedBannerTitle,
 			BannerDescription:            sett.BannerDescription,
 			HighlightedBannerDescription: sett.HighlightedBannerDescription,
 			BannerImage:                  sett.BannerImage,
@@ -178,7 +195,7 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 
 	h.loadSettingsForm(w, SettingsData{
 		Sett:           sett,
-		Message:        map[string]string{"SuccsessMessage": "Settings updated successfully."},
+		Message:        map[string]string{"SuccessMessage": "Settings updated successfully."},
 		URLs:           listOfURLs(),
 		CurrentPageURL: settingsEditPath,
 	})
@@ -215,5 +232,29 @@ func (h *Handler) getSettings(w http.ResponseWriter, r *http.Request) Settings {
 		ShowFundUpdates:              sett.Sett.ShowFundUpdates,
 		CalculateCollection:          sett.Sett.CalculateCollection,
 		TotalAmount:                  sett.Sett.TotalAmount,
+	}
+}
+
+func (h *Handler) getSettingsHome(w http.ResponseWriter, r *http.Request) SettingsHome {
+	sett, err := h.sc.GetSettings(r.Context(), &settgrpc.GetSettingsRequest{})
+	if err != nil {
+		log.Println("unable to get settings: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	return SettingsHome{
+		PatientName:          sett.Sett.PatientName,
+		Title:                sett.Sett.Title,
+		BannerTitle:          highlightSubstring(sett.Sett.BannerTitle, sett.Sett.HighlightedBannerTitle, 2),
+		BannerDescription:    highlightSubstring(sett.Sett.BannerDescription, sett.Sett.HighlightedBannerDescription, 1),
+		BannerImage:          sett.Sett.BannerImage,
+		AboutPatient:         template.HTML(sett.Sett.AboutPatient),
+		TargetAmount:         sett.Sett.TargetAmount,
+		ShowMedicalDocuments: sett.Sett.ShowMedicalDocuments,
+		ShowCollection:       sett.Sett.ShowCollection,
+		ShowDailyReport:      sett.Sett.ShowDailyReport,
+		ShowFundUpdates:      sett.Sett.ShowFundUpdates,
+		CalculateCollection:  sett.Sett.CalculateCollection,
+		TotalAmount:          sett.Sett.TotalAmount,
 	}
 }

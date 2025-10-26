@@ -59,7 +59,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">About Patient*</label>
-                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The about text is used at the about section in the homepage">&#9432;</span>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="The about text is used at the about section in the homepage. Use p tags (<p>...</p>) to differentiate paragraphs.">&#9432;</span>
                         <textarea class="form-control" name="AboutPatient" placeholder="Enter patient details" rows="10">{{.Sett.AboutPatient}}</textarea>
                         <p class="text-danger">{{.FormErrors.AboutPatient}}</p>
                     </div>
@@ -110,10 +110,26 @@
             </div>
         </div>
     </div>
+    {{if .Message.SuccessMessage}}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div class="toast bg-success fade show" role="status" aria-live="polite" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body text-light">{{.Message.SuccessMessage}}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {{end}}
 </body>
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 <script>
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toastEl = document.querySelector('.toast');
+        const toast = bootstrap.Toast.getOrCreateInstance(toastEl);
+        toast.show();
+    });
 </script>
 </html>
