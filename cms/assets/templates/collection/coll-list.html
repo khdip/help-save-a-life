@@ -13,7 +13,7 @@
         <h2 class="p-2 text-center">Collection List</h2>
         <div class="row p-2 justify-content-between">
             <div class="col-md-3">
-                <form action="/collection" method="GET">
+                <form action="{{.URLs.collList}}" method="GET">
                     <div class="input-group mb-3">
                         <select class="form-select" name="SortBy">
                             <option {{if eq .FilterData.SortBy "serial_number"}} selected {{end}} value="serial_number">Serial</option>
@@ -34,7 +34,7 @@
                 </form>
             </div>
             <div class="col-md-4">
-                <form action="/collection" method="GET">
+                <form action="{{.URLs.collList}}" method="GET">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Search ..." name="SearchTerm" value="{{.FilterData.SearchTerm}}">
                         <button type="submit" class="btn btn-success">Search</button>

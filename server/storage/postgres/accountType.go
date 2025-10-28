@@ -23,11 +23,13 @@ INSERT INTO account_type (
 func (s *Storage) CreateAccountType(ctx context.Context, acct storage.AccountType) (string, error) {
 	stmt, err := s.db.PrepareNamed(insertAccountType)
 	if err != nil {
+		fmt.Println("1:", err)
 		return "", err
 	}
 
 	var id string
 	if err := stmt.Get(&id, acct); err != nil {
+		fmt.Println("2:", err)
 		return "", err
 	}
 

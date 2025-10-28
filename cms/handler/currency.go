@@ -83,7 +83,7 @@ func (h *Handler) storeCurrency(w http.ResponseWriter, r *http.Request) {
 			Curr:           curr,
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
-			CurrentPageURL: collectionListPath,
+			CurrentPageURL: currencyListPath,
 		}
 		h.loadCurrencyCreateForm(w, data)
 		return

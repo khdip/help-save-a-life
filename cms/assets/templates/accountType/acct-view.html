@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Account Type Details</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Account Type Details</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><span class="fw-bold">Serial Number: </span>{{.Acct.SerialNumber}}</p>
+                        <p class="card-text"><span class="fw-bold">Title: </span>{{.Acct.Title}}</p>
+                        <p class="card-text"><span class="fw-bold">Created At: </span>{{.Acct.CreatedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Created By: </span>{{.Acct.CreatedBy}}</p>
+                        <p class="card-text"><span class="fw-bold">Updated At: </span>{{.Acct.UpdatedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Updated By: </span>{{.Acct.UpdatedBy}}</p>
+                        <a href="{{.URLs.acctList}}" class="btn btn-primary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

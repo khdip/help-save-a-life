@@ -5,21 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
-    <title>Daily Reports</title>
+    <title>Account Types</title>
 </head>
 <body>
     {{template "admin-header" . }}
     <div class="container-fluid">
-        <h2 class="p-2 text-center">Daily Report List</h2>
+        <h2 class="p-2 text-center">Account Type List</h2>
         <div class="row p-2 justify-content-between">
             <div class="col-md-3">
-                <form action="{{.URLs.dreList}}" method="GET">
+                <form action="{{.URLs.acctList}}" method="GET">
                     <div class="input-group mb-3">
                         <select class="form-select" name="SortBy">
                             <option {{if eq .FilterData.SortBy "serial_number"}} selected {{end}} value="serial_number">Serial</option>
-                            <option {{if eq .FilterData.SortBy "date"}} selected {{end}} value="date">Date</option>
-                            <option {{if eq .FilterData.SortBy "amount"}} selected {{end}} value="amount">Amount</option>
-                            <option {{if eq .FilterData.SortBy "currency"}} selected {{end}} value="currency">Currency</option>
+                            <option {{if eq .FilterData.SortBy "title"}} selected {{end}} value="title">Title</option>
                             <option {{if eq .FilterData.SortBy "created_at"}} selected {{end}} value="created_at">Created At</option>
                             <option {{if eq .FilterData.SortBy "updated_at"}} selected {{end}} value="updated_at">Updated At</option>
                         </select>
@@ -32,7 +30,7 @@
                 </form>
             </div>
             <div class="col-md-4">
-                <form action="{{.URLs.dreList}}" method="GET">
+                <form action="{{.URLs.acctList}}" method="GET">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Search ..." name="SearchTerm" value="{{.FilterData.SearchTerm}}">
                         <button type="submit" class="btn btn-success">Search</button>
@@ -40,7 +38,7 @@
                 </form>
             </div>
             <div class="col-md-2">
-                <a class="btn btn-success" href="{{.URLs.dreCreate}}">+ Add An Entry</a>
+                <a class="btn btn-success" href="{{.URLs.acctCreate}}">+ Add Account Type</a>
             </div>
         </div>
         <div class="row p-3">
@@ -50,9 +48,7 @@
                         <thead>
                             <tr>
                                 <th>Serial</th>
-                                <th>Date</th>
-                                <th>Amount</th>
-                                <th>Currency</th>
+                                <th>Title</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -60,29 +56,27 @@
                             {{range .List}}
                             <tr>
                                 <td>{{.SerialNumber}}</td>
-                                <td>{{.Date}}</td>
-                                <td>{{.Amount}}</td>
-                                <td>{{.Currency}}</td>
+                                <td>{{.Title}}</td>
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="/daily_report/view/{{.ReportID}}">View</a>
-                                    <a class="btn btn-warning btn-sm" href="/daily_report/edit/{{.ReportID}}">Edit</a>
-                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#dreModal{{.ReportID}}">Delete</button>
+                                    <a class="btn btn-info btn-sm" href="/account_type/view/{{.ID}}">View</a>
+                                    <a class="btn btn-warning btn-sm" href="/account_type/edit/{{.ID}}">Edit</a>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#acctModal{{.ID}}">Delete</button>
                                 </td>
                             </tr>
                             <!-- Modal -->
-                            <div class="modal fade" id="dreModal{{.ReportID}}" tabindex="-1" aria-labelledby="dreModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="acctModal{{.ID}}" tabindex="-1" aria-labelledby="acctModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h1 class="modal-title fs-5" id="collModalLabel">Delete daily report entry?</h1>
+                                            <h1 class="modal-title fs-5" id="collModalLabel">Delete account type?</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Are you sure to delete the daily report entry?</p>
+                                            <p>Are you sure to delete the account type entry?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                            <a href="/daily_report/delete/{{.ReportID}}" class="btn btn-danger">Delete</a>
+                                            <a href="/account_type/delete/{{.ID}}" class="btn btn-danger">Delete</a>
                                         </div>
                                     </div>
                                 </div>
