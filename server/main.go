@@ -25,6 +25,14 @@ import (
 	currcore "help-save-a-life/server/core/currency"
 	currsvc "help-save-a-life/server/services/currency"
 
+	acctgrpc "help-save-a-life/proto/accountType"
+	acctcore "help-save-a-life/server/core/accountType"
+	acctsvc "help-save-a-life/server/services/accountType"
+
+	acntgrpc "help-save-a-life/proto/accounts"
+	acntcore "help-save-a-life/server/core/accounts"
+	acntsvc "help-save-a-life/server/services/accounts"
+
 	settgrpc "help-save-a-life/proto/settings"
 	settcore "help-save-a-life/server/core/settings"
 	settsvc "help-save-a-life/server/services/settings"
@@ -75,6 +83,14 @@ func main() {
 	currC := currcore.New(store)
 	currS := currsvc.New(currC)
 	currgrpc.RegisterCurrencyServiceServer(grpcServer, currS)
+
+	acctC := acctcore.New(store)
+	acctS := acctsvc.New(acctC)
+	acctgrpc.RegisterAccountTypeServiceServer(grpcServer, acctS)
+
+	acntC := acntcore.New(store)
+	acntS := acntsvc.New(acntC)
+	acntgrpc.RegisterAccountsServiceServer(grpcServer, acntS)
 
 	settC := settcore.New(store)
 	settS := settsvc.New(settC)

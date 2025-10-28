@@ -54,6 +54,21 @@ type Currency struct {
 	CRUDTimeDate
 }
 
+type AccountType struct {
+	ID           string `db:"id"`
+	SerialNumber int32  `db:"serial_number"`
+	Title        string `db:"title"`
+	CRUDTimeDate
+}
+
+type Accounts struct {
+	ID           string `db:"id"`
+	SerialNumber int32  `db:"serial_number"`
+	AccountType  string `db:"account_type"`
+	Details      string `db:"details"`
+	CRUDTimeDate
+}
+
 type Settings struct {
 	PatientName                  string    `db:"patient_name"`
 	Title                        string    `db:"title"`

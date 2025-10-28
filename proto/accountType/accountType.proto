@@ -1,0 +1,87 @@
+syntax="proto3";
+
+package accountType;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/accountType";
+
+message AccountType {
+    string ID = 1;
+    int32 SerialNumber = 2;
+    string Title = 3;
+    google.protobuf.Timestamp CreatedAt = 4;
+    string CreatedBy = 5;
+    google.protobuf.Timestamp UpdatedAt = 6;
+    string UpdatedBy = 7;
+    google.protobuf.Timestamp DeletedAt = 8;
+    string DeletedBy = 9;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+    int32 TotalAmount = 2;
+}
+
+message CreateAccountTypeRequest {
+    AccountType Acct = 1;
+}
+
+message CreateAccountTypeResponse {
+    string ID = 1;
+}
+
+message GetAccountTypeRequest {
+    AccountType Acct = 1;
+}
+
+message GetAccountTypeResponse {
+    AccountType Acct = 1;
+}
+
+message UpdateAccountTypeRequest {
+    AccountType Acct = 1;
+}
+
+message UpdateAccountTypeResponse {
+    AccountType Acct = 1;
+}
+
+message DeleteAccountTypeRequest {
+    AccountType Acct = 1;
+}
+
+message DeleteAccountTypeResponse {}
+
+message ListAccountTypeRequest {
+    Filter Filter = 1;
+}
+
+message ListAccountTypeResponse {
+   repeated AccountType Acct = 1;
+}
+
+message AccountTypeStatsRequest {
+    Filter Filter = 1;
+}
+
+message AccountTypeStatsResponse {
+    Stats Stats = 1;
+}
+
+service AccountTypeService {
+    rpc CreateAccountType(CreateAccountTypeRequest) returns(CreateAccountTypeResponse) {}
+    rpc GetAccountType(GetAccountTypeRequest) returns(GetAccountTypeResponse) {}
+    rpc UpdateAccountType(UpdateAccountTypeRequest) returns(UpdateAccountTypeResponse) {}
+    rpc DeleteAccountType(DeleteAccountTypeRequest) returns(DeleteAccountTypeResponse) {}
+    rpc ListAccountType(ListAccountTypeRequest) returns(ListAccountTypeResponse) {}
+    rpc AccountTypeStats(AccountTypeStatsRequest) returns(AccountTypeStatsResponse) {}
+}

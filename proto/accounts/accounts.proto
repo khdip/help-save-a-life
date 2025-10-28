@@ -1,0 +1,87 @@
+syntax="proto3";
+
+package accounts;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/accounts";
+
+message Accounts {
+    string ID = 1;
+    int32 SerialNumber = 2;
+    string AccountType = 3;
+    string Details = 4;
+    google.protobuf.Timestamp CreatedAt = 5;
+    string CreatedBy = 6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    string UpdatedBy = 8;
+    google.protobuf.Timestamp DeletedAt = 9;
+    string DeletedBy = 10;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+}
+
+message CreateAccountsRequest {
+    Accounts Acnt = 1;
+}
+
+message CreateAccountsResponse {
+    string ID = 1;
+}
+
+message GetAccountsRequest {
+    Accounts Acnt = 1;
+}
+
+message GetAccountsResponse {
+    Accounts Acnt = 1;
+}
+
+message UpdateAccountsRequest {
+    Accounts Acnt = 1;
+}
+
+message UpdateAccountsResponse {
+    Accounts Acnt = 1;
+}
+
+message DeleteAccountsRequest {
+    Accounts Acnt = 1;
+}
+
+message DeleteAccountsResponse {}
+
+message ListAccountsRequest {
+    Filter Filter = 1;
+}
+
+message ListAccountsResponse {
+   repeated Accounts Acnt = 1;
+}
+
+message AccountsStatsRequest {
+    Filter Filter = 1;
+}
+
+message AccountsStatsResponse {
+    Stats Stats = 1;
+}
+
+service AccountsService {
+    rpc CreateAccounts(CreateAccountsRequest) returns(CreateAccountsResponse) {}
+    rpc GetAccounts(GetAccountsRequest) returns(GetAccountsResponse) {}
+    rpc UpdateAccounts(UpdateAccountsRequest) returns(UpdateAccountsResponse) {}
+    rpc DeleteAccounts(DeleteAccountsRequest) returns(DeleteAccountsResponse) {}
+    rpc ListAccounts(ListAccountsRequest) returns(ListAccountsResponse) {}
+    rpc AccountsStats(AccountsStatsRequest) returns(AccountsStatsResponse) {}
+}
