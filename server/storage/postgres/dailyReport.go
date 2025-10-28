@@ -131,7 +131,7 @@ func (s *Storage) ListDailyReport(ctx context.Context, f storage.Filter) ([]stor
 }
 
 func (s *Storage) DailyReportStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
-	var dreStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM daily_report WHERE deleted_at IS NULL AND date ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
+	var dreStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount * exchange_rate), 0) AS total_amount FROM daily_report LEFT JOIN currency ON currency = currency.id WHERE daily_report.deleted_at IS NULL AND date ILIKE '%%' || '%s' || '%%';", f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, dreStat); err != nil {
 		if err == sql.ErrNoRows {

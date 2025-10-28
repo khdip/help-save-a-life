@@ -93,5 +93,5 @@ type Filter struct {
 
 type Stats struct {
 	Count       int32
-	TotalAmount int32 `db:"coalesce"`
+	TotalAmount int32 `db:"total_amount"`
 }

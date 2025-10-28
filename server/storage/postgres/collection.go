@@ -141,7 +141,7 @@ func (s *Storage) ListCollection(ctx context.Context, f storage.Filter) ([]stora
 }
 
 func (s *Storage) CollectionStats(ctx context.Context, f storage.Filter) (storage.Stats, error) {
-	var collStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount), 0) FROM collection where deleted_at IS NULL AND (account_number ILIKE '%%' || '%s' || '%%' OR account_type ILIKE '%%' || '%s' || '%%' OR date ILIKE '%%' || '%s' || '%%' OR sender ILIKE '%%' || '%s' || '%%');", f.SearchTerm, f.SearchTerm, f.SearchTerm, f.SearchTerm)
+	var collStat = fmt.Sprintf("SELECT COUNT(*), COALESCE(SUM(amount * exchange_rate), 0) AS total_amount FROM collection LEFT JOIN currency ON currency = currency.id WHERE collection.deleted_at IS NULL AND (account_number ILIKE '%%' || '%s' || '%%' OR account_type ILIKE '%%' || '%s' || '%%' OR date ILIKE '%%' || '%s' || '%%' OR sender ILIKE '%%' || '%s' || '%%');", f.SearchTerm, f.SearchTerm, f.SearchTerm, f.SearchTerm)
 	var stat storage.Stats
 	if err := s.db.Get(&stat, collStat); err != nil {
 		if err == sql.ErrNoRows {
