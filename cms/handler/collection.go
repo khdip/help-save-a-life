@@ -32,6 +32,7 @@ type CollTemplateData struct {
 	Coll           Collection
 	List           []Collection
 	Currencies     []Currency
+	AccountTypes   []AccountType
 	Paginator      paginator.Paginator
 	FilterData     Filter
 	URLs           map[string]string
@@ -64,6 +65,7 @@ func (h *Handler) createCollection(w http.ResponseWriter, r *http.Request) {
 	data := CollTemplateData{
 		Coll:           Collection{},
 		Currencies:     h.getCurrencyList(w, r),
+		AccountTypes:   h.getAccountTypeList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,
 	}
@@ -96,6 +98,7 @@ func (h *Handler) storeCollection(w http.ResponseWriter, r *http.Request) {
 		data := CollTemplateData{
 			Coll:           coll,
 			Currencies:     h.getCurrencyList(w, r),
+			AccountTypes:   h.getAccountTypeList(w, r),
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: collectionListPath,
@@ -148,6 +151,7 @@ func (h *Handler) editCollection(w http.ResponseWriter, r *http.Request) {
 			Currency:      res.Coll.Currency,
 		},
 		Currencies:     h.getCurrencyList(w, r),
+		AccountTypes:   h.getAccountTypeList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,
 	})
@@ -182,6 +186,7 @@ func (h *Handler) updateCollection(w http.ResponseWriter, r *http.Request) {
 		data := CollTemplateData{
 			Coll:           coll,
 			Currencies:     h.getCurrencyList(w, r),
+			AccountTypes:   h.getAccountTypeList(w, r),
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: collectionListPath,
@@ -233,12 +238,13 @@ func (h *Handler) listCollection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	currencyList := h.getCurrencyListMap(w, r)
+	acctList := h.getAccountTypeListMap(w, r)
 	collList := make([]Collection, 0, len(clst.GetColl()))
 	for _, item := range clst.GetColl() {
 		cData := Collection{
 			CollectionID:  item.CollectionID,
 			SerialNumber:  item.SerialNumber,
-			AccountType:   item.AccountType,
+			AccountType:   acctList[item.AccountType],
 			AccountNumber: item.AccountNumber,
 			Sender:        item.Sender,
 			Date:          item.Date,
@@ -308,7 +314,7 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 		Coll: Collection{
 			CollectionID:  res.Coll.CollectionID,
 			SerialNumber:  res.Coll.SerialNumber,
-			AccountType:   res.Coll.AccountType,
+			AccountType:   h.getAccountTypeListMap(w, r)[res.Coll.AccountType],
 			AccountNumber: res.Coll.AccountNumber,
 			Sender:        res.Coll.Sender,
 			Date:          res.Coll.Date,

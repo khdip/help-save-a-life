@@ -15,14 +15,11 @@
             <div class="col-md-6">
                 <form method="post" action="/collection/update/{{.Coll.CollectionID}}">
                     <div class="mb-3">
-                        <label class="form-label">Account Type</label>
+                        <label class="form-label">Account Type*</label>
                         <select class="form-select" name="AccountType">
-                            <option {{if eq .Coll.AccountType "Bank"}}selected {{end}} value="Bank">Bank</option>
-                            <option {{if eq .Coll.AccountType "Bkash"}}selected {{end}} value="Bkash">Bkash</option>
-                            <option {{if eq .Coll.AccountType "Nagad"}}selected {{end}} value="Nagad">Nagad</option>
-                            <option {{if eq .Coll.AccountType "Rocket"}}selected {{end}} value="Rocket">Rocket</option>
-                            <option {{if eq .Coll.AccountType "Upay"}}selected {{end}} value="Upay">Upay</option>
-                            <option {{if eq .Coll.AccountType "Cash"}}selected {{end}} value="Cash">Cash</option>
+                            {{range .AccountTypes}}
+                            <option {{if eq .ID $.Coll.AccountType}}selected{{end}} value="{{.ID}}">{{.Title}}</option>
+                            {{end}}
                         </select>
                         <p class="text-danger">{{.FormErrors.AccountType}}</p>
                     </div>
