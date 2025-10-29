@@ -47,6 +47,13 @@ const (
 	accountTypeUpdatePath = "/account_type/update/{id}"
 	accountTypeDeletePath = "/account_type/delete/{id}"
 	accountTypeViewPath   = "/account_type/view/{id}"
+	accountsListPath      = "/accounts"
+	accountsCreatePath    = "/account/create"
+	accountsStorePath     = "/account/store"
+	accountsEditPath      = "/account/edit/{id}"
+	accountsUpdatePath    = "/account/update/{id}"
+	accountsDeletePath    = "/account/delete/{id}"
+	accountsViewPath      = "/account/view/{id}"
 	settingsEditPath      = "/settings"
 	settingsUpdatePath    = "/settings/update"
 )
@@ -97,6 +104,13 @@ func listOfURLs() map[string]string {
 		"acctUpdate":   accountTypeUpdatePath,
 		"acctDelete":   accountTypeDeletePath,
 		"acctView":     accountTypeViewPath,
+		"acntList":     accountsListPath,
+		"acntCreate":   accountsCreatePath,
+		"acntStore":    accountsStorePath,
+		"acntEdit":     accountsEditPath,
+		"acntUpdate":   accountsUpdatePath,
+		"acntDelete":   accountsDeletePath,
+		"acntView":     currencyViewPath,
 		"settEdit":     settingsEditPath,
 		"settUpdate":   settingsUpdatePath,
 	}

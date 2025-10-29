@@ -11,6 +11,7 @@ import (
 	"github.com/gorilla/sessions"
 
 	acctgrpc "help-save-a-life/proto/accountType"
+	acntgrpc "help-save-a-life/proto/accounts"
 	collgrpc "help-save-a-life/proto/collection"
 	commgrpc "help-save-a-life/proto/comments"
 	currgrpc "help-save-a-life/proto/currency"
@@ -32,9 +33,10 @@ type Handler struct {
 	cuc       currgrpc.CurrencyServiceClient
 	sc        settgrpc.SettingsServiceClient
 	at        acctgrpc.AccountTypeServiceClient
+	acc       acntgrpc.AccountsServiceClient
 }
 
-func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient, sc settgrpc.SettingsServiceClient, at acctgrpc.AccountTypeServiceClient) *mux.Router {
+func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient, sc settgrpc.SettingsServiceClient, at acctgrpc.AccountTypeServiceClient, acc acntgrpc.AccountsServiceClient) *mux.Router {
 	hand := &Handler{
 		decoder: decoder,
 		session: session,
@@ -47,6 +49,7 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 		cuc:     cuc,
 		sc:      sc,
 		at:      at,
+		acc:     acc,
 	}
 	hand.GetTemplate()
 
@@ -100,6 +103,13 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 	s.HandleFunc(accountTypeListPath, hand.listAccountType)
 	s.HandleFunc(accountTypeViewPath, hand.viewAccountType)
 	s.HandleFunc(accountTypeDeletePath, hand.deleteAccountType)
+	s.HandleFunc(accountsCreatePath, hand.createAccounts)
+	s.HandleFunc(accountsStorePath, hand.storeAccounts)
+	s.HandleFunc(accountsEditPath, hand.editAccounts)
+	s.HandleFunc(accountsUpdatePath, hand.updateAccounts)
+	s.HandleFunc(accountsListPath, hand.listAccounts)
+	s.HandleFunc(accountsViewPath, hand.viewAccounts)
+	s.HandleFunc(accountsDeletePath, hand.deleteAccounts)
 	s.HandleFunc(settingsEditPath, hand.editSettings)
 	s.HandleFunc(settingsUpdatePath, hand.saveSettings)
 	s.Use(hand.authMiddleware)
@@ -152,6 +162,10 @@ func (h *Handler) GetTemplate() {
 		"cms/assets/templates/accountType/acct-create.html",
 		"cms/assets/templates/accountType/acct-edit.html",
 		"cms/assets/templates/accountType/acct-view.html",
+		"cms/assets/templates/accounts/acnt-list.html",
+		"cms/assets/templates/accounts/acnt-create.html",
+		"cms/assets/templates/accounts/acnt-edit.html",
+		"cms/assets/templates/accounts/acnt-view.html",
 		"cms/assets/templates/base/404.html",
 		"cms/assets/templates/base/unauthorized.html",
 		"cms/assets/templates/base/login.html",

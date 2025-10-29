@@ -120,3 +120,7 @@ func highlightSubstring(text, keyword string, padding int32) template.HTML {
 	highlighted := fmt.Sprintf(`<span class="bg-success text-light p-%d rounded-3">%s</span>`, padding, keyword)
 	return template.HTML(strings.ReplaceAll(text, keyword, highlighted))
 }
+
+func makeHTMLTemplate(s string) template.HTML {
+	return template.HTML(s)
+}

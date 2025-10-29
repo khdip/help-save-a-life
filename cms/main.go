@@ -18,6 +18,7 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	acctgrpc "help-save-a-life/proto/accountType"
+	acntgrpc "help-save-a-life/proto/accounts"
 	collgrpc "help-save-a-life/proto/collection"
 	commgrpc "help-save-a-life/proto/comments"
 	currgrpc "help-save-a-life/proto/currency"
@@ -67,7 +68,8 @@ func main() {
 	cuc := currgrpc.NewCurrencyServiceClient(conn)
 	sc := settgrpc.NewSettingsServiceClient(conn)
 	atc := acctgrpc.NewAccountTypeServiceClient(conn)
-	r := handler.GetHandler(decoder, store, asst, uc, cc, cmc, drc, cuc, sc, atc)
+	acc := acntgrpc.NewAccountsServiceClient(conn)
+	r := handler.GetHandler(decoder, store, asst, uc, cc, cmc, drc, cuc, sc, atc, acc)
 
 	host, port := config.GetString("client.host"), config.GetString("client.port")
 	log.Println("Server  starting...")
