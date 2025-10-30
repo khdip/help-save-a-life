@@ -134,41 +134,5 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 }
 
 func (h *Handler) GetTemplate() {
-	h.templates = template.Must(template.ParseFiles(
-		"cms/assets/templates/layout/header.html",
-		"cms/assets/templates/layout/banner.html",
-		"cms/assets/templates/layout/admin-header.html",
-		"cms/assets/templates/base/index.html",
-		"cms/assets/templates/base/dashboard.html",
-		"cms/assets/templates/users/user-list.html",
-		"cms/assets/templates/users/user-create.html",
-		"cms/assets/templates/users/user-edit.html",
-		"cms/assets/templates/users/user-view.html",
-		"cms/assets/templates/collection/coll-list.html",
-		"cms/assets/templates/collection/coll-create.html",
-		"cms/assets/templates/collection/coll-edit.html",
-		"cms/assets/templates/collection/coll-view.html",
-		"cms/assets/templates/dailyReport/dre-list.html",
-		"cms/assets/templates/dailyReport/dre-create.html",
-		"cms/assets/templates/dailyReport/dre-edit.html",
-		"cms/assets/templates/dailyReport/dre-view.html",
-		"cms/assets/templates/comments/comm-list.html",
-		"cms/assets/templates/comments/comm-view.html",
-		"cms/assets/templates/currency/curr-list.html",
-		"cms/assets/templates/currency/curr-create.html",
-		"cms/assets/templates/currency/curr-edit.html",
-		"cms/assets/templates/currency/curr-view.html",
-		"cms/assets/templates/accountType/acct-list.html",
-		"cms/assets/templates/accountType/acct-create.html",
-		"cms/assets/templates/accountType/acct-edit.html",
-		"cms/assets/templates/accountType/acct-view.html",
-		"cms/assets/templates/accounts/acnt-list.html",
-		"cms/assets/templates/accounts/acnt-create.html",
-		"cms/assets/templates/accounts/acnt-edit.html",
-		"cms/assets/templates/accounts/acnt-view.html",
-		"cms/assets/templates/base/404.html",
-		"cms/assets/templates/base/unauthorized.html",
-		"cms/assets/templates/base/login.html",
-		"cms/assets/templates/settings/settings.html",
-	))
+	h.templates = template.Must(template.ParseFiles(theme_1...))
 }

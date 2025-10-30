@@ -25,6 +25,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Account Details*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Use p tags (<p>...</p>) to differentiate each line of account details.">&#9432;</span>
                         <textarea class="form-control" name="Details" placeholder="Enter account details" rows="4">{{.Acnt.Details}}</textarea>
                         <p class="text-danger">{{.FormErrors.Details}}</p>
                     </div>
@@ -36,4 +37,5 @@
     </div>
 </body>
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/tooltip.js"></script>
 </html>

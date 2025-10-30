@@ -32,6 +32,7 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	currencyList := h.getCurrencyListMap(w, r)
+	acctList := h.getAccountTypeListMap(w, r)
 	sett := h.getSettingsHome(w, r)
 	filterData := GetFilterData(r)
 	clst, err := h.cc.ListCollection(ctx, &collgrpc.ListCollectionRequest{
@@ -52,7 +53,7 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	if sett.ShowCollection {
 		for _, item := range clst.GetColl() {
 			cData := Collection{
-				AccountType:   item.AccountType,
+				AccountType:   acctList[item.AccountType],
 				AccountNumber: hideDigits(item.AccountNumber),
 				Date:          item.Date,
 				Amount:        item.Amount,
