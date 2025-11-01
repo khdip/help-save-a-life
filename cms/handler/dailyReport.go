@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"help-save-a-life/cms/paginator"
 	dregrpc "help-save-a-life/proto/dailyReport"
 	"log"
@@ -335,4 +336,32 @@ func (h *Handler) loadDailyReportEditForm(w http.ResponseWriter, data DreTemplat
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func (h *Handler) viewDailyReportHome(w http.ResponseWriter, r *http.Request) {
+	currencyList := h.getCurrencyListMap(w, r)
+	drlst, err := h.drc.ListDailyReport(r.Context(), &dregrpc.ListDailyReportRequest{
+		Filter: &dregrpc.Filter{},
+	})
+	if err != nil {
+		log.Println("unable to get list: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	drList := make([]DailyReport, 0, len(drlst.GetDre()))
+	for _, item := range drlst.GetDre() {
+		drData := DailyReport{
+			ReportID:     item.ReportID,
+			SerialNumber: item.SerialNumber,
+			Date:         item.Date,
+			Amount:       item.Amount,
+			Currency:     currencyList[item.Currency],
+			CreatedAt:    item.CreatedAt.AsTime(),
+			CreatedBy:    item.CreatedBy,
+			UpdatedAt:    item.UpdatedAt.AsTime(),
+			UpdatedBy:    item.UpdatedBy,
+		}
+		drList = append(drList, drData)
+	}
+	json.NewEncoder(w).Encode(drList)
 }

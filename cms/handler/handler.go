@@ -58,6 +58,8 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 	r.HandleFunc(commentStorePath, hand.storeComment)
 	r.HandleFunc(unauthorizedPath, hand.unauthorizedHandler)
 	r.HandleFunc(logoutPath, hand.logout)
+	r.HandleFunc(collectionListHomePath, hand.viewCollectionHome)
+	r.HandleFunc(dailyReportListHomePath, hand.viewDailyReportHome)
 
 	loginRouter := r.NewRoute().Subrouter()
 	loginRouter.HandleFunc(loginPath, hand.login)

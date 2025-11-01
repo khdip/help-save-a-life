@@ -14,6 +14,9 @@ import (
 	"time"
 
 	"golang.org/x/text/message"
+
+	collgrpc "help-save-a-life/proto/collection"
+	dregrpc "help-save-a-life/proto/dailyReport"
 )
 
 const (
@@ -123,6 +126,43 @@ func highlightSubstring(text, keyword string, padding int32) template.HTML {
 
 func makeHTMLTemplate(s string) template.HTML {
 	return template.HTML(s)
+}
+
+func (h *Handler) getTotalAndTargetAmount(w http.ResponseWriter, r *http.Request, sett SettingsHome) (int32, int32) {
+	ctx := r.Context()
+
+	collstat, err := h.cc.CollectionStats(ctx, &collgrpc.CollectionStatsRequest{
+		Filter: &collgrpc.Filter{},
+	})
+	if err != nil {
+		log.Println("unable to get stats: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	drstat, err := h.drc.DailyReportStats(ctx, &dregrpc.DailyReportStatsRequest{
+		Filter: &dregrpc.Filter{},
+	})
+	if err != nil {
+		log.Println("unable to get stats: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	var totalCollection int32
+	switch sett.CalculateCollection {
+	case 0:
+		totalCollection = collstat.Stats.TotalAmount
+	case 1:
+		totalCollection = drstat.Stats.TotalAmount
+	case 2:
+		totalCollection = sett.TotalAmount
+	}
+
+	targetAmount := sett.TargetAmount
+	if totalCollection > targetAmount {
+		totalCollection = targetAmount
+	}
+
+	return totalCollection, targetAmount
 }
 
 var theme_1 = []string{
