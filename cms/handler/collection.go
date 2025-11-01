@@ -32,7 +32,6 @@ type Collection struct {
 type CollTemplateData struct {
 	Coll           Collection
 	List           []Collection
-	CollHome       []CollectionHome
 	Currencies     []Currency
 	AccountTypes   []AccountType
 	Paginator      paginator.Paginator
@@ -49,6 +48,12 @@ type CollectionHome struct {
 	AccountType   string
 	Amount        int32
 	Currency      string
+}
+
+type CollJSONData struct {
+	CollHome   []CollectionHome
+	Paginator  paginator.Paginator
+	FilterData Filter
 }
 
 func (c Collection) Validate(h *Handler) error {
@@ -421,7 +426,7 @@ func (h *Handler) viewCollectionHome(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
-	data := CollTemplateData{
+	data := CollJSONData{
 		FilterData: *filterData,
 		CollHome:   collList,
 	}

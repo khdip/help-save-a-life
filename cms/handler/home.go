@@ -2,16 +2,12 @@ package handler
 
 import (
 	"fmt"
-	"help-save-a-life/cms/paginator"
 	"log"
 	"net/http"
 )
 
 type HomeTemplateData struct {
-	CollList        []Collection
-	DreList         []DailyReport
 	Sett            SettingsHome
-	Paginator       paginator.Paginator
 	TargetAmount    string
 	CollectedAmount string
 	RemainingAmount string

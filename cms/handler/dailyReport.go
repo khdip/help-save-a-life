@@ -38,6 +38,12 @@ type DreTemplateData struct {
 	CurrentPageURL string
 }
 
+type DailyReportHome struct {
+	Date     string
+	Amount   int32
+	Currency string
+}
+
 func (d DailyReport) Validate(h *Handler) error {
 	return validation.ValidateStruct(&d,
 		validation.Field(&d.Date,
@@ -341,25 +347,22 @@ func (h *Handler) loadDailyReportEditForm(w http.ResponseWriter, data DreTemplat
 func (h *Handler) viewDailyReportHome(w http.ResponseWriter, r *http.Request) {
 	currencyList := h.getCurrencyListMap(w, r)
 	drlst, err := h.drc.ListDailyReport(r.Context(), &dregrpc.ListDailyReportRequest{
-		Filter: &dregrpc.Filter{},
+		Filter: &dregrpc.Filter{
+			SortBy: "date",
+			Order:  "ASC",
+		},
 	})
 	if err != nil {
 		log.Println("unable to get list: ", err)
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
-	drList := make([]DailyReport, 0, len(drlst.GetDre()))
+	drList := make([]DailyReportHome, 0, len(drlst.GetDre()))
 	for _, item := range drlst.GetDre() {
-		drData := DailyReport{
-			ReportID:     item.ReportID,
-			SerialNumber: item.SerialNumber,
-			Date:         item.Date,
-			Amount:       item.Amount,
-			Currency:     currencyList[item.Currency],
-			CreatedAt:    item.CreatedAt.AsTime(),
-			CreatedBy:    item.CreatedBy,
-			UpdatedAt:    item.UpdatedAt.AsTime(),
-			UpdatedBy:    item.UpdatedBy,
+		drData := DailyReportHome{
+			Date:     item.Date,
+			Amount:   item.Amount,
+			Currency: currencyList[item.Currency],
 		}
 		drList = append(drList, drData)
 	}

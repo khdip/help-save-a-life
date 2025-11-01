@@ -15,31 +15,10 @@
     {{if .Sett.ShowCollection}}
     {{ template "collection" . }}
     {{end}}
-    <!-- <div class="container-fluid p-5" id="collection">
-        <div class="row">
-            <h2 class="text-center text-success mb-4">COLLECTION DETAILS</h2>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Collected Amount</th>
-                            <th>Remaining Required Amount</th>
-                            <th>Percentage</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>2nd September, 2025</td>
-                            <td>&#2547; 716,225</td>
-                            <td>&#2547; 6,783,775</td>
-                            <td>9.55%</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div> -->
+    {{if .Sett.ShowDailyReport}}
+    {{ template "dailyReport" . }}
+    {{end}}
+    
     <div class="container-fluid p-5 bg-success" id="donate">
         <div class="row">
             <div class="col d-flex justify-content-center">
@@ -156,5 +135,9 @@
 <script src="/assets/js/custom.js"></script>
 {{if .Sett.ShowCollection}}
 <script src="/assets/js/collFetch.js"></script>
+{{end}}
+{{if .Sett.ShowDailyReport}}
+<script src="/assets/js/chart.js"></script>
+<script src="/assets/js/dreFetch.js"></script>
 {{end}}
 </html>
