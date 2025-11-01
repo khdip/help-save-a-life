@@ -3,50 +3,32 @@
         <div class="row">
             <h2 class="text-center text-success mb-4">COLLECTION DETAILS</h2>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="collTable">
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Account Number</th>
-                            <th>Account Type</th>
-                            <th>Amount</th>
+                            <th><a href="#" class="sort" data-sort="date">Date &udarr;</a></th>
+                            <th><a href="#" class="sort" data-sort="account_number">Account Number &udarr;</a></th>
+                            <th><a href="#" class="sort" data-sort="account_type">Account Type &udarr;</a></th>
+                            <th><a href="#" class="sort" data-sort="amount">Amount &udarr;</a></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {{range .CollList}}
-                        <tr>
-                            <td>{{.Date}}</td>
-                            <td>{{.AccountNumber}}</td>
-                            <td>{{.AccountType}}</td>
-                            <td>{{.Amount}} {{.Currency}}</td>
-                        </tr>
-                        {{end}}
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    {{if ne .Paginator.Total 0}}
-                    <li class="page-item {{if eq .Paginator.CurrentPage 1}} disabled {{end}}">
-                        <a class="page-link text-success" {{if .Paginator.Prev}} href="{{.Paginator.Prev.URL}}" {{end}} aria-label="Previous">
+                    <li class="page-item">
+                        <a class="page-link text-success" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
-                    {{end}}
-                    {{range .Paginator.Pages}}
-                    {{if .Order}}
-                    <li class="page-item"><a class="page-link {{if .Current}}bg-success text-light {{else}} text-success{{end}}" href="{{.URL}}">{{.Order}}</a></li>
-                    {{else}}
+                    <li class="page-item"><a class="page-link"></a></li>
                     <li><a class="page-link text-success">...</a></li>
-                    {{end}}
-                    {{end}}
-                    {{if ne .Paginator.Total 0}}
-                    <li class="page-item  {{if eq .Paginator.CurrentPage .Paginator.CountPaginate}} disabled {{end}}">
-                        <a class="page-link text-success" {{if .Paginator.Next}} href="{{.Paginator.Next.URL}}" {{end}} aria-label="Next">
+                    <li class="page-item">
+                        <a class="page-link text-success" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
-                    {{end}}
                 </ul>
             </nav>
         </div>

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"encoding/json"
 	"help-save-a-life/cms/paginator"
 	collgrpc "help-save-a-life/proto/collection"
 	"log"
@@ -31,6 +32,7 @@ type Collection struct {
 type CollTemplateData struct {
 	Coll           Collection
 	List           []Collection
+	CollHome       []CollectionHome
 	Currencies     []Currency
 	AccountTypes   []AccountType
 	Paginator      paginator.Paginator
@@ -39,6 +41,14 @@ type CollTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+}
+
+type CollectionHome struct {
+	Date          string
+	AccountNumber string
+	AccountType   string
+	Amount        int32
+	Currency      string
 }
 
 func (c Collection) Validate(h *Handler) error {
@@ -366,4 +376,59 @@ func (h *Handler) loadCollectionEditForm(w http.ResponseWriter, data CollTemplat
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+func (h *Handler) viewCollectionHome(w http.ResponseWriter, r *http.Request) {
+	acctList := h.getAccountTypeListMap(w, r)
+	currencyList := h.getCurrencyListMap(w, r)
+	filterData := GetFilterData(r)
+	clst, err := h.cc.ListCollection(r.Context(), &collgrpc.ListCollectionRequest{
+		Filter: &collgrpc.Filter{
+			Offset: filterData.Offset,
+			Limit:  limitPerPage,
+			SortBy: filterData.SortBy,
+			Order:  filterData.Order,
+		},
+	})
+	if err != nil {
+		log.Println("unable to get list: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	collList := make([]CollectionHome, 0, len(clst.GetColl()))
+
+	for _, item := range clst.GetColl() {
+		cData := CollectionHome{
+			AccountType:   acctList[item.AccountType],
+			AccountNumber: hideDigits(item.AccountNumber),
+			Date:          item.Date,
+			Amount:        item.Amount,
+			Currency:      currencyList[item.Currency],
+		}
+		collList = append(collList, cData)
+	}
+
+	collstat, err := h.cc.CollectionStats(r.Context(), &collgrpc.CollectionStatsRequest{
+		Filter: &collgrpc.Filter{
+			Offset: filterData.Offset,
+			Limit:  limitPerPage,
+			SortBy: filterData.SortBy,
+			Order:  filterData.Order,
+		},
+	})
+	if err != nil {
+		log.Println("unable to get stats: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	data := CollTemplateData{
+		FilterData: *filterData,
+		CollHome:   collList,
+	}
+
+	if len(collList) > 0 {
+		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, collstat.Stats.Count, r)
+	}
+
+	json.NewEncoder(w).Encode(data)
 }

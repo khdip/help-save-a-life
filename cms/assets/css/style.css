@@ -1,3 +1,5 @@
 .banner-image {background-image: url("../images/Tamal Bhai 3.jpeg"); background-repeat: no-repeat; background-size: cover; padding: 7rem 0; overflow: hidden;}
 .bg-gray {background-color: #ededed;}
 #fromCustom:not(:checked) ~ #totalAmount {display: none;}
+.sort {text-decoration: none; color: #000;}
+.sort:hover {text-decoration: none; color: #198754}

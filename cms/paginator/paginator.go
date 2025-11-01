@@ -55,50 +55,20 @@ func NewPaginator(currentPage, perPage int32, total int32, req *http.Request) Pa
 	}
 
 	for i := int32(1); i <= lastPage; i++ {
-		pageURL := *req.URL
-		params := pageURL.Query()
-		params.Set("page", strconv.Itoa(int(i)))
-		pageURL.RawQuery = params.Encode()
+		if i == 1 || i == lastPage || (i >= currentPage-2 && i <= currentPage+2) {
+			pageURL := *req.URL
+			params := pageURL.Query()
+			params.Set("page", strconv.Itoa(int(i)))
+			pageURL.RawQuery = params.Encode()
 
-		if i == 1 {
 			p.Pages = append(p.Pages, Page{
 				Order:   i,
 				URL:     pageURL.String(),
 				Current: i == currentPage,
 			})
-
-			if lastPage > 4 && currentPage > 3 {
-				p.Pages = append(p.Pages, Page{})
-			}
-		} else if i == lastPage {
-			if lastPage > 4 && currentPage+2 < lastPage {
-				p.Pages = append(p.Pages, Page{})
-			}
-			p.Pages = append(p.Pages, Page{
-				Order:   i,
-				URL:     pageURL.String(),
-				Current: i == currentPage,
-			})
-		} else if currentPage < 4 && i < 4 {
-			p.Pages = append(p.Pages, Page{
-				Order:   i,
-				URL:     pageURL.String(),
-				Current: i == currentPage,
-			})
-		} else if i+2 >= lastPage && currentPage+2 >= lastPage {
-			p.Pages = append(p.Pages, Page{
-				Order:   i,
-				URL:     pageURL.String(),
-				Current: i == currentPage,
-			})
-		} else if currentPage > 3 && currentPage+2 < lastPage && (currentPage == i+1 || currentPage == i || currentPage == i-1) {
-			p.Pages = append(p.Pages, Page{
-				Order:   i,
-				URL:     pageURL.String(),
-				Current: i == currentPage,
-			})
+		} else if i == currentPage-3 || i == currentPage+3 {
+			p.Pages = append(p.Pages, Page{})
 		}
-
 	}
 
 	if currentPage != 1 {
