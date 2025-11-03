@@ -40,6 +40,7 @@ type CollTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 type CollectionHome struct {
@@ -83,6 +84,7 @@ func (h *Handler) createCollection(w http.ResponseWriter, r *http.Request) {
 		AccountTypes:   h.getAccountTypeList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	h.loadCollectionCreateForm(w, data)
 }
@@ -117,6 +119,7 @@ func (h *Handler) storeCollection(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: collectionListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadCollectionCreateForm(w, data)
 		return
@@ -169,6 +172,7 @@ func (h *Handler) editCollection(w http.ResponseWriter, r *http.Request) {
 		AccountTypes:   h.getAccountTypeList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -205,6 +209,7 @@ func (h *Handler) updateCollection(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: collectionListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadCollectionEditForm(w, data)
 		return
@@ -299,6 +304,7 @@ func (h *Handler) listCollection(w http.ResponseWriter, r *http.Request) {
 		Message:        msg,
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	if len(collList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, collstat.Stats.Count, r)
@@ -342,6 +348,7 @@ func (h *Handler) viewCollection(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: collectionListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 
 	err = h.templates.ExecuteTemplate(w, "coll-view.html", data)

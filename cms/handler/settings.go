@@ -35,6 +35,7 @@ type SettingsData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 type SettingsHome struct {
@@ -114,6 +115,7 @@ func (h *Handler) editSettings(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: settingsEditPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -164,6 +166,7 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: settingsEditPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadSettingsForm(w, data)
 		return
@@ -198,6 +201,7 @@ func (h *Handler) saveSettings(w http.ResponseWriter, r *http.Request) {
 		Message:        map[string]string{"SuccessMessage": "Settings updated successfully."},
 		URLs:           listOfURLs(),
 		CurrentPageURL: settingsEditPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -257,4 +261,13 @@ func (h *Handler) getSettingsHome(w http.ResponseWriter, r *http.Request) Settin
 		CalculateCollection:  sett.Sett.CalculateCollection,
 		TotalAmount:          sett.Sett.TotalAmount,
 	}
+}
+
+func (h *Handler) getSettingsTitle(w http.ResponseWriter, r *http.Request) string {
+	sett, err := h.sc.GetSettings(r.Context(), &settgrpc.GetSettingsRequest{})
+	if err != nil {
+		log.Println("unable to get settings: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+	return sett.Sett.Title
 }

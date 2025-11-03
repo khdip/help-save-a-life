@@ -36,6 +36,7 @@ type AccountsTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 func (a Accounts) Validate(h *Handler) error {
@@ -56,6 +57,7 @@ func (h *Handler) createAccounts(w http.ResponseWriter, r *http.Request) {
 		AccountTypes:   h.getAccountTypeList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: accountsListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	h.loadAccountsCreateForm(w, data)
 }
@@ -89,6 +91,7 @@ func (h *Handler) storeAccounts(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: accountsListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadAccountsCreateForm(w, data)
 		return
@@ -132,6 +135,7 @@ func (h *Handler) editAccounts(w http.ResponseWriter, r *http.Request) {
 		AccountTypes:   h.getAccountTypeList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: accountsListPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -167,6 +171,7 @@ func (h *Handler) updateAccounts(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: accountsListPath,
+			Title:          h.getSettingsTitle(w, r),
 		})
 		return
 	}
@@ -251,6 +256,7 @@ func (h *Handler) listAccounts(w http.ResponseWriter, r *http.Request) {
 		Message:        msg,
 		URLs:           listOfURLs(),
 		CurrentPageURL: accountsListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	if len(acntList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, acntstat.Stats.Count, r)
@@ -289,6 +295,7 @@ func (h *Handler) viewAccounts(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: accountsListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 
 	err = h.templates.ExecuteTemplate(w, "acnt-view.html", data)

@@ -14,6 +14,7 @@ type DashBoardData struct {
 	RemainingAmount int32
 	URLs            map[string]string
 	CurrentPageURL  string
+	Title           string
 }
 
 func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
@@ -65,6 +66,7 @@ func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
 		RemainingAmount: targetAmount - totalCollection,
 		URLs:            listOfURLs(),
 		CurrentPageURL:  dashboardPath,
+		Title:           h.getSettingsTitle(w, r),
 	}
 
 	if err := template.Execute(w, data); err != nil {

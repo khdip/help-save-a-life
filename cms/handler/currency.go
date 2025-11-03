@@ -33,6 +33,7 @@ type CurrencyTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 func (c Currency) Validate(h *Handler) error {
@@ -52,6 +53,7 @@ func (h *Handler) createCurrency(w http.ResponseWriter, r *http.Request) {
 		Curr:           Currency{},
 		URLs:           listOfURLs(),
 		CurrentPageURL: currencyListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	h.loadCurrencyCreateForm(w, data)
 }
@@ -84,6 +86,7 @@ func (h *Handler) storeCurrency(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: currencyListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadCurrencyCreateForm(w, data)
 		return
@@ -126,6 +129,7 @@ func (h *Handler) editCurrency(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: currencyListPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -160,6 +164,7 @@ func (h *Handler) updateCurrency(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: currencyListPath,
+			Title:          h.getSettingsTitle(w, r),
 		})
 		return
 	}
@@ -243,6 +248,7 @@ func (h *Handler) listCurrency(w http.ResponseWriter, r *http.Request) {
 		Message:        msg,
 		URLs:           listOfURLs(),
 		CurrentPageURL: currencyListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	if len(currList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, currstat.Stats.Count, r)
@@ -281,6 +287,7 @@ func (h *Handler) viewCurrency(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: currencyListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 
 	err = h.templates.ExecuteTemplate(w, "curr-view.html", data)

@@ -36,6 +36,7 @@ type DreTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 type DailyReportHome struct {
@@ -64,6 +65,7 @@ func (h *Handler) createDailyReport(w http.ResponseWriter, r *http.Request) {
 		Currencies:     h.getCurrencyList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: dailyReportListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	h.loadDailyReportCreateForm(w, data)
 }
@@ -97,6 +99,7 @@ func (h *Handler) storeDailyReport(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: dailyReportListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadDailyReportCreateForm(w, data)
 		return
@@ -142,6 +145,7 @@ func (h *Handler) editDailyReport(w http.ResponseWriter, r *http.Request) {
 		Currencies:     h.getCurrencyList(w, r),
 		URLs:           listOfURLs(),
 		CurrentPageURL: dailyReportListPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -177,6 +181,7 @@ func (h *Handler) updateDailyReport(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: dailyReportListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadDailyReportEditForm(w, data)
 		return
@@ -264,6 +269,7 @@ func (h *Handler) listDailyReport(w http.ResponseWriter, r *http.Request) {
 		Message:        msg,
 		URLs:           listOfURLs(),
 		CurrentPageURL: dailyReportListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	if len(drList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, drstat.Stats.Count, r)
@@ -303,6 +309,7 @@ func (h *Handler) viewDailyReport(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: dailyReportListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 
 	err = h.templates.ExecuteTemplate(w, "dre-view.html", data)

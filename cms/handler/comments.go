@@ -31,6 +31,7 @@ type CommTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 func (c Comment) Validate(h *Handler) error {
@@ -160,6 +161,7 @@ func (h *Handler) listComment(w http.ResponseWriter, r *http.Request) {
 		Message:        msg,
 		URLs:           listOfURLs(),
 		CurrentPageURL: commentListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	if len(commList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, commstat.Stats.Count, r)
@@ -196,6 +198,7 @@ func (h *Handler) viewComment(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: commentListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 
 	err = h.templates.ExecuteTemplate(w, "comm-view.html", data)

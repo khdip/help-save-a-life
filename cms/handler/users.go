@@ -40,6 +40,7 @@ type UserTemplateData struct {
 	Message        map[string]string
 	FormErrors     map[string]string
 	CurrentPageURL string
+	Title          string
 }
 
 func (u User) Validate(h *Handler, id string) error {
@@ -64,6 +65,7 @@ func (h *Handler) createUser(w http.ResponseWriter, r *http.Request) {
 		User:           User{},
 		URLs:           listOfURLs(),
 		CurrentPageURL: userListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	h.loadUserCreateForm(w, data)
 }
@@ -96,6 +98,7 @@ func (h *Handler) storeUser(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: userListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadUserCreateForm(w, data)
 		return
@@ -146,6 +149,7 @@ func (h *Handler) editUser(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: userListPath,
+		Title:          h.getSettingsTitle(w, r),
 	})
 }
 
@@ -180,6 +184,7 @@ func (h *Handler) updateUser(w http.ResponseWriter, r *http.Request) {
 			FormErrors:     vErrs,
 			URLs:           listOfURLs(),
 			CurrentPageURL: userListPath,
+			Title:          h.getSettingsTitle(w, r),
 		}
 		h.loadUserEditForm(w, data)
 		return
@@ -277,6 +282,7 @@ func (h *Handler) listUser(w http.ResponseWriter, r *http.Request) {
 		Message:        msg,
 		URLs:           listOfURLs(),
 		CurrentPageURL: userListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 	if len(userList) > 0 {
 		data.Paginator = paginator.NewPaginator(int32(filterData.CurrentPage), limitPerPage, userstat.Stats.Count, r)
@@ -316,6 +322,7 @@ func (h *Handler) viewUser(w http.ResponseWriter, r *http.Request) {
 		},
 		URLs:           listOfURLs(),
 		CurrentPageURL: userListPath,
+		Title:          h.getSettingsTitle(w, r),
 	}
 
 	err = h.templates.ExecuteTemplate(w, "user-view.html", data)
