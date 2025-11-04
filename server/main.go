@@ -33,6 +33,14 @@ import (
 	acntcore "help-save-a-life/server/core/accounts"
 	acntsvc "help-save-a-life/server/services/accounts"
 
+	linkgrpc "help-save-a-life/proto/links"
+	linkcore "help-save-a-life/server/core/links"
+	linksvc "help-save-a-life/server/services/links"
+
+	docsgrpc "help-save-a-life/proto/medDocs"
+	docscore "help-save-a-life/server/core/medDocs"
+	docssvc "help-save-a-life/server/services/medDocs"
+
 	settgrpc "help-save-a-life/proto/settings"
 	settcore "help-save-a-life/server/core/settings"
 	settsvc "help-save-a-life/server/services/settings"
@@ -91,6 +99,14 @@ func main() {
 	acntC := acntcore.New(store)
 	acntS := acntsvc.New(acntC)
 	acntgrpc.RegisterAccountsServiceServer(grpcServer, acntS)
+
+	linkC := linkcore.New(store)
+	linkS := linksvc.New(linkC)
+	linkgrpc.RegisterLinkServiceServer(grpcServer, linkS)
+
+	docsC := docscore.New(store)
+	docsS := docssvc.New(docsC)
+	docsgrpc.RegisterMedDocsServiceServer(grpcServer, docsS)
 
 	settC := settcore.New(store)
 	settS := settsvc.New(settC)

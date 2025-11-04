@@ -1,4 +1,4 @@
-package accountType
+package links
 
 import (
 	"context"
@@ -8,8 +8,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *CoreSvc) DeleteAccountType(ctx context.Context, acct storage.AccountType) error {
-	if err := s.st.DeleteAccountType(ctx, acct); err != nil {
+func (s *CoreSvc) DeleteLink(ctx context.Context, link storage.Link) error {
+	if err := s.st.DeleteLink(ctx, link); err != nil {
 		return status.Error(codes.Internal, "processing failed")
 	}
 	return nil

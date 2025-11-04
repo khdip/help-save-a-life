@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS important_links
+CREATE TABLE IF NOT EXISTS links
 (
     id                          VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
     serial_number               SERIAL,

@@ -1,0 +1,87 @@
+syntax="proto3";
+
+package links;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/links";
+
+message Link {
+    string ID = 1;
+    int32 SerialNumber = 2;
+    string LinkText = 3;
+    string LinkURL = 4;
+    google.protobuf.Timestamp CreatedAt = 5;
+    string CreatedBy = 6;
+    google.protobuf.Timestamp UpdatedAt = 7;
+    string UpdatedBy = 8;
+    google.protobuf.Timestamp DeletedAt = 9;
+    string DeletedBy = 10;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+}
+
+message CreateLinkRequest {
+    Link Link = 1;
+}
+
+message CreateLinkResponse {
+    string ID = 1;
+}
+
+message GetLinkRequest {
+    Link Link = 1;
+}
+
+message GetLinkResponse {
+    Link Link = 1;
+}
+
+message UpdateLinkRequest {
+    Link Link = 1;
+}
+
+message UpdateLinkResponse {
+    Link Link = 1;
+}
+
+message DeleteLinkRequest {
+    Link Link = 1;
+}
+
+message DeleteLinkResponse {}
+
+message ListLinkRequest {
+    Filter Filter = 1;
+}
+
+message ListLinkResponse {
+   repeated Link Link = 1;
+}
+
+message LinkStatsRequest {
+    Filter Filter = 1;
+}
+
+message LinkStatsResponse {
+    Stats Stats = 1;
+}
+
+service LinkService {
+    rpc CreateLink(CreateLinkRequest) returns(CreateLinkResponse) {}
+    rpc GetLink(GetLinkRequest) returns(GetLinkResponse) {}
+    rpc UpdateLink(UpdateLinkRequest) returns(UpdateLinkResponse) {}
+    rpc DeleteLink(DeleteLinkRequest) returns(DeleteLinkResponse) {}
+    rpc ListLink(ListLinkRequest) returns(ListLinkResponse) {}
+    rpc LinkStats(LinkStatsRequest) returns(LinkStatsResponse) {}
+}

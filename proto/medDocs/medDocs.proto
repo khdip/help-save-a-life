@@ -1,0 +1,76 @@
+syntax="proto3";
+
+package medDocs;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package="./proto/medDocs";
+
+message MedDocs {
+    string ID = 1;
+    int32 SerialNumber = 2;
+    string Name = 3;
+    string Type = 4;
+    google.protobuf.Timestamp UploadedAt = 5;
+    string UploadedBy = 6;
+    google.protobuf.Timestamp DeletedAt = 7;
+    string DeletedBy = 8;
+}
+
+message Filter {
+    int32 Offset = 1;
+    int32 Limit = 2;
+    string SortBy = 3;
+    string Order = 4;
+    string SearchTerm = 5;
+}
+
+message Stats {
+    int32 Count = 1;
+}
+
+message CreateMedDocsRequest {
+    MedDocs Docs = 1;
+}
+
+message CreateMedDocsResponse {
+    string ID = 1;
+}
+
+message GetMedDocsRequest {
+    MedDocs Docs = 1;
+}
+
+message GetMedDocsResponse {
+    MedDocs Docs = 1;
+}
+
+message DeleteMedDocsRequest {
+    MedDocs Docs = 1;
+}
+
+message DeleteMedDocsResponse {}
+
+message ListMedDocsRequest {
+    Filter Filter = 1;
+}
+
+message ListMedDocsResponse {
+   repeated MedDocs Docs = 1;
+}
+
+message MedDocsStatsRequest {
+    Filter Filter = 1;
+}
+
+message MedDocsStatsResponse {
+    Stats Stats = 1;
+}
+
+service MedDocsService {
+    rpc CreateMedDocs(CreateMedDocsRequest) returns(CreateMedDocsResponse) {}
+    rpc GetMedDocs(GetMedDocsRequest) returns(GetMedDocsResponse) {}
+    rpc DeleteMedDocs(DeleteMedDocsRequest) returns(DeleteMedDocsResponse) {}
+    rpc ListMedDocs(ListMedDocsRequest) returns(ListMedDocsResponse) {}
+    rpc MedDocsStats(MedDocsStatsRequest) returns(MedDocsStatsResponse) {}
+}

@@ -89,6 +89,25 @@ type Settings struct {
 	UpdatedBy                    string    `db:"updated_by,omitempty"`
 }
 
+type Link struct {
+	ID           string `db:"id"`
+	SerialNumber int32  `db:"serial_number"`
+	LinkText     string `db:"link_text"`
+	LinkURL      string `db:"link_url"`
+	CRUDTimeDate
+}
+
+type MedDocs struct {
+	ID           string         `db:"id"`
+	SerialNumber int32          `db:"serial_number"`
+	Name         string         `db:"name"`
+	Type         string         `db:"type"`
+	UploadedAt   time.Time      `db:"uploaded_at,omitempty"`
+	UploadedBy   string         `db:"uploaded_by,omitempty"`
+	DeletedAt    sql.NullTime   `db:"deleted_at,omitempty"`
+	DeletedBy    sql.NullString `db:"deleted_by,omitempty"`
+}
+
 type CRUDTimeDate struct {
 	CreatedAt time.Time      `db:"created_at,omitempty"`
 	CreatedBy string         `db:"created_by"`
