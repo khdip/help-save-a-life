@@ -21,7 +21,7 @@ message Settings {
     bool ShowDailyReport = 12;
     bool ShowFundUpdates = 13;
     int32 CalculateCollection = 14;
-    int32 TotalAmount = 15;
+    float TotalAmount = 15;
     google.protobuf.Timestamp UpdatedAt = 16;
     string UpdatedBy = 17;
 }

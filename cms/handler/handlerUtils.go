@@ -42,9 +42,9 @@ func hideDigits(s string) string {
 	return modifiedStr
 }
 
-func formatWithCommas(number int32) string {
+func formatWithCommas(number float32) string {
 	p := message.NewPrinter(message.MatchLanguage("en"))
-	return p.Sprintf("%d", number)
+	return p.Sprintf("%.2f", number)
 }
 
 func GetFilterData(r *http.Request) *Filter {
@@ -128,7 +128,7 @@ func makeHTMLTemplate(s string) template.HTML {
 	return template.HTML(s)
 }
 
-func (h *Handler) getTotalAndTargetAmount(w http.ResponseWriter, r *http.Request, sett SettingsHome) (int32, int32) {
+func (h *Handler) getTotalAndTargetAmount(w http.ResponseWriter, r *http.Request, sett SettingsHome) (float32, int32) {
 	ctx := r.Context()
 
 	collstat, err := h.cc.CollectionStats(ctx, &collgrpc.CollectionStatsRequest{
@@ -147,7 +147,7 @@ func (h *Handler) getTotalAndTargetAmount(w http.ResponseWriter, r *http.Request
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
-	var totalCollection int32
+	var totalCollection float32
 	switch sett.CalculateCollection {
 	case 0:
 		totalCollection = collstat.Stats.TotalAmount
@@ -158,8 +158,8 @@ func (h *Handler) getTotalAndTargetAmount(w http.ResponseWriter, r *http.Request
 	}
 
 	targetAmount := sett.TargetAmount
-	if totalCollection > targetAmount {
-		totalCollection = targetAmount
+	if totalCollection > float32(targetAmount) {
+		totalCollection = float32(targetAmount)
 	}
 
 	return totalCollection, targetAmount

@@ -15,7 +15,7 @@ type Currency struct {
 	ID           string
 	SerialNumber int32
 	Name         string
-	ExchangeRate int32
+	ExchangeRate float32
 	CreatedAt    time.Time
 	CreatedBy    string
 	UpdatedAt    time.Time

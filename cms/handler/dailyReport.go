@@ -16,7 +16,7 @@ type DailyReport struct {
 	ReportID     string
 	SerialNumber int32
 	Date         string
-	Amount       int32
+	Amount       float32
 	Currency     string
 	CreatedAt    time.Time
 	CreatedBy    string
@@ -41,7 +41,7 @@ type DreTemplateData struct {
 
 type DailyReportHome struct {
 	Date     string
-	Amount   int32
+	Amount   float32
 	Currency string
 }
 

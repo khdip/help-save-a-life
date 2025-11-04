@@ -27,7 +27,7 @@ type DailyReport struct {
 	ReportID      string                 `protobuf:"bytes,1,opt,name=ReportID,proto3" json:"ReportID,omitempty"`
 	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
 	Date          string                 `protobuf:"bytes,3,opt,name=Date,proto3" json:"Date,omitempty"`
-	Amount        int32                  `protobuf:"varint,4,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Amount        float32                `protobuf:"fixed32,4,opt,name=Amount,proto3" json:"Amount,omitempty"`
 	Currency      string                 `protobuf:"bytes,5,opt,name=Currency,proto3" json:"Currency,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
 	CreatedBy     string                 `protobuf:"bytes,7,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
@@ -90,7 +90,7 @@ func (x *DailyReport) GetDate() string {
 	return ""
 }
 
-func (x *DailyReport) GetAmount() int32 {
+func (x *DailyReport) GetAmount() float32 {
 	if x != nil {
 		return x.Amount
 	}
@@ -225,7 +225,7 @@ func (x *Filter) GetSearchTerm() string {
 type Stats struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Count         int32                  `protobuf:"varint,1,opt,name=Count,proto3" json:"Count,omitempty"`
-	TotalAmount   int32                  `protobuf:"varint,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	TotalAmount   float32                `protobuf:"fixed32,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -267,7 +267,7 @@ func (x *Stats) GetCount() int32 {
 	return 0
 }
 
-func (x *Stats) GetTotalAmount() int32 {
+func (x *Stats) GetTotalAmount() float32 {
 	if x != nil {
 		return x.TotalAmount
 	}
@@ -803,7 +803,7 @@ const file_proto_dailyReport_dailyReport_proto_rawDesc = "" +
 	"\bReportID\x18\x01 \x01(\tR\bReportID\x12\"\n" +
 	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12\x12\n" +
 	"\x04Date\x18\x03 \x01(\tR\x04Date\x12\x16\n" +
-	"\x06Amount\x18\x04 \x01(\x05R\x06Amount\x12\x1a\n" +
+	"\x06Amount\x18\x04 \x01(\x02R\x06Amount\x12\x1a\n" +
 	"\bCurrency\x18\x05 \x01(\tR\bCurrency\x128\n" +
 	"\tCreatedAt\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
 	"\tCreatedBy\x18\a \x01(\tR\tCreatedBy\x128\n" +
@@ -822,7 +822,7 @@ const file_proto_dailyReport_dailyReport_proto_rawDesc = "" +
 	"SearchTerm\"?\n" +
 	"\x05Stats\x12\x14\n" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
-	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"F\n" +
+	"\vTotalAmount\x18\x02 \x01(\x02R\vTotalAmount\"F\n" +
 	"\x18CreateDailyReportRequest\x12*\n" +
 	"\x03Dre\x18\x01 \x01(\v2\x18.dailyreport.DailyReportR\x03Dre\"7\n" +
 	"\x19CreateDailyReportResponse\x12\x1a\n" +

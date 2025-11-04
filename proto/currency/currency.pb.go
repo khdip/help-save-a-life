@@ -27,7 +27,7 @@ type Currency struct {
 	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
 	SerialNumber  int32                  `protobuf:"varint,2,opt,name=SerialNumber,proto3" json:"SerialNumber,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=Name,proto3" json:"Name,omitempty"`
-	ExchangeRate  int32                  `protobuf:"varint,4,opt,name=ExchangeRate,proto3" json:"ExchangeRate,omitempty"`
+	ExchangeRate  float32                `protobuf:"fixed32,4,opt,name=ExchangeRate,proto3" json:"ExchangeRate,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
 	CreatedBy     string                 `protobuf:"bytes,6,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
@@ -89,7 +89,7 @@ func (x *Currency) GetName() string {
 	return ""
 }
 
-func (x *Currency) GetExchangeRate() int32 {
+func (x *Currency) GetExchangeRate() float32 {
 	if x != nil {
 		return x.ExchangeRate
 	}
@@ -217,7 +217,7 @@ func (x *Filter) GetSearchTerm() string {
 type Stats struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Count         int32                  `protobuf:"varint,1,opt,name=Count,proto3" json:"Count,omitempty"`
-	TotalAmount   int32                  `protobuf:"varint,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	TotalAmount   float32                `protobuf:"fixed32,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -259,7 +259,7 @@ func (x *Stats) GetCount() int32 {
 	return 0
 }
 
-func (x *Stats) GetTotalAmount() int32 {
+func (x *Stats) GetTotalAmount() float32 {
 	if x != nil {
 		return x.TotalAmount
 	}
@@ -795,7 +795,7 @@ const file_proto_currency_currency_proto_rawDesc = "" +
 	"\x02ID\x18\x01 \x01(\tR\x02ID\x12\"\n" +
 	"\fSerialNumber\x18\x02 \x01(\x05R\fSerialNumber\x12\x12\n" +
 	"\x04Name\x18\x03 \x01(\tR\x04Name\x12\"\n" +
-	"\fExchangeRate\x18\x04 \x01(\x05R\fExchangeRate\x128\n" +
+	"\fExchangeRate\x18\x04 \x01(\x02R\fExchangeRate\x128\n" +
 	"\tCreatedAt\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
 	"\tCreatedBy\x18\x06 \x01(\tR\tCreatedBy\x128\n" +
 	"\tUpdatedAt\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
@@ -813,7 +813,7 @@ const file_proto_currency_currency_proto_rawDesc = "" +
 	"SearchTerm\"?\n" +
 	"\x05Stats\x12\x14\n" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
-	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"?\n" +
+	"\vTotalAmount\x18\x02 \x01(\x02R\vTotalAmount\"?\n" +
 	"\x15CreateCurrencyRequest\x12&\n" +
 	"\x04Curr\x18\x01 \x01(\v2\x12.currency.CurrencyR\x04Curr\"(\n" +
 	"\x16CreateCurrencyResponse\x12\x0e\n" +

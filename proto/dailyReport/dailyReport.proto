@@ -10,7 +10,7 @@ message DailyReport {
     string ReportID = 1;
     int32 SerialNumber = 2;
     string Date = 3;
-    int32 Amount = 4;
+    float Amount = 4;
     string Currency = 5;
     google.protobuf.Timestamp CreatedAt = 6;
     string CreatedBy = 7;
@@ -30,7 +30,7 @@ message Filter {
 
 message Stats {
     int32 Count = 1;
-    int32 TotalAmount = 2;
+    float TotalAmount = 2;
 }
 
 message CreateDailyReportRequest {

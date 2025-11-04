@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS daily_report
     report_id                   VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
     serial_number               SERIAL,
     date                        VARCHAR(100) NOT NULL DEFAULT '', 
-    amount                      INT NOT NULL DEFAULT 0,
+    amount                      FLOAT        NOT NULL DEFAULT 0,
     currency                    VARCHAR(100) NOT NULL DEFAULT '',
     created_at                  TIMESTAMP    DEFAULT current_timestamp,
     created_by                  VARCHAR(100) NOT NULL DEFAULT '',

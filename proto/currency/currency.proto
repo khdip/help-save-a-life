@@ -10,7 +10,7 @@ message Currency {
     string ID = 1;
     int32 SerialNumber = 2;
     string Name = 3;
-    int32 ExchangeRate = 4;
+    float ExchangeRate = 4;
     google.protobuf.Timestamp CreatedAt = 5;
     string CreatedBy = 6;
     google.protobuf.Timestamp UpdatedAt = 7;
@@ -29,7 +29,7 @@ message Filter {
 
 message Stats {
     int32 Count = 1;
-    int32 TotalAmount = 2;
+    float TotalAmount = 2;
 }
 
 message CreateCurrencyRequest {

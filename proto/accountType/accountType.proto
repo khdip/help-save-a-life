@@ -28,7 +28,7 @@ message Filter {
 
 message Stats {
     int32 Count = 1;
-    int32 TotalAmount = 2;
+    float TotalAmount = 2;
 }
 
 message CreateAccountTypeRequest {

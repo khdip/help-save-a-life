@@ -233,7 +233,7 @@ func (x *Filter) GetSearchTerm() string {
 type Stats struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Count         int32                  `protobuf:"varint,1,opt,name=Count,proto3" json:"Count,omitempty"`
-	TotalAmount   int32                  `protobuf:"varint,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	TotalAmount   float32                `protobuf:"fixed32,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -275,7 +275,7 @@ func (x *Stats) GetCount() int32 {
 	return 0
 }
 
-func (x *Stats) GetTotalAmount() int32 {
+func (x *Stats) GetTotalAmount() float32 {
 	if x != nil {
 		return x.TotalAmount
 	}
@@ -831,7 +831,7 @@ const file_proto_users_users_proto_rawDesc = "" +
 	"SearchTerm\"?\n" +
 	"\x05Stats\x12\x14\n" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
-	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"4\n" +
+	"\vTotalAmount\x18\x02 \x01(\x02R\vTotalAmount\"4\n" +
 	"\x11CreateUserRequest\x12\x1f\n" +
 	"\x04User\x18\x01 \x01(\v2\v.users.UserR\x04User\",\n" +
 	"\x12CreateUserResponse\x12\x16\n" +

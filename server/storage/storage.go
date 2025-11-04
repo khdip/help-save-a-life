@@ -17,23 +17,23 @@ type User struct {
 }
 
 type Collection struct {
-	CollectionID  string `db:"collection_id"`
-	SerialNumber  int32  `db:"serial_number"`
-	AccountType   string `db:"account_type"`
-	AccountNumber string `db:"account_number"`
-	Sender        string `db:"sender"`
-	Date          string `db:"date"`
-	Amount        int32  `db:"amount"`
-	Currency      string `db:"currency"`
+	CollectionID  string  `db:"collection_id"`
+	SerialNumber  int32   `db:"serial_number"`
+	AccountType   string  `db:"account_type"`
+	AccountNumber string  `db:"account_number"`
+	Sender        string  `db:"sender"`
+	Date          string  `db:"date"`
+	Amount        float32 `db:"amount"`
+	Currency      string  `db:"currency"`
 	CRUDTimeDate
 }
 
 type DailyReport struct {
-	ReportID     string `db:"report_id"`
-	SerialNumber int32  `db:"serial_number"`
-	Date         string `db:"date"`
-	Amount       int32  `db:"amount"`
-	Currency     string `db:"currency"`
+	ReportID     string  `db:"report_id"`
+	SerialNumber int32   `db:"serial_number"`
+	Date         string  `db:"date"`
+	Amount       float32 `db:"amount"`
+	Currency     string  `db:"currency"`
 	CRUDTimeDate
 }
 
@@ -47,10 +47,10 @@ type Comment struct {
 }
 
 type Currency struct {
-	ID           string `db:"id"`
-	SerialNumber int32  `db:"serial_number"`
-	Name         string `db:"name"`
-	ExchangeRate int32  `db:"exchange_rate"`
+	ID           string  `db:"id"`
+	SerialNumber int32   `db:"serial_number"`
+	Name         string  `db:"name"`
+	ExchangeRate float32 `db:"exchange_rate"`
 	CRUDTimeDate
 }
 
@@ -84,7 +84,7 @@ type Settings struct {
 	ShowDailyReport              bool      `db:"show_daily_report"`
 	ShowFundUpdates              bool      `db:"show_fund_updates"`
 	CalculateCollection          int32     `db:"calculate_collection"`
-	TotalAmount                  int32     `db:"total_amount"`
+	TotalAmount                  float32   `db:"total_amount"`
 	UpdatedAt                    time.Time `db:"updated_at,omitempty"`
 	UpdatedBy                    string    `db:"updated_by,omitempty"`
 }
@@ -108,5 +108,5 @@ type Filter struct {
 
 type Stats struct {
 	Count       int32
-	TotalAmount int32 `db:"total_amount"`
+	TotalAmount float32 `db:"total_amount"`
 }

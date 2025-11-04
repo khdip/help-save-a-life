@@ -30,7 +30,7 @@ type Collection struct {
 	AccountNumber string                 `protobuf:"bytes,4,opt,name=AccountNumber,proto3" json:"AccountNumber,omitempty"`
 	Sender        string                 `protobuf:"bytes,5,opt,name=Sender,proto3" json:"Sender,omitempty"`
 	Date          string                 `protobuf:"bytes,6,opt,name=Date,proto3" json:"Date,omitempty"`
-	Amount        int32                  `protobuf:"varint,7,opt,name=Amount,proto3" json:"Amount,omitempty"`
+	Amount        float32                `protobuf:"fixed32,7,opt,name=Amount,proto3" json:"Amount,omitempty"`
 	Currency      string                 `protobuf:"bytes,8,opt,name=Currency,proto3" json:"Currency,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=CreatedAt,proto3" json:"CreatedAt,omitempty"`
 	CreatedBy     string                 `protobuf:"bytes,10,opt,name=CreatedBy,proto3" json:"CreatedBy,omitempty"`
@@ -114,7 +114,7 @@ func (x *Collection) GetDate() string {
 	return ""
 }
 
-func (x *Collection) GetAmount() int32 {
+func (x *Collection) GetAmount() float32 {
 	if x != nil {
 		return x.Amount
 	}
@@ -249,7 +249,7 @@ func (x *Filter) GetSearchTerm() string {
 type Stats struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Count         int32                  `protobuf:"varint,1,opt,name=Count,proto3" json:"Count,omitempty"`
-	TotalAmount   int32                  `protobuf:"varint,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	TotalAmount   float32                `protobuf:"fixed32,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -291,7 +291,7 @@ func (x *Stats) GetCount() int32 {
 	return 0
 }
 
-func (x *Stats) GetTotalAmount() int32 {
+func (x *Stats) GetTotalAmount() float32 {
 	if x != nil {
 		return x.TotalAmount
 	}
@@ -832,7 +832,7 @@ const file_proto_collection_collection_proto_rawDesc = "" +
 	"\rAccountNumber\x18\x04 \x01(\tR\rAccountNumber\x12\x16\n" +
 	"\x06Sender\x18\x05 \x01(\tR\x06Sender\x12\x12\n" +
 	"\x04Date\x18\x06 \x01(\tR\x04Date\x12\x16\n" +
-	"\x06Amount\x18\a \x01(\x05R\x06Amount\x12\x1a\n" +
+	"\x06Amount\x18\a \x01(\x02R\x06Amount\x12\x1a\n" +
 	"\bCurrency\x18\b \x01(\tR\bCurrency\x128\n" +
 	"\tCreatedAt\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tCreatedAt\x12\x1c\n" +
 	"\tCreatedBy\x18\n" +
@@ -851,7 +851,7 @@ const file_proto_collection_collection_proto_rawDesc = "" +
 	"SearchTerm\"?\n" +
 	"\x05Stats\x12\x14\n" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
-	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"E\n" +
+	"\vTotalAmount\x18\x02 \x01(\x02R\vTotalAmount\"E\n" +
 	"\x17CreateCollectionRequest\x12*\n" +
 	"\x04Coll\x18\x01 \x01(\v2\x16.collection.CollectionR\x04Coll\">\n" +
 	"\x18CreateCollectionResponse\x12\"\n" +

@@ -25,7 +25,7 @@ type Settings struct {
 	ShowDailyReport              bool
 	ShowFundUpdates              bool
 	CalculateCollection          int32
-	TotalAmount                  int32
+	TotalAmount                  float32
 	UpdatedBy                    string
 }
 
@@ -51,7 +51,7 @@ type SettingsHome struct {
 	ShowDailyReport      bool
 	ShowFundUpdates      bool
 	CalculateCollection  int32
-	TotalAmount          int32
+	TotalAmount          float32
 }
 
 func (s Settings) Validate(h *Handler) error {

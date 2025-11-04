@@ -29,9 +29,9 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 	data := HomeTemplateData{
 		Sett:            sett,
 		URLs:            listOfURLs(),
-		TargetAmount:    formatWithCommas(targetAmount),
+		TargetAmount:    formatWithCommas(float32(targetAmount)),
 		CollectedAmount: formatWithCommas(totalCollection),
-		RemainingAmount: formatWithCommas(targetAmount - totalCollection),
+		RemainingAmount: formatWithCommas(float32(targetAmount) - totalCollection),
 		Percentage:      fmt.Sprintf("%.2f", ((float64(totalCollection) / float64(targetAmount)) * 100)),
 	}
 

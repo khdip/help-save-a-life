@@ -13,7 +13,7 @@ message Collection {
     string AccountNumber = 4;
     string Sender = 5;
     string Date = 6;
-    int32 Amount = 7;
+    float Amount = 7;
     string Currency = 8;
     google.protobuf.Timestamp CreatedAt = 9;
     string CreatedBy = 10;
@@ -33,7 +33,7 @@ message Filter {
 
 message Stats {
     int32 Count = 1;
-    int32 TotalAmount = 2;
+    float TotalAmount = 2;
 }
 
 message CreateCollectionRequest {

@@ -38,7 +38,7 @@ type Settings struct {
 	ShowDailyReport              bool                   `protobuf:"varint,12,opt,name=ShowDailyReport,proto3" json:"ShowDailyReport,omitempty"`
 	ShowFundUpdates              bool                   `protobuf:"varint,13,opt,name=ShowFundUpdates,proto3" json:"ShowFundUpdates,omitempty"`
 	CalculateCollection          int32                  `protobuf:"varint,14,opt,name=CalculateCollection,proto3" json:"CalculateCollection,omitempty"`
-	TotalAmount                  int32                  `protobuf:"varint,15,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	TotalAmount                  float32                `protobuf:"fixed32,15,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
 	UpdatedAt                    *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=UpdatedAt,proto3" json:"UpdatedAt,omitempty"`
 	UpdatedBy                    string                 `protobuf:"bytes,17,opt,name=UpdatedBy,proto3" json:"UpdatedBy,omitempty"`
 	unknownFields                protoimpl.UnknownFields
@@ -173,7 +173,7 @@ func (x *Settings) GetCalculateCollection() int32 {
 	return 0
 }
 
-func (x *Settings) GetTotalAmount() int32 {
+func (x *Settings) GetTotalAmount() float32 {
 	if x != nil {
 		return x.TotalAmount
 	}
@@ -391,7 +391,7 @@ const file_proto_settings_settings_proto_rawDesc = "" +
 	"\x0fShowDailyReport\x18\f \x01(\bR\x0fShowDailyReport\x12(\n" +
 	"\x0fShowFundUpdates\x18\r \x01(\bR\x0fShowFundUpdates\x120\n" +
 	"\x13CalculateCollection\x18\x0e \x01(\x05R\x13CalculateCollection\x12 \n" +
-	"\vTotalAmount\x18\x0f \x01(\x05R\vTotalAmount\x128\n" +
+	"\vTotalAmount\x18\x0f \x01(\x02R\vTotalAmount\x128\n" +
 	"\tUpdatedAt\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\tUpdatedAt\x12\x1c\n" +
 	"\tUpdatedBy\x18\x11 \x01(\tR\tUpdatedBy\"<\n" +
 	"\x12GetSettingsRequest\x12&\n" +

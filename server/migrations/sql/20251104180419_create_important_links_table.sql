@@ -1,11 +1,11 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS currency
+CREATE TABLE IF NOT EXISTS important_links
 (
     id                          VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
     serial_number               SERIAL,
-    name                        VARCHAR(100) NOT NULL DEFAULT '',
-    exchange_rate               FLOAT        NOT NULL DEFAULT 1,
+    link_text                   VARCHAR(100) NOT NULL DEFAULT '',
+    link_url                    TEXT         NOT NULL DEFAULT '',
     created_at                  TIMESTAMP    DEFAULT current_timestamp,
     created_by                  VARCHAR(100) NOT NULL DEFAULT '',
     updated_at                  TIMESTAMP    DEFAULT current_timestamp,
@@ -17,5 +17,5 @@ CREATE TABLE IF NOT EXISTS currency
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS currency;
+DROP TABLE IF EXISTS important_links;
 -- +goose StatementEnd

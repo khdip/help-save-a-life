@@ -1,15 +1,13 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS currency
+CREATE TABLE IF NOT EXISTS med_docs
 (
     id                          VARCHAR(100) PRIMARY KEY      DEFAULT uuid_generate_v4(),
     serial_number               SERIAL,
     name                        VARCHAR(100) NOT NULL DEFAULT '',
-    exchange_rate               FLOAT        NOT NULL DEFAULT 1,
-    created_at                  TIMESTAMP    DEFAULT current_timestamp,
-    created_by                  VARCHAR(100) NOT NULL DEFAULT '',
-    updated_at                  TIMESTAMP    DEFAULT current_timestamp,
-    updated_by                  VARCHAR(100) NOT NULL DEFAULT '',
+    type                        VARCHAR(10)  NOT NULL DEFAULT '',
+    uploaded_at                 TIMESTAMP    DEFAULT current_timestamp,
+    uploaded_by                 VARCHAR(100) NOT NULL DEFAULT '',
     deleted_at                  TIMESTAMP    DEFAULT NULL,
     deleted_by                  VARCHAR(100) NOT NULL DEFAULT ''
 );
@@ -17,5 +15,5 @@ CREATE TABLE IF NOT EXISTS currency
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS currency;
+DROP TABLE IF EXISTS med_docs;
 -- +goose StatementEnd

@@ -19,7 +19,7 @@ type Collection struct {
 	AccountNumber string
 	Sender        string
 	Date          string
-	Amount        int32
+	Amount        float32
 	Currency      string
 	CreatedAt     time.Time
 	CreatedBy     string
@@ -47,7 +47,7 @@ type CollectionHome struct {
 	Date          string
 	AccountNumber string
 	AccountType   string
-	Amount        int32
+	Amount        float32
 	Currency      string
 }
 

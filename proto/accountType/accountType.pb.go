@@ -209,7 +209,7 @@ func (x *Filter) GetSearchTerm() string {
 type Stats struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Count         int32                  `protobuf:"varint,1,opt,name=Count,proto3" json:"Count,omitempty"`
-	TotalAmount   int32                  `protobuf:"varint,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
+	TotalAmount   float32                `protobuf:"fixed32,2,opt,name=TotalAmount,proto3" json:"TotalAmount,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -251,7 +251,7 @@ func (x *Stats) GetCount() int32 {
 	return 0
 }
 
-func (x *Stats) GetTotalAmount() int32 {
+func (x *Stats) GetTotalAmount() float32 {
 	if x != nil {
 		return x.TotalAmount
 	}
@@ -803,7 +803,7 @@ const file_proto_accountType_accountType_proto_rawDesc = "" +
 	"SearchTerm\"?\n" +
 	"\x05Stats\x12\x14\n" +
 	"\x05Count\x18\x01 \x01(\x05R\x05Count\x12 \n" +
-	"\vTotalAmount\x18\x02 \x01(\x05R\vTotalAmount\"H\n" +
+	"\vTotalAmount\x18\x02 \x01(\x02R\vTotalAmount\"H\n" +
 	"\x18CreateAccountTypeRequest\x12,\n" +
 	"\x04Acct\x18\x01 \x01(\v2\x18.accountType.AccountTypeR\x04Acct\"+\n" +
 	"\x19CreateAccountTypeResponse\x12\x0e\n" +

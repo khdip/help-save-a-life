@@ -10,8 +10,8 @@ import (
 
 type DashBoardData struct {
 	TargetAmount    int32
-	CollectedAmount int32
-	RemainingAmount int32
+	CollectedAmount float32
+	RemainingAmount float32
 	URLs            map[string]string
 	CurrentPageURL  string
 	Title           string
@@ -48,7 +48,7 @@ func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
 	}
 
-	var totalCollection int32
+	var totalCollection float32
 	switch sett.Sett.CalculateCollection {
 	case 0:
 		totalCollection = collstat.Stats.TotalAmount
@@ -63,7 +63,7 @@ func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
 	data := DashBoardData{
 		TargetAmount:    targetAmount,
 		CollectedAmount: totalCollection,
-		RemainingAmount: targetAmount - totalCollection,
+		RemainingAmount: float32(targetAmount) - totalCollection,
 		URLs:            listOfURLs(),
 		CurrentPageURL:  dashboardPath,
 		Title:           h.getSettingsTitle(w, r),
