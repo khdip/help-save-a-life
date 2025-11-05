@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Important Links</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Important Links</h2>
+        <div class="row p-2 justify-content-between">
+            <div class="col-md-3">
+                <form action="{{.URLs.linkList}}" method="GET">
+                    <div class="input-group mb-3">
+                        <select class="form-select" name="SortBy">
+                            <option {{if eq .FilterData.SortBy "serial_number"}} selected {{end}} value="serial_number">Serial</option>
+                            <option {{if eq .FilterData.SortBy "link_text"}} selected {{end}} value="link_text">Link Text</option>
+                            <option {{if eq .FilterData.SortBy "link_url"}} selected {{end}} value="link_url">Link URL</option>
+                            <option {{if eq .FilterData.SortBy "created_at"}} selected {{end}} value="created_at">Created At</option>
+                            <option {{if eq .FilterData.SortBy "updated_at"}} selected {{end}} value="updated_at">Updated At</option>
+                        </select>
+                        <select class="form-select" name="Order">
+                            <option {{if eq .FilterData.Order "ASC"}} selected {{end}} value="ASC">A to Z</option>
+                            <option {{if eq .FilterData.Order "DESC"}} selected {{end}} value="DESC">Z to A</option>
+                        </select>
+                        <button type="submit" class="btn btn-success">Filter</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form action="{{.URLs.linkList}}" method="GET">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search ..." name="SearchTerm" value="{{.FilterData.SearchTerm}}">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <a class="btn btn-success" href="{{.URLs.linkCreate}}">+ Add Link</a>
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Serial</th>
+                                <th>Link Text</th>
+                                <th>Link URL</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{range .List}}
+                            <tr>
+                                <td>{{.SerialNumber}}</td>
+                                <td>{{.LinkText}}</td>
+                                <td>{{.LinkURL}}</td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="/link/view/{{.ID}}">View</a>
+                                    <a class="btn btn-warning btn-sm" href="/link/edit/{{.ID}}">Edit</a>
+                                    <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#linkModal{{.ID}}">Delete</button>
+                                </td>
+                            </tr>
+                            <!-- Modal -->
+                            <div class="modal fade" id="linkModal{{.ID}}" tabindex="-1" aria-labelledby="acntModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="collModalLabel">Delete link?</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Are you sure to delete the link entry?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <a href="/link/delete/{{.ID}}" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{end}}
+                        </tbody>
+                    </table>
+                </div>
+                <p class="text-center">Showing {{len .List}} out of {{.Paginator.Total}} data</p>
+                
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        {{if ne .Paginator.Total 0}}
+                        <li class="page-item {{if eq .Paginator.CurrentPage 1}} disabled {{end}}">
+                            <a class="page-link text-success" {{if .Paginator.Prev}} href="{{.Paginator.Prev.URL}}" {{end}} aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {{end}}
+                        {{range .Paginator.Pages}}
+                        {{if .Order}}
+                        <li class="page-item"><a class="page-link {{if .Current}}bg-success text-light {{else}} text-success{{end}}" href="{{.URL}}">{{.Order}}</a></li>
+                        {{else}}
+                        <li><a class="page-link text-success">...</a></li>
+                        {{end}}
+                        {{end}}
+                        {{if ne .Paginator.Total 0}}
+                        <li class="page-item  {{if eq .Paginator.CurrentPage .Paginator.CountPaginate}} disabled {{end}}">
+                            <a class="page-link text-success" {{if .Paginator.Next}} href="{{.Paginator.Next.URL}}" {{end}} aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {{end}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

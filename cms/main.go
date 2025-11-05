@@ -23,6 +23,8 @@ import (
 	commgrpc "help-save-a-life/proto/comments"
 	currgrpc "help-save-a-life/proto/currency"
 	dregrpc "help-save-a-life/proto/dailyReport"
+	linkgrpc "help-save-a-life/proto/links"
+	docsgrpc "help-save-a-life/proto/medDocs"
 	settgrpc "help-save-a-life/proto/settings"
 	usergrpc "help-save-a-life/proto/users"
 )
@@ -69,7 +71,9 @@ func main() {
 	sc := settgrpc.NewSettingsServiceClient(conn)
 	atc := acctgrpc.NewAccountTypeServiceClient(conn)
 	acc := acntgrpc.NewAccountsServiceClient(conn)
-	r := handler.GetHandler(decoder, store, asst, uc, cc, cmc, drc, cuc, sc, atc, acc)
+	lnk := linkgrpc.NewLinkServiceClient(conn)
+	mds := docsgrpc.NewMedDocsServiceClient(conn)
+	r := handler.GetHandler(decoder, store, asst, uc, cc, cmc, drc, cuc, sc, atc, acc, lnk, mds)
 
 	host, port := config.GetString("client.host"), config.GetString("client.port")
 	log.Println("Server  starting...")

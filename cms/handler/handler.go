@@ -16,6 +16,8 @@ import (
 	commgrpc "help-save-a-life/proto/comments"
 	currgrpc "help-save-a-life/proto/currency"
 	dregrpc "help-save-a-life/proto/dailyReport"
+	linkgrpc "help-save-a-life/proto/links"
+	docsgrpc "help-save-a-life/proto/medDocs"
 	settgrpc "help-save-a-life/proto/settings"
 	usergrpc "help-save-a-life/proto/users"
 )
@@ -34,9 +36,11 @@ type Handler struct {
 	sc        settgrpc.SettingsServiceClient
 	at        acctgrpc.AccountTypeServiceClient
 	acc       acntgrpc.AccountsServiceClient
+	lnk       linkgrpc.LinkServiceClient
+	mds       docsgrpc.MedDocsServiceClient
 }
 
-func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient, sc settgrpc.SettingsServiceClient, at acctgrpc.AccountTypeServiceClient, acc acntgrpc.AccountsServiceClient) *mux.Router {
+func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets fs.FS, uc usergrpc.UserServiceClient, cc collgrpc.CollectionServiceClient, cmc commgrpc.CommentServiceClient, drc dregrpc.DailyReportServiceClient, cuc currgrpc.CurrencyServiceClient, sc settgrpc.SettingsServiceClient, at acctgrpc.AccountTypeServiceClient, acc acntgrpc.AccountsServiceClient, lnk linkgrpc.LinkServiceClient, mds docsgrpc.MedDocsServiceClient) *mux.Router {
 	hand := &Handler{
 		decoder: decoder,
 		session: session,
@@ -50,6 +54,8 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 		sc:      sc,
 		at:      at,
 		acc:     acc,
+		lnk:     lnk,
+		mds:     mds,
 	}
 	hand.GetTemplate()
 
@@ -112,6 +118,13 @@ func GetHandler(decoder *schema.Decoder, session *sessions.CookieStore, assets f
 	s.HandleFunc(accountsListPath, hand.listAccounts)
 	s.HandleFunc(accountsViewPath, hand.viewAccounts)
 	s.HandleFunc(accountsDeletePath, hand.deleteAccounts)
+	s.HandleFunc(linkCreatePath, hand.createLink)
+	s.HandleFunc(linkStorePath, hand.storeLink)
+	s.HandleFunc(linkEditPath, hand.editLink)
+	s.HandleFunc(linkUpdatePath, hand.updateLink)
+	s.HandleFunc(linkListPath, hand.listLink)
+	s.HandleFunc(linkViewPath, hand.viewLink)
+	s.HandleFunc(linkDeletePath, hand.deleteLink)
 	s.HandleFunc(settingsEditPath, hand.editSettings)
 	s.HandleFunc(settingsUpdatePath, hand.saveSettings)
 	s.Use(hand.authMiddleware)

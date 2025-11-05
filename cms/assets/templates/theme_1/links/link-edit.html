@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Edit Link</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Edit Link</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <form method="post" action="/link/update/{{.Link.ID}}">
+                    <div class="mb-3">
+                        <label class="form-label">Link Text*</label>
+                        <input type="text" class="form-control" name="LinkText" value="{{.Link.LinkText}}" placeholder="Enter the text for link">
+                        <p class="text-danger">{{.FormErrors.LinkText}}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Link URL*</label>
+                        <textarea class="form-control" name="LinkURL" placeholder="Enter link url" rows="3">{{.Link.LinkURL}}</textarea>
+                        <p class="text-danger">{{.FormErrors.LinkURL}}</p>
+                    </div>
+                    <a class="btn btn-primary" href="{{.URLs.linkList}}">Back to List</a>
+                    <button type="submit" class="btn btn-success float-end">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>

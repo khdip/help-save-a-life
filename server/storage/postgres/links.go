@@ -73,7 +73,7 @@ UPDATE
 	 links
 SET
 	link_text = :link_text,
-	link_url = :link_url
+	link_url = :link_url,
 	updated_at = now(),
 	updated_by = :updated_by
 WHERE 

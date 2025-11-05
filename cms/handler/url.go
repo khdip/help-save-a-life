@@ -56,6 +56,18 @@ const (
 	accountsUpdatePath      = "/account/update/{id}"
 	accountsDeletePath      = "/account/delete/{id}"
 	accountsViewPath        = "/account/view/{id}"
+	linkListPath            = "/links"
+	linkCreatePath          = "/link/create"
+	linkStorePath           = "/link/store"
+	linkEditPath            = "/link/edit/{id}"
+	linkUpdatePath          = "/link/update/{id}"
+	linkDeletePath          = "/link/delete/{id}"
+	linkViewPath            = "/link/view/{id}"
+	medDocsListPath         = "/med_docs"
+	medDocsCreatePath       = "/med_docs/create"
+	medDocsStorePath        = "/med_docs/store"
+	medDocsDeletePath       = "/med_docs/delete/{id}"
+	medDocsViewPath         = "/med_docs/view/{id}"
 	settingsEditPath        = "/settings"
 	settingsUpdatePath      = "/settings/update"
 )
@@ -112,7 +124,19 @@ func listOfURLs() map[string]string {
 		"acntEdit":     accountsEditPath,
 		"acntUpdate":   accountsUpdatePath,
 		"acntDelete":   accountsDeletePath,
-		"acntView":     currencyViewPath,
+		"acntView":     accountsViewPath,
+		"linkList":     linkListPath,
+		"linkCreate":   linkCreatePath,
+		"linkStore":    linkStorePath,
+		"linkEdit":     linkEditPath,
+		"linkUpdate":   linkUpdatePath,
+		"linkDelete":   linkDeletePath,
+		"linkView":     linkViewPath,
+		"docsList":     medDocsListPath,
+		"docsCreate":   medDocsCreatePath,
+		"docsStore":    medDocsStorePath,
+		"docsDelete":   medDocsDeletePath,
+		"docsView":     medDocsViewPath,
 		"settEdit":     settingsEditPath,
 		"settUpdate":   settingsUpdatePath,
 	}

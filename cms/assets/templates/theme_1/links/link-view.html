@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Link Details</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Link Details</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><span class="fw-bold">Serial Number: </span>{{.Link.SerialNumber}}</p>
+                        <p class="card-text"><span class="fw-bold">Link Text: </span>{{.Link.LinkText}}</p>
+                        <p class="card-text"><span class="fw-bold">Link URL: </span>{{.Link.LinkURL}}</p>
+                        <p class="card-text"><span class="fw-bold">Created At: </span>{{.Link.CreatedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Created By: </span>{{.Link.CreatedBy}}</p>
+                        <p class="card-text"><span class="fw-bold">Updated At: </span>{{.Link.UpdatedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Updated By: </span>{{.Link.UpdatedBy}}</p>
+                        <a href="{{.URLs.linkList}}" class="btn btn-primary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>
