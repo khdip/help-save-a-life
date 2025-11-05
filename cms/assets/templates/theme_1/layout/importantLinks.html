@@ -1,0 +1,12 @@
+{{define "importantLinks"}}
+    <div class="container-fluid p-5 bg-gray">
+        <h2 class="text-success text-center mb-4">Important Links</h2>
+        <div class="row">
+            {{range .Link}}
+            <div class="col-6 col-md-4">
+                <p class="text-center"><a class="link-dark" href="{{.LinkURL}}">{{.LinkText}}</a></p>
+            </div>
+            {{end}}
+        </div>
+    </div>
+{{end}}

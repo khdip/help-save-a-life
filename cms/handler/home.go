@@ -8,6 +8,7 @@ import (
 
 type HomeTemplateData struct {
 	Sett            SettingsHome
+	Link            []Link
 	TargetAmount    string
 	CollectedAmount string
 	RemainingAmount string
@@ -28,6 +29,7 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 
 	data := HomeTemplateData{
 		Sett:            sett,
+		Link:            h.getLinkList(w, r),
 		URLs:            listOfURLs(),
 		TargetAmount:    formatWithCommas(float32(targetAmount)),
 		CollectedAmount: formatWithCommas(totalCollection),

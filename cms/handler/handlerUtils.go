@@ -174,6 +174,8 @@ var theme_1 = []string{
 	"cms/assets/templates/theme_1/layout/med_docs.html",
 	"cms/assets/templates/theme_1/layout/collection.html",
 	"cms/assets/templates/theme_1/layout/dailyReport.html",
+	"cms/assets/templates/theme_1/layout/importantLinks.html",
+	"cms/assets/templates/theme_1/layout/footer.html",
 	"cms/assets/templates/theme_1/layout/admin-header.html",
 	"cms/assets/templates/theme_1/base/index.html",
 	"cms/assets/templates/theme_1/base/dashboard.html",
