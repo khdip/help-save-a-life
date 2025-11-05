@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>Upload Medical Documents</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">Upload Medical Documents</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <form method="post" action="{{.URLs.docsStore}}" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label class="form-label">File*</label>
+                        <span class="float-end" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="You can upload multiple files at once. The sum of all files should be less than 32 MB. You can only upload jpg/png/pdf files. Each file size should less than 5MB.">&#9432;</span>
+                        <input type="file" class="form-control" name="Name" multiple>
+                        <p class="text-danger">{{.FormErrors.Error}}</p>
+                    </div>
+                    <a class="btn btn-primary" href="{{.URLs.docsList}}">Back to List</a>
+                    <button type="submit" class="btn btn-success float-end">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {{if .Message.Message}}
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div class="toast bg-success fade show" role="status" aria-live="polite" aria-atomic="true" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+            <div class="d-flex">
+                <div class="toast-body text-light">{{.Message.Message}}</div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    {{end}}
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/tooltip.js"></script>
+<script src="/assets/js/toast.js"></script>
+</html>

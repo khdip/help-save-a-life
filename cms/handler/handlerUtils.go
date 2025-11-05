@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -103,7 +104,7 @@ func (h *Handler) saveImage(file multipart.File, fileHeader *multipart.FileHeade
 	if fileHeader != nil {
 		fileName := strings.ReplaceAll(fileHeader.Filename, " ", "")
 		if len(fileName) > 90 {
-			fileName = fileHeader.Filename[:90] + ".jpg"
+			fileName = fileHeader.Filename[:90] + filepath.Ext(fileName)
 		}
 		dest, err := os.Create(fmt.Sprintf(imagePath+"%s", fileName))
 		if err != nil {
@@ -209,6 +210,9 @@ var theme_1 = []string{
 	"cms/assets/templates/theme_1/links/link-create.html",
 	"cms/assets/templates/theme_1/links/link-edit.html",
 	"cms/assets/templates/theme_1/links/link-view.html",
+	"cms/assets/templates/theme_1/medDocs/docs-list.html",
+	"cms/assets/templates/theme_1/medDocs/docs-create.html",
+	"cms/assets/templates/theme_1/medDocs/docs-view.html",
 	"cms/assets/templates/theme_1/base/404.html",
 	"cms/assets/templates/theme_1/base/unauthorized.html",
 	"cms/assets/templates/theme_1/base/login.html",

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    <title>View Document</title>
+</head>
+<body>
+    {{template "admin-header" . }}
+    <div class="container-fluid">
+        <h2 class="p-2 text-center">View Document</h2>
+        <div class="row p-2">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"><span class="fw-bold">Serial Number: </span>{{.MedDocs.SerialNumber}}</p>
+                        <p class="card-text"><span class="fw-bold">File Name: </span>{{.MedDocs.Name}}</p>
+                        <p class="card-text"><span class="fw-bold">File Type: </span>{{.MedDocs.Type}}</p>
+                        <p class="card-text"><span class="fw-bold">Uploaded At: </span>{{.MedDocs.UploadedAt}}</p>
+                        <p class="card-text"><span class="fw-bold">Uploaded By: </span>{{.MedDocs.UploadedBy}}</p>
+                        {{if eq .MedDocs.Type "application/pdf"}}
+                        <object data="/assets/files/{{$.MedDocs.Name}}" type="application/pdf" width="100%" height="600px">
+                            <p>Your browser does not support embedded PDFs. <a href="/assets/files/{{$.MedDocs.Name}}">Download the PDF</a>.</p>
+                        </object>
+                        {{else}}
+                        <img class="img-fluid" src="/assets/files/{{$.MedDocs.Name}}" alt="Medical Document">
+                        {{end}}
+                        <a href="{{.URLs.docsList}}" class="btn btn-primary mt-3">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+</html>
