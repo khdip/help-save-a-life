@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/assets/css/style.css" rel="stylesheet" type="text/css">
+    {{if .Sett.ShowMedicalDocuments}}
+    <link href="/assets/css/tiny-slider.css" rel="stylesheet" type="text/css">
+    {{end}}
     <title>Save {{.Sett.PatientName}}</title>
 </head>
 <body>
     {{ template "header" . }}
     {{ template "banner" . }}
     {{ template "about" . }}
+    {{if .Sett.ShowMedicalDocuments}}
     {{ template "med_docs" . }}
+    {{end}}
     {{if .Sett.ShowCollection}}
     {{ template "collection" . }}
     {{end}}
@@ -112,6 +117,9 @@
 </body>
 <script src="/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/assets/js/custom.js"></script>
+{{if .Sett.ShowMedicalDocuments}}
+<script src="/assets/js/tiny-slider.js"></script>
+{{end}}
 {{if .Sett.ShowCollection}}
 <script src="/assets/js/collFetch.js"></script>
 {{end}}
@@ -119,4 +127,16 @@
 <script src="/assets/js/chart.js"></script>
 <script src="/assets/js/dreFetch.js"></script>
 {{end}}
+<script type="module">
+  var slider = tns({
+    container: '.my-slider',
+    items: 1,
+    slideBy: 'page',
+    autoplay: false,
+    center: true,
+    controlsContainer: '.slider-nav',
+    navContainer: '.slider-dots',
+    loop: false
+  });
+  </script>
 </html>

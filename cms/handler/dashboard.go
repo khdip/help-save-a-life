@@ -9,9 +9,9 @@ import (
 )
 
 type DashBoardData struct {
-	TargetAmount    int32
-	CollectedAmount float32
-	RemainingAmount float32
+	TargetAmount    string
+	CollectedAmount string
+	RemainingAmount string
 	URLs            map[string]string
 	CurrentPageURL  string
 	Title           string
@@ -61,9 +61,9 @@ func (h *Handler) viewDashboard(w http.ResponseWriter, r *http.Request) {
 	targetAmount := sett.Sett.TargetAmount
 
 	data := DashBoardData{
-		TargetAmount:    targetAmount,
-		CollectedAmount: totalCollection,
-		RemainingAmount: float32(targetAmount) - totalCollection,
+		TargetAmount:    formatWithCommas(float32(targetAmount)),
+		CollectedAmount: formatWithCommas(totalCollection),
+		RemainingAmount: formatWithCommas(float32(targetAmount) - totalCollection),
 		URLs:            listOfURLs(),
 		CurrentPageURL:  dashboardPath,
 		Title:           h.getSettingsTitle(w, r),
