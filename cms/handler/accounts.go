@@ -336,3 +336,23 @@ func (h *Handler) loadAccountsEditForm(w http.ResponseWriter, data AccountsTempl
 		return
 	}
 }
+
+func (h *Handler) getAccounts(w http.ResponseWriter, r *http.Request) map[string][]Accounts {
+	alst, err := h.acc.ListAccounts(r.Context(), &acntgrpc.ListAccountsRequest{
+		Filter: &acntgrpc.Filter{},
+	})
+	if err != nil {
+		log.Println("unable to get list: ", err)
+		http.Redirect(w, r, notFoundPath, http.StatusSeeOther)
+	}
+
+	acctList := h.getAccountTypeListMap(w, r)
+
+	acntList := make(map[string][]Accounts, len(alst.GetAcnt()))
+
+	for _, item := range alst.GetAcnt() {
+		acntList[acctList[item.AccountType]] = append(acntList[acctList[item.AccountType]], Accounts{DetailsT: template.HTML(item.Details)})
+	}
+
+	return acntList
+}

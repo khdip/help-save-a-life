@@ -30,51 +30,16 @@
                 <h2 class="d-block text-center bg-light text-success rounded px-4 py-2 mb-4">PLEASE DONATE</h2>
             </div>
         </div>
-        <div class="row">
-            <div class="col-12 col-lg-6 p-2 d-flex justify-content-center">
-                <div class="d-block text-light">
-                    <h4 class="text-center border-bottom border-light border-3">Bank Account (Bangladesh)</h4>
-                    <p class="text-center">Account Name: MD NAZMUL ISLAM (Joint Account)</p>
-                    <p class="text-center">Account Number: 0710100001005</p>
-                    <p class="text-center">Bank: Bangladesh Development Bank PLC (BDBL)</p>
-                    <p class="text-center">Branch: Elephant Road Branch</p>
-                    <p class="text-center">Routing number: 047261336</p>
-                    <br>
-                    <h4 class="text-center border-bottom border-light border-3">MFS</h4>
-                    <p class="text-center">Bkash: 01737568902 (তাহমীদ, KU ECE ‘11)</p>
-                    <p class="text-center">Nagad: 01737568902 (তাহমীদ, KU ECE ‘11)</p>
-                    <p class="text-center">Rocket: 017375689029 (তাহমীদ, KU ECE ‘11)</p>
-                    <br>
-                    <h4 class="text-center border-bottom border-light border-3">Bank Account (Europe)</h4>
-                    <p class="text-center">Name: Md Mahmud Hassan</p>
-                    <p class="text-center">Bank: Commerzbank</p>
-                    <p class="text-center">IBAN: DE17641400360894222900</p>
-                    <p class="text-center">BIC: COBADEFFXXX</p>
-                    <p class="text-center">Reference: For Tamal</p>
-                </div>
+        <div class="row" data-masonry='{"percentPosition": true }'>
+            {{range $type, $list := .Accounts}}
+            <div class="col-sm-6 col-lg-4 mb-2">
+                <h4 class="text-light text-center border-bottom border-light border-3">{{$type}}</h5>
+                {{range $list}}
+                <div class="text-light text-center">{{.DetailsT}}</div>
+                <br>
+                {{end}}
             </div>
-            <div class="col-12 col-lg-6 p-2 d-flex justify-content-center">
-                <div class="d-block text-light">
-                    <h4 class="text-center border-bottom border-light border-3">Bank Account (Australia)</h4>
-                    <p class="text-center">1. Name: Dasoroth Kumar Paul</p>
-                    <p class="text-center">Pay ID: 0415 158 536</p>
-                    <p class="text-center">Reference: For Tamal</p>
-                    <br>
-                    <p class="text-center">2. Name: Himadri Mondal</p>
-                    <p class="text-center">BSB: 082906</p>
-                    <p class="text-center">Account number: 938939465</p>
-                    <p class="text-center">Reference: For Tamal</p>
-                    <br>
-                    <h4 class="text-center border-bottom border-light border-3">Bank Account (USA)</h4>
-                    <p class="text-center">Account Name: Ragib Shakil Rafi</p>
-                    <p class="text-center">Account Number: 518006727293</p>
-                    <p class="text-center">Routing No: 101100045</p>
-                    <p class="text-center">Zelle: 785-551-1578 or ku.08rafi@gmail.com</p>
-                    <br>
-                    <h4 class="text-center border-bottom border-light border-3">GoFundMe</h4>
-                    <p class="text-center"><a class="link-light" href="https://gofund.me/2b133484">https://gofund.me/2b133484</a></p>
-                </div>
-            </div>
+            {{end}}
         </div>
     </div>
     <div class="container-fluid p-5" id="contact">
@@ -127,6 +92,7 @@
 <script src="/assets/js/chart.js"></script>
 <script src="/assets/js/dreFetch.js"></script>
 {{end}}
+<script src="/assets/js/masonry.min.js"></script>
 <script type="module">
   var slider = tns({
     container: '.my-slider',

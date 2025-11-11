@@ -10,6 +10,7 @@ type HomeTemplateData struct {
 	Sett            SettingsHome
 	Link            []Link
 	MedDocs         []MedDocs
+	Accounts        map[string][]Accounts
 	TargetAmount    string
 	CollectedAmount string
 	RemainingAmount string
@@ -32,6 +33,7 @@ func (h *Handler) homeHandler(w http.ResponseWriter, r *http.Request) {
 		Sett:            sett,
 		Link:            h.getLinkList(w, r),
 		MedDocs:         h.getMedDocsList(w, r),
+		Accounts:        h.getAccounts(w, r),
 		URLs:            listOfURLs(),
 		TargetAmount:    formatWithCommas(float32(targetAmount)),
 		CollectedAmount: formatWithCommas(totalCollection),
