@@ -4,7 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"help-save-a-life/server/storage"
+
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 const insertUser = `

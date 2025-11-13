@@ -3,8 +3,8 @@ package settings
 import (
 	"context"
 
-	settgrpc "help-save-a-life/proto/settings"
-	"help-save-a-life/server/storage"
+	settgrpc "github.com/khdip/help-save-a-life/proto/settings"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 type SettingsStore interface {

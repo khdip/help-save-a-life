@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	collgrpc "help-save-a-life/proto/collection"
-	"help-save-a-life/server/storage"
+	collgrpc "github.com/khdip/help-save-a-life/proto/collection"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateCollection(ctx context.Context, req *collgrpc.CreateCollectionRequest) (*collgrpc.CreateCollectionResponse, error) {

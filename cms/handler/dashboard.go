@@ -1,11 +1,12 @@
 package handler
 
 import (
-	collgrpc "help-save-a-life/proto/collection"
-	dregrpc "help-save-a-life/proto/dailyReport"
-	settgrpc "help-save-a-life/proto/settings"
 	"log"
 	"net/http"
+
+	collgrpc "github.com/khdip/help-save-a-life/proto/collection"
+	dregrpc "github.com/khdip/help-save-a-life/proto/dailyReport"
+	settgrpc "github.com/khdip/help-save-a-life/proto/settings"
 )
 
 type DashBoardData struct {

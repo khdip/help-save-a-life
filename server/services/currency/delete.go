@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	currgrpc "help-save-a-life/proto/currency"
-	"help-save-a-life/server/storage"
+	currgrpc "github.com/khdip/help-save-a-life/proto/currency"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) DeleteCurrency(ctx context.Context, req *currgrpc.DeleteCurrencyRequest) (*currgrpc.DeleteCurrencyResponse, error) {

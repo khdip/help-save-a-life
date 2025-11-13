@@ -3,8 +3,8 @@ package medDocs
 import (
 	"context"
 
-	docsgrpc "help-save-a-life/proto/medDocs"
-	"help-save-a-life/server/storage"
+	docsgrpc "github.com/khdip/help-save-a-life/proto/medDocs"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 type MedDocsStore interface {

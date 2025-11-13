@@ -1,11 +1,12 @@
 package handler
 
 import (
-	"help-save-a-life/cms/paginator"
-	linkgrpc "help-save-a-life/proto/links"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/khdip/help-save-a-life/cms/paginator"
+	linkgrpc "github.com/khdip/help-save-a-life/proto/links"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"

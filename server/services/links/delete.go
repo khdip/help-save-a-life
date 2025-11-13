@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	linkgrpc "help-save-a-life/proto/links"
-	"help-save-a-life/server/storage"
+	linkgrpc "github.com/khdip/help-save-a-life/proto/links"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) DeleteLink(ctx context.Context, req *linkgrpc.DeleteLinkRequest) (*linkgrpc.DeleteLinkResponse, error) {

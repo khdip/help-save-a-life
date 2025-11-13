@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	commgrpc "help-save-a-life/proto/comments"
-	"help-save-a-life/server/storage"
+	commgrpc "github.com/khdip/help-save-a-life/proto/comments"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateComment(ctx context.Context, req *commgrpc.CreateCommentRequest) (*commgrpc.CreateCommentResponse, error) {

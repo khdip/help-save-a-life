@@ -30,13 +30,19 @@ A simple and ready to deploy web application to collect and manage funds for an 
 3. Install Protocol Buffer Compiler. [Install](https://protobuf.dev/installation/)
 4. Install the Protocol compiler plugin for Go. [Install](https://grpc.io/docs/languages/go/quickstart/)
 5. Clone this repository.
-`git clone https://github.com/khdip/help-save-a-life.git`
+```
+git clone https://github.com/khdip/help-save-a-life.git
+```
 6. Create a database. Run below command in psql shell.
-`CREATE DATABASE save_life;`
+```
+CREATE DATABASE save_life;
+```
 > [!NOTE]  
 > If you want to create a database with a different name, make sure to change the database name in env file.
 7. Download all the go package dependencies.
-`go mod tidy`
+```
+go mod tidy
+```
 8. Modify the config.yaml files inside the the folders server > env and cms > env according to your preference.
 9. Navigate to the server directory and run the migration. Assuming you are in the root folder of the project:
 ```
@@ -44,34 +50,41 @@ cd server
 go run migrations/migrate.go up
 ```
 9. Run the seeder to seed initial data into the database.
-`go run seeder/seeder.go`
-10. Navigate back to the root folder of the project and run the grpc server and grpc client server.
+```
+go run seeder/seeder.go
+```
+10. Navigate back to the root folder of the project and run the grpc server.
 ```
 cd ..
 go run server/main.go
+```
+11. Open another terminal window and run the grpc client server.
+```
 go run cms/main.go
 ```
-11. Login to the admin dashboard using the admin credentials in the env file you mentioned by going to the route /login. Then go to the Settings option from menu and change accordingly.
+12. Login to the admin dashboard using the admin credentials in the env file you mentioned by going to the route /login. Then go to the Settings option from menu and change accordingly.
 
 ## Routes
-- Homepage: <mark>/</mark>
-- Login: <mark>/login</mark>
-- Logout: <mark>/logout</mark>
-- Dashboard: <mark>/dashboard</mark>
-- Users list: <mark>/users</mark>
-- Collection list: <mark>/collection</mark>
-- Comments list: <mark>/comments</mark>
-- Daily report list: <mark>/daily_report</mark>
-- Currency List: <mark>/currencies</mark>
-- Account type list: <mark>/account_types</mark>
-- Accounts list: <mark>/accounts</mark>
-- Link list: <mark>/links</mark>
-- Medical documents list: <mark>/med_docs</mark>
-- Settings: <mark>/settings</mark>
+- Homepage:                 <mark>/</mark>
+- Login:                    <mark>/login</mark>
+- Logout:                   <mark>/logout</mark>
+- Dashboard:                <mark>/dashboard</mark>
+- Users list:               <mark>/users</mark>
+- Collection list:          <mark>/collection</mark>
+- Comments list:            <mark>/comments</mark>
+- Daily report list:        <mark>/daily_report</mark>
+- Currency List:            <mark>/currencies</mark>
+- Account type list:        <mark>/account_types</mark>
+- Accounts list:            <mark>/accounts</mark>
+- Link list:                <mark>/links</mark>
+- Medical documents list:   <mark>/med_docs</mark>
+- Settings:                 <mark>/settings</mark>
 
 ## Advance Customizations
 - To create a new db migration file navigate to the server folder and run the below command.
-`go run migrations/migrate.go create create_<your_table_name>_table sql`
+```
+go run migrations/migrate.go create create_<your_table_name>_table sql
+```
 - To generate the pb.go and grpc.pb.go files from a .proto file:
 ```
 protoc --go_out=. --go_opt=paths=source_relative \

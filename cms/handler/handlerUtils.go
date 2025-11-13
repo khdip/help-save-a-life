@@ -15,8 +15,8 @@ import (
 
 	"golang.org/x/text/message"
 
-	collgrpc "help-save-a-life/proto/collection"
-	dregrpc "help-save-a-life/proto/dailyReport"
+	collgrpc "github.com/khdip/help-save-a-life/proto/collection"
+	dregrpc "github.com/khdip/help-save-a-life/proto/dailyReport"
 )
 
 const (

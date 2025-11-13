@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	dregrpc "help-save-a-life/proto/dailyReport"
-	"help-save-a-life/server/storage"
+	dregrpc "github.com/khdip/help-save-a-life/proto/dailyReport"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateDailyReport(ctx context.Context, req *dregrpc.CreateDailyReportRequest) (*dregrpc.CreateDailyReportResponse, error) {

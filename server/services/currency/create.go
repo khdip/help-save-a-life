@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	currgrpc "help-save-a-life/proto/currency"
-	"help-save-a-life/server/storage"
+	currgrpc "github.com/khdip/help-save-a-life/proto/currency"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateCurrency(ctx context.Context, req *currgrpc.CreateCurrencyRequest) (*currgrpc.CreateCurrencyResponse, error) {

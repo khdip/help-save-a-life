@@ -1,4 +1,4 @@
-module help-save-a-life
+module github.com/khdip/help-save-a-life
 
 go 1.25.0
 

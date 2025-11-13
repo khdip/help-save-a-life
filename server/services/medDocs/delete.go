@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	docsgrpc "help-save-a-life/proto/medDocs"
-	"help-save-a-life/server/storage"
+	docsgrpc "github.com/khdip/help-save-a-life/proto/medDocs"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) DeleteMedDocs(ctx context.Context, req *docsgrpc.DeleteMedDocsRequest) (*docsgrpc.DeleteMedDocsResponse, error) {

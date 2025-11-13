@@ -2,8 +2,6 @@ package handler
 
 import (
 	"fmt"
-	"help-save-a-life/cms/paginator"
-	docsgrpc "help-save-a-life/proto/medDocs"
 	"io"
 	"log"
 	"net/http"
@@ -11,6 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/khdip/help-save-a-life/cms/paginator"
+	docsgrpc "github.com/khdip/help-save-a-life/proto/medDocs"
 
 	"github.com/gorilla/mux"
 )

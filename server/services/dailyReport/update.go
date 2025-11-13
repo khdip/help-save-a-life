@@ -3,8 +3,8 @@ package dailyreport
 import (
 	"context"
 
-	dregrpc "help-save-a-life/proto/dailyReport"
-	"help-save-a-life/server/storage"
+	dregrpc "github.com/khdip/help-save-a-life/proto/dailyReport"
+	"github.com/khdip/help-save-a-life/server/storage"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

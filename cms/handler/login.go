@@ -1,9 +1,10 @@
 package handler
 
 import (
-	usergrpc "help-save-a-life/proto/users"
 	"log"
 	"net/http"
+
+	usergrpc "github.com/khdip/help-save-a-life/proto/users"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"golang.org/x/crypto/bcrypt"

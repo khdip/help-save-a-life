@@ -1,6 +1,6 @@
 package currency
 
-import "help-save-a-life/server/storage/postgres"
+import "github.com/khdip/help-save-a-life/server/storage/postgres"
 
 type CoreSvc struct {
 	st *postgres.Storage

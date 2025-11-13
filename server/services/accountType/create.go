@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	acctgrpc "help-save-a-life/proto/accountType"
-	"help-save-a-life/server/storage"
+	acctgrpc "github.com/khdip/help-save-a-life/proto/accountType"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateAccountType(ctx context.Context, req *acctgrpc.CreateAccountTypeRequest) (*acctgrpc.CreateAccountTypeResponse, error) {

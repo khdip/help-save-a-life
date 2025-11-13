@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	usergrpc "help-save-a-life/proto/users"
-	"help-save-a-life/server/storage"
+	usergrpc "github.com/khdip/help-save-a-life/proto/users"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) DeleteUser(ctx context.Context, req *usergrpc.DeleteUserRequest) (*usergrpc.DeleteUserResponse, error) {

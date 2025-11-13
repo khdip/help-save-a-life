@@ -3,8 +3,8 @@ package accountType
 import (
 	"context"
 
-	acctgrpc "help-save-a-life/proto/accountType"
-	"help-save-a-life/server/storage"
+	acctgrpc "github.com/khdip/help-save-a-life/proto/accountType"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 type AccountTypeStore interface {

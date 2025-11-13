@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	acntgrpc "help-save-a-life/proto/accounts"
-	"help-save-a-life/server/storage"
+	acntgrpc "github.com/khdip/help-save-a-life/proto/accounts"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) DeleteAccounts(ctx context.Context, req *acntgrpc.DeleteAccountsRequest) (*acntgrpc.DeleteAccountsResponse, error) {

@@ -10,16 +10,16 @@ import (
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
 
-	acctgrpc "help-save-a-life/proto/accountType"
-	acntgrpc "help-save-a-life/proto/accounts"
-	collgrpc "help-save-a-life/proto/collection"
-	commgrpc "help-save-a-life/proto/comments"
-	currgrpc "help-save-a-life/proto/currency"
-	dregrpc "help-save-a-life/proto/dailyReport"
-	linkgrpc "help-save-a-life/proto/links"
-	docsgrpc "help-save-a-life/proto/medDocs"
-	settgrpc "help-save-a-life/proto/settings"
-	usergrpc "help-save-a-life/proto/users"
+	acctgrpc "github.com/khdip/help-save-a-life/proto/accountType"
+	acntgrpc "github.com/khdip/help-save-a-life/proto/accounts"
+	collgrpc "github.com/khdip/help-save-a-life/proto/collection"
+	commgrpc "github.com/khdip/help-save-a-life/proto/comments"
+	currgrpc "github.com/khdip/help-save-a-life/proto/currency"
+	dregrpc "github.com/khdip/help-save-a-life/proto/dailyReport"
+	linkgrpc "github.com/khdip/help-save-a-life/proto/links"
+	docsgrpc "github.com/khdip/help-save-a-life/proto/medDocs"
+	settgrpc "github.com/khdip/help-save-a-life/proto/settings"
+	usergrpc "github.com/khdip/help-save-a-life/proto/users"
 )
 
 type Handler struct {

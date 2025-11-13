@@ -3,8 +3,8 @@ package currency
 import (
 	"context"
 
-	currgrpc "help-save-a-life/proto/currency"
-	"help-save-a-life/server/storage"
+	currgrpc "github.com/khdip/help-save-a-life/proto/currency"
+	"github.com/khdip/help-save-a-life/server/storage"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

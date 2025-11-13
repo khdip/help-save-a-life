@@ -2,11 +2,12 @@ package handler
 
 import (
 	"encoding/json"
-	"help-save-a-life/cms/paginator"
-	commgrpc "help-save-a-life/proto/comments"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/khdip/help-save-a-life/cms/paginator"
+	commgrpc "github.com/khdip/help-save-a-life/proto/comments"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"

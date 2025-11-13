@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	acntgrpc "help-save-a-life/proto/accounts"
-	"help-save-a-life/server/storage"
+	acntgrpc "github.com/khdip/help-save-a-life/proto/accounts"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateAccounts(ctx context.Context, req *acntgrpc.CreateAccountsRequest) (*acntgrpc.CreateAccountsResponse, error) {

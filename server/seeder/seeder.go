@@ -1,7 +1,7 @@
 package main
 
 import (
-	"help-save-a-life/server/storage/postgres"
+	"github.com/khdip/help-save-a-life/server/storage/postgres"
 )
 
 func main() {

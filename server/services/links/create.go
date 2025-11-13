@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	linkgrpc "help-save-a-life/proto/links"
-	"help-save-a-life/server/storage"
+	linkgrpc "github.com/khdip/help-save-a-life/proto/links"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateLink(ctx context.Context, req *linkgrpc.CreateLinkRequest) (*linkgrpc.CreateLinkResponse, error) {

@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	usergrpc "help-save-a-life/proto/users"
-	"help-save-a-life/server/storage"
+	usergrpc "github.com/khdip/help-save-a-life/proto/users"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 func (s *Svc) CreateUser(ctx context.Context, req *usergrpc.CreateUserRequest) (*usergrpc.CreateUserResponse, error) {

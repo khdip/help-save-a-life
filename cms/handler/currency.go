@@ -1,11 +1,12 @@
 package handler
 
 import (
-	"help-save-a-life/cms/paginator"
-	currgrpc "help-save-a-life/proto/currency"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/khdip/help-save-a-life/cms/paginator"
+	currgrpc "github.com/khdip/help-save-a-life/proto/currency"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"

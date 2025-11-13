@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	settgrpc "help-save-a-life/proto/settings"
+	settgrpc "github.com/khdip/help-save-a-life/proto/settings"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 )

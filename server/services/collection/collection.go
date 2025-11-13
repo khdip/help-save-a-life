@@ -3,8 +3,8 @@ package collection
 import (
 	"context"
 
-	collgrpc "help-save-a-life/proto/collection"
-	"help-save-a-life/server/storage"
+	collgrpc "github.com/khdip/help-save-a-life/proto/collection"
+	"github.com/khdip/help-save-a-life/server/storage"
 )
 
 type CollectionStore interface {

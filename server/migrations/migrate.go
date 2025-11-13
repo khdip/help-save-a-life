@@ -1,8 +1,9 @@
 package main
 
 import (
-	"help-save-a-life/server/storage/postgres"
 	"log"
+
+	"github.com/khdip/help-save-a-life/server/storage/postgres"
 )
 
 func main() {

@@ -3,12 +3,13 @@ package handler
 import (
 	"context"
 	"fmt"
-	"help-save-a-life/cms/paginator"
 	"log"
 	"net/http"
 	"time"
 
-	usergrpc "help-save-a-life/proto/users"
+	"github.com/khdip/help-save-a-life/cms/paginator"
+
+	usergrpc "github.com/khdip/help-save-a-life/proto/users"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"

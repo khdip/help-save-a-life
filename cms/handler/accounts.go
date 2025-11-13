@@ -1,12 +1,14 @@
 package handler
 
 import (
-	"help-save-a-life/cms/paginator"
-	acntgrpc "help-save-a-life/proto/accounts"
 	"html/template"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/khdip/help-save-a-life/cms/paginator"
+
+	acntgrpc "github.com/khdip/help-save-a-life/proto/accounts"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"

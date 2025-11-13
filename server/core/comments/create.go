@@ -2,7 +2,8 @@ package comments
 
 import (
 	"context"
-	"help-save-a-life/server/storage"
+
+	"github.com/khdip/help-save-a-life/server/storage"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
